@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+    <form th:action="@{/salvarUsuario}" th:object="${usuario}" method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" th:field="*{nome}" required/>
+        <br/>
+        <label for="sobrenome">Sobrenome:</label>
+        <input type="text" id="sobrenome" th:field="*{sobrenome}" required/>
+        <br/>
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>
