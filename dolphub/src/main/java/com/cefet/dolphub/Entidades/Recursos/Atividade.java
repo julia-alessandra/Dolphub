@@ -9,7 +9,7 @@ import com.cefet.dolphub.Entidades.Recursos.Relacionamento.QuestaoAtividade;
 
 @Entity
 @Table(name = "atividade")
-public class Atividade extends Topico {
+public class Atividade extends Recurso {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_sq")
     @SequenceGenerator(schema = "public", name = "atividade_sq", sequenceName = "atividade_sq", initialValue = 1, allocationSize = 1)

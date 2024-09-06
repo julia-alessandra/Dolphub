@@ -1,0 +1,11 @@
+:root {
+    --cor-primaria: blue;
+    --cor-secundaria: white;
+    --cor-terciaria: black;
+}
+
+html,
+body{
+    color: red;
+    margin: 0px;
+}

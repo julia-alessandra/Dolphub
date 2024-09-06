@@ -14,7 +14,11 @@ public class ArquivoService {
     @Autowired
     private ArquivoRepository arquivoRepository;
 
+    public ArquivoService() {
+    }
+
     public Arquivo salvarArquivo(Arquivo arquivo) {
+        System.out.println("teste");
         return arquivoRepository.save(arquivo);
     }
 
