@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
@@ -32,7 +33,7 @@ public class Curso {
     private Date dataCriacao;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Topico> topicos = new ArrayList<>();
+    private List<Recurso> recursos = new ArrayList<>();
 
     public String getNome() {
         return nome;
@@ -58,11 +59,11 @@ public class Curso {
         this.dataCriacao = dataCriacao;
     }
 
-    public List<Topico> getTopicos() {
-        return topicos;
+    public List<Recurso> getRecursos() {
+        return recursos;
     }
 
-    public void setTopicos(List<Topico> topicos) {
-        this.topicos = topicos;
+    public void setRecursos(List<Recurso> topicos) {
+        this.recursos = recursos;
     }
 }
