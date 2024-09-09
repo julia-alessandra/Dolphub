@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Curso</title>
+    <link href="styles/pattern.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="tela-completa">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <div th:replace="componentes/menu_superior :: menu_superior"></div>
+    
+    <main>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <div class="container-acesso-curso">
+            
+        </div>
+
+    </main>
+
+    <!-- <h2>Upload de Arquivo</h2>
+    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+        <label for="file">Escolha um arquivo:</label>
+        <input type="file" id="file" name="file" accept="*/*" required>
+        <br><br>
+        <input type="submit" value="Upload">
+    </form> -->
+</div>
+</body>
+</html>

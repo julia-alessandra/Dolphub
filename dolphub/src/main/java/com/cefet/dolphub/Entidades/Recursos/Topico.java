@@ -1,5 +1,11 @@
 package com.cefet.dolphub.Entidades.Recursos;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.cefet.dolphub.Entidades.Main.Curso;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,44 +14,71 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "topico", schema = "public")
-public class Topico {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topico_sq")
-    @SequenceGenerator(schema = "public", name = "topico_sq", sequenceName = "topico_sq", initialValue = 1, allocationSize = 1)
-    @Column(name = "id_topico")
-    private Long id;
+public class Topico extends Recurso {
 
-    @Column(name = "nome_topico")
-    private String nome;
+    @OneToMany(mappedBy = "topicoPai", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recurso> recursos = new ArrayList<>();
 
-    @Column(name = "dificultade_topico")
-    private int dificuldade;
-
-    @Column(name = "descricao_topico")
-    private String descricao;
-
-    public String getNome() {
-        return nome;
+    public List<Recurso> getRecursos() {
+        return recursos;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
     }
 
-    public int getDificuldade() {
-        return dificuldade;
-    }
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topico_sq")
+    // @SequenceGenerator(schema = "public", name = "topico_sq", sequenceName =
+    // "topico_sq", initialValue = 1, allocationSize = 1)
+    // @Column(name = "id_topico")
+    // private Long id;
 
-    public void setDificuldade(int dificuldade) {
-        this.dificuldade = dificuldade;
-    }
+    // @Column(name = "nome_topico")
+    // private String nome;
 
-    public String getDescricao() {
-        return descricao;
-    }
+    // @Column(name = "dificultade_topico")
+    // private Dificuldade dificuldade;
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }   
+    // @Column(name = "descricao_topico")
+    // private String descricao;
+
+    // @Column(name = "data_topico")
+    // private Date data;
+
+    // @ManyToOne
+    // @JoinColumn(name = "curso_id")
+    // private Curso curso;
+
+    // public String getNome() {
+    // return nome;
+    // }
+
+    // public void setNome(String nome) {
+    // this.nome = nome;
+    // }
+
+    // public Dificuldade getDificuldade() {
+    // return dificuldade;
+    // }
+
+    // public void setDificuldade(Dificuldade dificuldade) {
+    // this.dificuldade = dificuldade;
+    // }
+
+    // public String getDescricao() {
+    // return descricao;
+    // }
+
+    // public void setDescricao(String descricao) {
+    // this.descricao = descricao;
+    // }
+
+    // public Date getData() {
+    // return data;
+    // }
+
+    // public void setData(Date data) {
+    // this.data = data;
+    // }
 }
