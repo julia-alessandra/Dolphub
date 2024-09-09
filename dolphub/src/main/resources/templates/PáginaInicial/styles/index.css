@@ -1,0 +1,148 @@
+
+.home {
+    background-color: #003366; /* Azul marinho mais claro */
+    color: #fff;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.home-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.btn-home {
+    background-color: #004080; /* Azul marinho */
+    color: #fff;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #003366; /* Azul marinho escuro */
+}
+
+.btn-secondary {
+    background-color: #00509E; /* Azul com mais contraste */
+    color: #fff;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #003366; /* Azul marinho escuro */
+}
+
+.cursos, .sobre, .testemunhos {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.cursos {
+    background-color: #fff; /* Fundo branco */
+}
+
+.cursos h2 {
+    color: #004080; /* Azul marinho para o título */
+}
+
+.cursos p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.curso-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cursos-card {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.cursos-card h3 {
+    margin-top: 0;
+}
+
+.sobre {
+    background-color: #fff; /* Fundo branco */
+}
+
+.sobre h2 {
+    color: #004080; /* Azul marinho para o título */
+}
+
+.sobre-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.sobre-item {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 250px;
+    color: #333;
+}
+
+.testemunhos {
+    background-color: #fff;
+}
+
+.testemunhos h2 {
+    color: #004080;
+}
+
+.testemunhos-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.testemunhos-card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.testemunhos-card h4 {
+    margin-top: 10px;
+    color: #004080; /* Azul marinho para o nome */
+}
+
+footer {
+    background-color: #004080; /* Azul marinho */
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
