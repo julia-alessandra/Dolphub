@@ -9,15 +9,15 @@ import lombok.*;
 @Entity
 @Table(name = "alternativa", schema = "public")
 public class Alternativa {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alternativa_sq")
     @SequenceGenerator(schema = "public", name = "alternativa_sq", sequenceName = "alternativa_sq", initialValue = 1, allocationSize = 1)
     @Column(name = "id_alternativa")
     private Long id;
 
-    @Column(name = "letra_alternativa")
-    private String letra;
+    @Column(name = "index_alternativa")
+    private int index;
 
     @Column(name = "descricao_alternativa")
     private String descricao;
@@ -25,12 +25,16 @@ public class Alternativa {
     @Column(name = "verificacao_alternativa")
     private Boolean verificacao;
 
-    public String getLetra() {
-        return letra;
+    @ManyToOne
+    @JoinColumn(name = "questao_id")
+    private Questao questao;
+
+    public int getIndex() {
+        return index;
     }
 
-    public void setLetra(String letra) {
-        this.letra = letra;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getDescricao() {
@@ -47,5 +51,13 @@ public class Alternativa {
 
     public void setVerificacao(Boolean verificacao) {
         this.verificacao = verificacao;
-    }   
+    }
+
+    public Questao getQuestao() {
+        return questao;
+    }
+
+    public void setQuestao(Questao questao) {
+        this.questao = questao;
+    }
 }

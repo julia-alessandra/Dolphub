@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Arquivo</title>
+</head>
+<body>
+    <h1>Enviar Arquivo</h1>
+    <form th:action="@{/salvarMidia}" th:object="${arquivo}" method="post">
+        <input type="file" id="arquivo" th:field="*{conteudo}" accept=".pdf" required/>
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>
