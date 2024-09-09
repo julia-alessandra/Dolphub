@@ -1,0 +1,55 @@
+
+header {
+    background-color: #6692be; /* Azul marinho */
+    color: #000000;
+    padding: 15px 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.btn-registro {
+    background-color: #ffffff;
+    color: #004080; /* Azul marinho */
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid #004080;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-registro:hover {
+    background-color: #004080;
+    color: #fff;
+}
+
+img{
+    width: 15%;
+}

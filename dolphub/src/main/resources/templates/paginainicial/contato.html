@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolphub</title>
+    <link rel="stylesheet" href="styles/contato.css">
+    <link rel="stylesheet" href="styles/cabecalho.css">
+    <link rel="stylesheet" href="styles/padrao.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><img src="imgs/icone_sem_fundo.png"></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cursos.html">Cursos</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html" class="btn-login">Entrar</a></li>
+                    <li><a href="registrar1.html" class="btn-registro">Cadastrar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="contato" class="contato">
+        <div class="container">
+            <h2>Contato</h2>
+            <p>Estamos aqui para ajudar. Entre em contato conosco através do formulário abaixo ou das nossas redes
+                sociais.</p>
+            <form action="#" method="post" class="contato-form">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Mensagem:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+                <button type="submit" class="btn-primary">Enviar</button>
+            </form>
+        </div>
+    </section>

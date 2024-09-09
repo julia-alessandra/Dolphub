@@ -1,0 +1,37 @@
+.contato h2 {
+    color: #004080;
+}
+
+.contato-form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.contato-form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+.contato-form input, .contato-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    border-radius: 5px;
+}
+
+.contato-form button {
+    background-color: #004080;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contato-form button:hover {
+    background-color: #003366;
+}
