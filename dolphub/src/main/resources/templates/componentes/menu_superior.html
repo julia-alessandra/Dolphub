@@ -1,11 +1,12 @@
 <!-- src/main/resources/templates/fragments/menu.html -->
-    <div th:fragment="menu_superior">
+    <div id="menu-superior" th:fragment="menu_superior">
         <nav>
-            <i class="fa-solid fa-bars icon"></i>
+            <i class="fa-solid fa-bars icon tmenu"></i>
 
-            <div>
-                
-            </div>
+            <form class="search">
+                <input type="text">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </form>
 
             <i class="fa-solid fa-user icon"></i>
         </nav>

@@ -21,7 +21,7 @@ public class MidiaController {
     @Autowired
     private ArquivoService arquivoService;
 
-    @PostMapping("/enviarMidia")
+    @GetMapping("/enviarMidia")
     public String enviarMidia(Model model) {
         model.addAttribute("arquivo", new Arquivo());
         return "enviar_midia";
@@ -29,7 +29,6 @@ public class MidiaController {
 
     @PostMapping("/salvarMidia")
     public String salvarMidia(@ModelAttribute Arquivo arquivo, RedirectAttributes redirectAttributes) {
-        arquivoService = new ArquivoService();
         arquivoService.salvarArquivo(arquivo);
         return "index.html";
     }

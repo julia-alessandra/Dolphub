@@ -22,7 +22,7 @@ public class ArquivoController {
     @Autowired
     private ArquivoService arquivoService;
 
-    @GetMapping("/arquivos/upar")
+    @GetMapping("/editarCurso")
     public String exibirFormularioDeUpload() {
         return "editar_curso";
     }

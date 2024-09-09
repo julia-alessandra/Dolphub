@@ -6,6 +6,58 @@
 
 html,
 body{
-    color: red;
     margin: 0px;
+}
+
+.tela-completa {
+    margin: 18px 16px;
+    display: flex;
+    flex-direction: column;
+}
+#menu-superior nav {
+    display: flex;
+    flex-direction: row;
+    width: all;
+    justify-content: end;
+    align-items: center;
+    padding: 15px 15px;
+    gap: 20px;
+}
+#menu-superior nav .tmenu {
+    margin-right: auto; 
+}
+#menu-superior .icon {
+    font-size: 35px;
+}
+#menu-superior .search {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 25px;
+    padding: 5px 10px;
+    width: 300px;
+    background-color: #fff;
+}
+#menu-superior .search input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    flex-grow: 1;
+    border-radius: 25px;
+    font-size: 16px;
+}
+#menu-superior .search i {
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+#menu-superior i {
+    color: var(--cor-primaria);
+    padding: 14px 17px;
+
+}
+#menu-superior i:hover {
+    border: 1px solid var(--cor-primaria);
+    border-radius: 100%;
+    padding: 13px 14px;
 }

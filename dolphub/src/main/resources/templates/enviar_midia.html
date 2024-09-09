@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Enviar Arquivo</h1>
-    <form th:action="@{/enviarMidia}" th:object="${arquivo}" method="post">
+    <form th:action="@{/salvarMidia}" th:object="${arquivo}" method="post">
         <input type="file" id="arquivo" th:field="*{conteudo}" accept=".pdf" required/>
         <button type="submit">Salvar</button>
     </form>
