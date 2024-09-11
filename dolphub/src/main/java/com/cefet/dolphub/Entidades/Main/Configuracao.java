@@ -32,43 +32,4 @@ public class Configuracao {
     @Column(name = "id_tema")
     private Tema tema;
 
-    public Boolean getNotificacaoGeral() {
-        return notificacaoGeral;
-    }
-
-    public void setNotificacaoGeral(Boolean notificacaoGeral) {
-        this.notificacaoGeral = notificacaoGeral;
-    }
-
-    public Boolean getNotificacaoAviso() {
-        return notificacaoAviso;
-    }
-
-    public void setNotificacaoAviso(Boolean notificacaoAviso) {
-        this.notificacaoAviso = notificacaoAviso;
-    }
-
-    public Boolean getNotificacaoForum() {
-        return notificacaoForum;
-    }
-
-    public void setNotificacaoForum(Boolean notificacaoForum) {
-        this.notificacaoForum = notificacaoForum;
-    }
-
-    public Boolean getNotificacaoConfiguracao() {
-        return notificacaoConfiguracao;
-    }
-
-    public void setNotificacaoConfiguracao(Boolean notificacaoConfiguracao) {
-        this.notificacaoConfiguracao = notificacaoConfiguracao;
-    }
-
-    public Tema getTema() {
-        return tema;
-    }
-
-    public void setTema(Tema tema) {
-        this.tema = tema;
-    }   
 }

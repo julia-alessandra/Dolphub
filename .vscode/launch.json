@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DolphubApplication<dolphub>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.cefet.dolphub.DolphubApplication",
+            "projectName": "dolphub",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
