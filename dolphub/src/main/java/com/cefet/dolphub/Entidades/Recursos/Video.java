@@ -13,20 +13,4 @@ public class Video extends Midia {
     private byte[] conteudo;
 
     private long duracao;
-
-    public byte[] getConteudo() {
-        return conteudo;
-    }
-
-    public void setConteudo(byte[] conteudo) {
-        this.conteudo = conteudo;
-    }
-
-    public long getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(long duracao) {
-        this.duracao = duracao;
-    }
 }

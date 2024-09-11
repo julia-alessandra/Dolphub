@@ -23,19 +23,5 @@ public class Resposta {
     @Column(name = "data_resposta")
     private Date data;
 
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }   
+      
 }

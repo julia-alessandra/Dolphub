@@ -18,31 +18,5 @@ public class Atividade extends Recurso {
 
     @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestaoAtividade> questaoAtividades = new ArrayList<>();
-
     private TipoAtividade tipo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<QuestaoAtividade> getQuestaoAtividades() {
-        return questaoAtividades;
-    }
-
-    public void setQuestaoAtividades(List<QuestaoAtividade> questaoAtividades) {
-        this.questaoAtividades = questaoAtividades;
-    }
-
-    public TipoAtividade getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoAtividade tipo) {
-        this.tipo = tipo;
-    }
-
 }

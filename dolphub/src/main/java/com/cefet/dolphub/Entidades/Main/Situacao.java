@@ -5,14 +5,5 @@ public enum Situacao {
     PROTEGIDO("Protegido"),
     BLOQUEADO("Bloqueado"),
     ARQUIVADO("Arquivado");
-
     private String situacao;
-
-    Situacao(String situacao) {
-        this.situacao = situacao;
-    }
-
-    public String getSituacao() {
-        return situacao;
-    }
 }
