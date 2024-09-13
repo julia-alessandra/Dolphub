@@ -3,6 +3,8 @@ package com.cefet.dolphub.Entidades.Recursos;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

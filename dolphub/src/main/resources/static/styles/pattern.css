@@ -6,14 +6,15 @@
     --cor-secundaria: #F4F4F4;
     --cor-terciaria: blue;
 
-    --cor-primaria-tom1: blue;
+    --cor-primaria-tom1: #b0b4ba;
     --cor-secundaria-tom1: #D9D9D9;
+    --fonte: 'Inter', sans-serif;
 }
 
 html,
 body{
     margin: 0px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--fonte);
     background-color: var(--cor-secundaria);
     height: 100%;
 }
@@ -21,14 +22,17 @@ body{
 .tela-completa {
     /*margin: 18px 16px;*/
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
 }
 .tela-completa main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 100%;
     flex: 1;
+}
+#menu-superior {
+    border-bottom: 1px solid var(--cor-primaria-tom1);
 }
 #menu-superior nav {
     display: flex;
@@ -42,7 +46,7 @@ body{
 #menu-superior nav .tmenu {
     margin-right: auto; 
 }
-#menu-superior .icon {
+#menu-superior .icon{
     font-size: 20px;
 }
 #menu-superior .search {
@@ -86,7 +90,23 @@ body{
     width: 20vw;
     min-width: min-content;
     height: 100%;
-    transition: width 0.3s;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cor-primaria-tom1);
+}
+#btn-toggle-menu {
+    font-size: 32px;
+    padding: 12px;
+}
+#btn-toggle-menu:hover {
+    cursor: pointer;
+}
+.sidebar.minimized #btn-toggle-menu {
+    margin-right: auto;
+    margin-left: auto;
+}
+.sidebar:not(.minimized) #btn-toggle-menu {
+    margin-left: auto;
 }
 
 .sidebar.minimized {
@@ -102,15 +122,24 @@ body{
 }
 
 .sidebar form {
+}
+.sidebar form button {
+    all: unset;
     display: flex;
     align-items: center;
     padding: 15px;
     cursor: pointer;
+}
+.sidebar:not(.minimized) form button {
     gap: 14px;
+}
+.sidebar.minimized form button {
+    gap: 0;
 }
 
 .sidebar form:hover {
     background-color: var(--cor-secundaria-tom1);
+    cursor: pointer;
 }
 
 .sidebar form i {
@@ -120,16 +149,29 @@ body{
     margin-top: auto;
 }
 
-.menu-text-visible,
-.sidebar
+/* .menu-text-visible,
+.sidebar,
 .sidebar div,
-.sidebar form {
-    transition: all 0.3s ease;
-}
+.sidebar form,
+.sidebar button {
+    transition: all 5s ease;
+} */
 
 
 .sidebar.minimized .menu-text-visible {
-    display: none;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.menu-text-visible {
+    opacity: 1;
+    width: auto;
+    transition: opacity 0.3s ease, width 0.3s ease;
 }
 
 
+.container-principal {
+    padding: 20px;
+    height: 100%;
+}

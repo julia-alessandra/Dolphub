@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "administrador", schema = "public")
 public class Administrador extends Usuario {
 
     @Id
