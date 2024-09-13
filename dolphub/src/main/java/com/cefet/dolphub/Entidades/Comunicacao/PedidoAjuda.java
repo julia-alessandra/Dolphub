@@ -8,9 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "pedidoAjuda", schema = "public")
+@Table(name = "pedido_ajuda", schema = "public")
 public class PedidoAjuda {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ajuda_sq")
     @SequenceGenerator(schema = "public", name = "ajuda_sq", sequenceName = "ajuda_sq", initialValue = 1, allocationSize = 1)
@@ -27,39 +27,6 @@ public class PedidoAjuda {
     private Date data;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "id_assunto")
+    @Column(name = "assunto_ajuda")
     private AssuntoAjuda assunto;
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
-    public AssuntoAjuda getAssunto() {
-        return assunto;
-    }
-
-    public void setAssunto(AssuntoAjuda assunto) {
-        this.assunto = assunto;
-    }
-    
 }

@@ -8,7 +8,7 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.util.ArrayList;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +21,9 @@ public class Curso {
     @SequenceGenerator(schema = "public", name = "curso_sq", sequenceName = "curso_sq", initialValue = 1, allocationSize = 1)
     @Column(name = "id_curso")
     private Long id;
-
+    @ManyToOne
+    @JoinColumn(name = "id_professor")
+    private Professor professor;
     @Column(name = "nome_curso")
     private String nome;
 
@@ -32,37 +34,5 @@ public class Curso {
     private Date dataCriacao;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Topico> topicos = new ArrayList<>();
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public List<Topico> getTopicos() {
-        return topicos;
-    }
-
-    public void setTopicos(List<Topico> topicos) {
-        this.topicos = topicos;
-    }
+    private ArrayList<Topico> topicos = new ArrayList<>();
 }

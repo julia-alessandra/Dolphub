@@ -5,14 +5,5 @@ public enum Dificuldade {
     MEDIO("Médio"),
     DIFICIL("Difícil"),
     ESPECIALISTA("Especialista");
-
     private String dificuldade;
-
-    Dificuldade(String dificuldade) {
-        this.dificuldade = dificuldade;
-    }
-
-    public String getDificuldade() {
-        return dificuldade;
-    }
 }

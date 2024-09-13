@@ -33,35 +33,4 @@ public class Questao {
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Alternativa> alternativas = new ArrayList<>();
 
-    public String getEnunciado() {
-        return enunciado;
-    }
-
-    public void setEnunciado(String enunciado) {
-        this.enunciado = enunciado;
-    }
-
-    public Dificuldade getDificuldade() {
-        return dificuldade;
-    }
-
-    public void setDificuldade(Dificuldade dificuldade) {
-        this.dificuldade = dificuldade;
-    }
-
-    public List<QuestaoAtividade> getQuestaoAtividades() {
-        return questaoAtividades;
-    }
-
-    public void setQuestaoAtividades(List<QuestaoAtividade> questaoAtividades) {
-        this.questaoAtividades = questaoAtividades;
-    }
-
-    public List<Alternativa> getAlternativas() {
-        return alternativas;
-    }
-
-    public void setAlternativas(List<Alternativa> alternativas) {
-        this.alternativas = alternativas;
-    }
 }
