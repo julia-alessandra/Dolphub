@@ -84,6 +84,10 @@ body{
     border-radius: 100%;
     cursor: pointer;
 }
+#icon-main {
+    height: 60px;
+    margin-right: auto;
+}
 
 
 .sidebar {
