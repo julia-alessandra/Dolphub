@@ -1,0 +1,113 @@
+body {
+    background-color: #869BD3;
+    font-family: Arial, sans-serif;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    padding: 40px;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+p {
+    margin-bottom: 30px;
+    font-size: 18px;
+    color: #1D3055;
+}
+
+.progress-bar {
+    display: flex;
+    margin-bottom: 30px;
+    height: 10px;
+    background-color: #D7E0F8;
+    border-radius: 5px;
+}
+
+.progress, .remaining {
+    width: 50%;
+    border-radius: 5px;
+}
+
+.progress {
+    background-color: #395CAA;
+}
+
+.remaining {
+    background-color: #D7E0F8;
+}
+
+form {
+    text-align: left;
+}
+
+label {
+    font-size: 18px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #D7E0F8;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #F0F6FF;
+    font-size: 16px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.checkbox-container input {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.checkbox-container label {
+    font-size: 16px;
+}
+
+.checkbox-container a {
+    color: #C83030;
+    text-decoration: none;
+}
+
+.checkbox-container a:hover {
+    text-decoration: underline;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #2958A4;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #1D428B;
+}
