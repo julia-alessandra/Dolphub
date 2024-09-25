@@ -1,18 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
-    --cor-primaria: blue;
-    --cor-secundaria: white;
-    --cor-terciaria: black;
+    --cor-primaria: black;
+    --cor-secundaria: #F4F4F4;
+    --cor-terciaria: blue;
+
+    --cor-primaria-tom1: #b0b4ba;
+    --cor-secundaria-tom1: #D9D9D9;
+    --fonte: 'Inter', sans-serif;
 }
 
 html,
 body{
     margin: 0px;
+    font-family: var(--fonte);
+    background-color: var(--cor-secundaria);
+    height: 100%;
 }
 
 .tela-completa {
-    margin: 18px 16px;
+    /*margin: 18px 16px;*/
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+.tela-completa main {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    flex: 1;
+}
+#menu-superior {
+    border-bottom: 1px solid var(--cor-primaria-tom1);
 }
 #menu-superior nav {
     display: flex;
@@ -20,14 +40,14 @@ body{
     width: all;
     justify-content: end;
     align-items: center;
-    padding: 15px 15px;
-    gap: 20px;
+    padding: 10px 10px;
+    gap: 15px;
 }
 #menu-superior nav .tmenu {
     margin-right: auto; 
 }
-#menu-superior .icon {
-    font-size: 35px;
+#menu-superior .icon{
+    font-size: 20px;
 }
 #menu-superior .search {
     display: flex;
@@ -36,7 +56,9 @@ body{
     border-radius: 25px;
     padding: 5px 10px;
     width: 300px;
-    background-color: #fff;
+    height: 50%;
+    background-color: var(--cor-secundaria-tom1);
+    border: none;
 }
 #menu-superior .search input {
     border: none;
@@ -45,19 +67,115 @@ body{
     flex-grow: 1;
     border-radius: 25px;
     font-size: 16px;
+    background-color: var(--cor-secundaria-tom1);
 }
 #menu-superior .search i {
     font-size: 20px;
     margin-left: 10px;
     cursor: pointer;
 }
-#menu-superior i {
+#menu-superior nav > i {
     color: var(--cor-primaria);
     padding: 14px 17px;
 
 }
-#menu-superior i:hover {
-    border: 1px solid var(--cor-primaria);
+#menu-superior nav > i:hover {
+    background-color: var(--cor-secundaria-tom1);
     border-radius: 100%;
-    padding: 13px 14px;
+    cursor: pointer;
+}
+#icon-main {
+    height: 60px;
+    margin-right: auto;
+}
+
+
+.sidebar {
+    width: 20vw;
+    min-width: min-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cor-primaria-tom1);
+}
+#btn-toggle-menu {
+    font-size: 32px;
+    padding: 12px;
+}
+#btn-toggle-menu:hover {
+    cursor: pointer;
+}
+.sidebar.minimized #btn-toggle-menu {
+    margin-right: auto;
+    margin-left: auto;
+}
+.sidebar:not(.minimized) #btn-toggle-menu {
+    margin-left: auto;
+}
+
+.sidebar.minimized {
+    width: min-content;
+}
+
+.sidebar div {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar form {
+}
+.sidebar form button {
+    all: unset;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+}
+.sidebar:not(.minimized) form button {
+    gap: 14px;
+}
+.sidebar.minimized form button {
+    gap: 0;
+}
+
+.sidebar form:hover {
+    background-color: var(--cor-secundaria-tom1);
+    cursor: pointer;
+}
+
+.sidebar form i {
+    font-size: 27px;
+}
+.sidebar form.item-menu-final {
+    margin-top: auto;
+}
+
+/* .menu-text-visible,
+.sidebar,
+.sidebar div,
+.sidebar form,
+.sidebar button {
+    transition: all 5s ease;
+} */
+
+
+.sidebar.minimized .menu-text-visible {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.menu-text-visible {
+    opacity: 1;
+    width: auto;
+    transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+
+.container-principal {
+    padding: 20px;
+    height: 100%;
 }

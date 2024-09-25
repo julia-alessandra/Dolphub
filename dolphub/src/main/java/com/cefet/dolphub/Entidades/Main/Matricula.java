@@ -10,7 +10,6 @@ import lombok.*;
 @Entity
 @Table(name = "matricula", schema = "public")
 public class Matricula {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matricula_sq")
     @SequenceGenerator(schema = "public", name = "matricula_sq", sequenceName = "matricula_sq", initialValue = 1, allocationSize = 1)
@@ -22,21 +21,5 @@ public class Matricula {
 
     @Column(name = "data_matricula")
     private Date dataCriacao;
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
 
 }

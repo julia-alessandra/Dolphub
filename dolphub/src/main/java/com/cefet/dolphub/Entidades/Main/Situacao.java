@@ -11,8 +11,4 @@ public enum Situacao {
     Situacao(String situacao) {
         this.situacao = situacao;
     }
-
-    public String getSituacao() {
-        return situacao;
-    }
 }

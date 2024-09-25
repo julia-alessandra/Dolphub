@@ -11,8 +11,4 @@ public enum Dificuldade {
     Dificuldade(String dificuldade) {
         this.dificuldade = dificuldade;
     }
-
-    public String getDificuldade() {
-        return dificuldade;
-    }
 }
