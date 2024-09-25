@@ -9,6 +9,8 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,3 +1,6 @@
+<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -13,18 +16,18 @@
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
-            Curso tal 
+            
+            <h1>Arquivos Disponíveis</h1>
+            <ul>
+                <li th:each="arquivo : ${arquivos}">
+                    <a th:href="@{/editarCurso/baixarArquivo/{id}(id=${arquivo.id})}" th:text="${arquivo.nome}"></a>
+                </li>
+            </ul>
+
         </div>
 
     </main>
 
-    <!-- <h2>Upload de Arquivo</h2>
-    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-        <label for="file">Escolha um arquivo:</label>
-        <input type="file" id="file" name="file" accept="*/*" required>
-        <br><br>
-        <input type="submit" value="Upload">
-    </form> -->
     </div>
     </body>
     <script th:src="@{/javascript/pattern.js}"></script>

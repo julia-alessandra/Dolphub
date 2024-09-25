@@ -1,10 +1,11 @@
 <!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
 
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dolphub</title>
-    <link href="styles/pattern.css" rel="stylesheet">
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
 
 </head>
 <body>
@@ -22,5 +23,5 @@
 
     </div>
     </body>
-    <script src="javascript/pattern.js"></script>
+    <script th:src="@{/javascript/pattern.js}"></script>
 </html>

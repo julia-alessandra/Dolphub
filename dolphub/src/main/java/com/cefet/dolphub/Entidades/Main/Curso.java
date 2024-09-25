@@ -4,11 +4,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +35,6 @@ public class Curso {
     @Column(name = "dataCriacao_curso")
     private Date dataCriacao;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<Topico> topicos = new ArrayList<>();
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private ArrayList<Recurso> recursos = new ArrayList<>();
 }

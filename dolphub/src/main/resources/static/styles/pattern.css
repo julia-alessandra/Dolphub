@@ -179,3 +179,13 @@ body{
     padding: 20px;
     height: 100%;
 }
+
+
+/* controle deslizante */
+.slider {
+    width: 300px;
+}
+.dificuldade-texto {
+    font-size: 18px;
+    margin-top: 10px;
+}
