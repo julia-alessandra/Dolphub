@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dolphub</title>
+    <link href="styles/pattern.css" rel="stylesheet">
+    <link href="styles/perfil.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tela-completa">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div class="container-principal">
+                <div class="container">
+                    <div class="profile">
+                        <div class="profile-pic">
+                            <img src="imgs/perfil_basico.png" alt="Perfil">
+                            <button class="modify-photo">Modificar foto</button>
+                        </div>
+                        <h1>Seja bem-vind@, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
+                    </div>
+
+                    <form action="/atualizar-usuario" method="POST">
+                        <div class="user-info">
+                            <div class="input-group">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="nome" name="nome" th:value="${usuarioLogado.nome}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="sobrenome">Sobrenome</label>
+                                <input type="text" id="sobrenome" name="sobrenome" th:value="${usuarioLogado.sobrenome}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" th:value="${usuarioLogado.email}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="cpf">CPF</label>
+                                <input type="text" id="cpf" name="cpf" th:value="${usuarioLogado.cpf}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="telefone">Telefone</label>
+                                <input type="text" id="telefone" name="telefone" th:value="${usuarioLogado.telefone}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="cep">CEP</label>
+                                <input type="text" id="cep" name="cep" th:value="${usuarioLogado.CEP}">
+                            </div>
+                        </div>
+
+                        <h2>Modificar senha</h2>
+                        <div class="password-info">
+                            <div class="input-group">
+                                <label for="senhaAtual">Senha atual</label>
+                                <input type="password" id="senhaAtual" name="senhaAtual">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="novaSenha">Nova senha</label>
+                                <input type="password" id="novaSenha" name="novaSenha">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-button">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+<script src="javascript/pattern.js"></script>
+</html>
