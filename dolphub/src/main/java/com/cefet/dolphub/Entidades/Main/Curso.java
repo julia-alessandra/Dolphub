@@ -8,7 +8,6 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,4 +34,7 @@ public class Curso {
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<Topico> topicos = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "cursos")
+    private List<Matricula> matriculas;
 }
