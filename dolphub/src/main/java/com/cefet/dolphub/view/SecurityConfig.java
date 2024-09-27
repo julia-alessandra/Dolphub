@@ -1,10 +1,7 @@
 package com.cefet.dolphub.view;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,14 +15,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/formulario", "/salvarUsuario", "/login", "/styles/**").permitAll()
-                        .anyRequest().authenticated() // Exigir autenticação para todas as outras rotas
+                        .requestMatchers("/", "/formulario", "/salvarUsuario", "/login", "/styles/**").permitAll()//Caminhos permitidos pro usuario seguir sem login
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .usernameParameter("cpf")
                         .passwordParameter("senha")
-                        .defaultSuccessUrl("/perfil", true) // Redireciona para a página de perfil após o login
+                        .defaultSuccessUrl("/cursosAdquiridos", true)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")

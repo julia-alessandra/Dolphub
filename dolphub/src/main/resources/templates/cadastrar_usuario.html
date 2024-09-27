@@ -39,7 +39,7 @@
 
         <div class="form-group">
             <label for="data-nascimento">Data de Nascimento:</label>
-            <input type="date" id="data-nascimento" name="data-nascimento" required>
+            <input type="date" id="data-nascimento" name="dataNascimento" required>
         </div>
 
         <div class="form-group">
@@ -57,8 +57,6 @@
             <label for="termos">Eu li e aceito os <a href="#">termos de uso</a></label>
         </div>
 
-        <button type="submit">Cadastrar</button>
-
         <div th:if="${erroCpf}" class="alert alert-danger">
             <p th:text="${erroCpf}"></p>
         </div>
@@ -66,6 +64,9 @@
         <div th:if="${erroSenha}" class="alert alert-danger">
             <p th:text="${erroSenha}"></p>
         </div>
+
+        <button type="submit">Cadastrar</button>
+
     </form>
 </div>
 

@@ -3,10 +3,11 @@ package com.cefet.dolphub.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.cefet.dolphub.Repositorio.*;
+import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Usuario;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,7 @@ public class UsuarioService {
     }
 
     public Usuario cadastrar(Usuario Usuario) {
-        System.out.println("teste");
+        //System.out.println("teste");
         Usuario.setSenha(passwordEncoder.encode(Usuario.getSenha()));
         return UsuarioRepository.save(Usuario);
     }
@@ -31,11 +32,28 @@ public class UsuarioService {
         return UsuarioRepository.findById(id);
     }
 
+    public Matricula geraMatricula(Usuario usuario){
+        Matricula matricula = new Matricula();
+        matricula.setUsuario(usuario);
+
+        LocalDate data = usuario.getDataNascimento();
+        String dataFormatada = data.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        String cpf = usuario.getCpf();
+        String ultimosQuatroDigitosCpf = cpf.substring(cpf.length() - 4);
+
+        matricula.setNumero(dataFormatada + ultimosQuatroDigitosCpf);
+        matricula.setDataCriacao(usuario.getDataCriacao());
+
+        return matricula;
+    }
+
     public void deletar(Long id) {
         UsuarioRepository.deleteById(id);
     }
 
     public void atualizar(Usuario usuario) {
+        System.out.println(usuario.getCEP());
         UsuarioRepository.save(usuario);
     }
 
@@ -59,5 +77,14 @@ public class UsuarioService {
         }
         return Optional.empty();
     }
+
+    public boolean verificarSenha(Usuario usuario, String senhaConfirmacao) {
+        return passwordEncoder.matches(senhaConfirmacao, usuario.getSenha());
+    }
+
+    public void deletar(Usuario usuario) {
+        UsuarioRepository.delete(usuario);
+    }
+    
 
 }

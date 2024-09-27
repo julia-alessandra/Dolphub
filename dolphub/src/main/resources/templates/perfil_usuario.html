@@ -16,13 +16,14 @@
                 <div class="container">
                     <div class="profile">
                         <div class="profile-pic">
-                            <img src="imgs/perfil_basico.png" alt="Perfil">
-                            <button class="modify-photo">Modificar foto</button>
+                            <img src="imgs/perfil_basico.png" alt="Perfil" id="imgPerfil">
+                            <button class="modify-photo" id="modifica">Modificar foto</button>
                         </div>
                         <h1>Seja bem-vind@, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
                     </div>
 
-                    <form action="/atualizar-usuario" method="POST">
+
+                    <form th:action="@{/atualizar-usuario}" th:object="${usuarioAtualizado}" method="post">
                         <div class="user-info">
                             <div class="input-group">
                                 <label for="nome">Nome</label>
@@ -51,7 +52,7 @@
 
                             <div class="input-group">
                                 <label for="cep">CEP</label>
-                                <input type="text" id="cep" name="cep" th:value="${usuarioLogado.CEP}">
+                                <input type="text" id="cep" name="CEP" th:value="${usuarioLogado.CEP}">
                             </div>
                         </div>
 
@@ -68,7 +69,18 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="submit-button">Salvar</button>
+                        <button type="submit" class="button">Salvar</button>
+                    </form>
+
+
+                    <button id="btn-deletar-conta" class="button" style="background-color: red;">Deletar Conta</button>
+                    
+                    <form id="form-deletar-conta" th:action="@{/deletar-usuario}" method="post" style="display: none;">
+                        <div class="input-group">
+                            <label for="senhaConfirmacao">Digite sua senha para confirmar:</label>
+                            <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" required>
+                        </div>
+                        <button type="submit" class="button" style="background-color: red;">Confirmar</button>
                     </form>
                 </div>
             </div>
@@ -76,4 +88,6 @@
     </div>
 </body>
 <script src="javascript/pattern.js"></script>
+<script src="javascript/mudaImgPerfil.js"></script>
+
 </html>

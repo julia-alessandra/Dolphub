@@ -1,6 +1,8 @@
 package com.cefet.dolphub.Entidades.Main;
 
 import java.sql.Date;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,9 +19,19 @@ public class Matricula {
     private Long id;
 
     @Column(name = "numero_matricula")
-    private int numero;
+    private String numero;
 
     @Column(name = "data_matricula")
     private Date dataCriacao;
+
+        @OneToOne
+        @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+        private Usuario usuario;
+    
+        @ManyToMany
+        @JoinTable(name = "matricula_curso", joinColumns = @JoinColumn(name = "id_matricula"),
+                    inverseJoinColumns = @JoinColumn(name = "id_curso"))
+        private List<Curso> cursos;
+    
 
 }

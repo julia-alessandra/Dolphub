@@ -1,12 +1,12 @@
 package com.cefet.dolphub.Entidades.Main;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
-
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,7 +45,7 @@ public class Usuario implements UserDetails{
     private String senha;
 
     @Column(name = "dataNascimento_usuario")
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     @Column(name = "dataCriacao_usuario")
     private Date dataCriacao;
@@ -56,18 +56,19 @@ public class Usuario implements UserDetails{
 
     @Override
     public String getPassword() {
-        return this.senha; // Retorne a senha criptografada
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        return this.cpf; // Retorne o CPF como nome de usuário
+        return this.cpf;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
         return Collections.emptyList();
     }
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Matricula matricula;
 }

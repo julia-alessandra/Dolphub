@@ -19,14 +19,14 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/perfil")
-    public String exibirPerfil(Model model) {
+    @GetMapping("/cursosAdquiridos")
+    public String exibirPaginaCursos(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String cpf = authentication.getName(); // Obtém o CPF do usuário logado
+        String cpf = authentication.getName();
     
         Usuario usuario = usuarioService.buscarPorCpf(cpf).orElse(null);
-        model.addAttribute("usuarioLogado", usuario); // Adiciona o usuário logado ao modelo
-        System.out.println("login kgkgjkkg" + usuario.getNome());
-        return "redirect:/atualizar";
+        model.addAttribute("usuarioLogado", usuario);
+        //System.out.println("login kgkgjkkg" + usuario.getNome());
+        return "redirect:/cursos";
     }
 }
