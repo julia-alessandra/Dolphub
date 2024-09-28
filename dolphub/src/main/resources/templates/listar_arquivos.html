@@ -16,7 +16,14 @@
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
-            Faça sua página dentro desse container
+            
+            <h1>Arquivos Disponíveis</h1>
+            <ul>
+                <li th:each="arquivo : ${arquivos}">
+                    <a th:href="@{/editarCurso/baixarArquivo/{id}(id=${arquivo.id})}" th:text="${arquivo.nome}"></a>
+                </li>
+            </ul>
+
         </div>
 
     </main>
