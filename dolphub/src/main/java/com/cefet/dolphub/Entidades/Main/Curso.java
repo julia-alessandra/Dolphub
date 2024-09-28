@@ -9,6 +9,7 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.ArrayList;
 
 @Data
@@ -35,6 +36,11 @@ public class Curso {
     @Column(name = "dataCriacao_curso")
     private Date dataCriacao;
 
+
+    @ManyToMany(mappedBy = "cursos")
+    private List<Matricula> matriculas;
+  
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private ArrayList<Recurso> recursos = new ArrayList<>();
+
 }
