@@ -1,0 +1,125 @@
+
+<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dolphub</title>
+    <link href="styles/pattern.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="tela-completa">
+    <nav id="menu-lateral">
+        <div class="sidebar" id="sidebar">
+            <i id="btn-toggle-menu" class="fa-solid fa-bars icon"></i>
+            <div>
+                <form><button><i class="fa-solid fa-house"></i><span class="menu-text-visible">INÍCIO</span></button></form>
+                <form><button><i class="fa-regular fa-hourglass"></i><span class="menu-text-visible">PROGRESSO</span></button></form>
+                <form><button><i class="fa-solid fa-pencil"></i><span class="menu-text-visible">INSCRIÇÕES</span></button></form>
+                <form><button><i class="fa-solid fa-graduation-cap"></i><span class="menu-text-visible">CURSOS</span></button></form>
+                <form class="item-menu-final"><button><i class="fa-solid fa-folder"></i><span class="menu-text-visible">ARQUIVADOS</span></button></form>
+                <form class="item-menu-fina"><button><i class="fa-solid fa-gear"></i><span class="menu-text-visible">CONFIGURAÇÕES</span></button></form>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <div id="menu-superior">
+        <nav>
+            <!-- <i id="btn-toggle-menu" class="fa-solid fa-bars icon tmenu"></i> -->
+            <!-- <img id="icon-main" src="imgs/icone_sem_fundo.png"> -->
+
+            <form class="search">
+                <input type="text">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </form>
+
+            <i class="fa-solid fa-user icon"></i>
+        </nav>
+    </div>
+        <div class="container-principal">
+            <header id="header-menu-curso">
+
+                <div id="titulo-curso">
+                    <h3>Curso de python</h3>
+                    <p>Curso para iniciantes em programação com pyhton por Gustavo Guanabara </p>
+                </div>
+
+                <div id="menu-curso">
+                    <form>Módulos</form>
+                    <form>Avisos</form>
+                    <form>Questões</form>
+                    <form>Fórum</form>
+                </div>
+
+            </header>
+
+            
+            <div class="exibicao-curso">
+                <ul>
+                    
+                    <li>
+                        <div>Unidade 1</div>
+
+                        
+                        <ul>
+                            <li>
+                                <div>Arquivo 1</div>
+
+                                
+                                
+                            </li>
+                            <li>
+                                <div>Arquivo 2</div>
+
+                                
+                                
+                            </li>
+                            <li>
+                                <div>Atividade 1</div>
+
+                                
+                                
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <div>Unidade 2</div>
+
+                        
+                        <ul>
+                            <li>
+                                <div>Vídeo 1</div>
+
+                                
+                                
+                            </li>
+                            <li>
+                                <div>Subtemas</div>
+
+                                
+                                <ul>
+                                    <li>
+                                        <div>Arquivo 1 de Subtemas</div>
+                                    </li>
+                                    <li>
+                                        <div>Arquivo 2 de Subtemas</div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </main>
+
+    </div>
+    </body>
+    <script src="javascript/pattern.js"></script>
+</html>

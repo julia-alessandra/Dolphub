@@ -16,27 +16,44 @@
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
+            <header id="header-menu-curso">
+
+                <div id="titulo-curso">
+                    <h3>Curso de python</h3>
+                    <p>Curso para iniciantes em programação com pyhton por Gustavo Guanabara </p>
+                </div>
+
+                <div id="menu-curso">
+                    <form>Módulos</form>
+                    <form>Avisos</form>
+                    <form>Questões</form>
+                    <form>Fórum</form>
+                </div>
+            </header>
+
             
-            <ul>
-                
-                <li th:each="recurso : ${recursos}" th:if="${recurso.topicoPai == null}">
-                    <div th:text="${recurso.titulo}">Título do Recurso</div>
-
+            <div class="exibicao-curso">
+                <ul>
                     
-                    <ul th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
-                        <li th:each="subRecurso : ${recurso.recursos}">
-                            <div th:text="${subRecurso.titulo}">Título do Sub Recurso</div>
+                    <li th:each="recurso : ${recursos}" th:if="${recurso.topicoPai == null}">
+                        <div th:text="${recurso.titulo}">Título do Recurso</div>
 
-                            
-                            <ul th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
-                                <li th:each="subSubRecurso : ${subRecurso.recursos}">
-                                    <div th:text="${subSubRecurso.titulo}">Título do Sub-Sub Recurso</div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                        
+                        <ul th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
+                            <li th:each="subRecurso : ${recurso.recursos}">
+                                <div th:text="${subRecurso.titulo}">Título do Sub Recurso</div>
+
+                                
+                                <ul th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
+                                    <li th:each="subSubRecurso : ${subRecurso.recursos}">
+                                        <div th:text="${subSubRecurso.titulo}">Título do Sub-Sub Recurso</div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
         </div>
 

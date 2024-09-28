@@ -2,6 +2,7 @@ package com.cefet.dolphub.Service;
 
 import org.springframework.stereotype.Service;
 
+import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Recursos.*;
 import com.cefet.dolphub.Repositorio.RecursoRepository;
 
@@ -12,7 +13,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class CursoService {
+public class AcessoService {
 
     @Autowired
     private RecursoRepository recursoRepository;

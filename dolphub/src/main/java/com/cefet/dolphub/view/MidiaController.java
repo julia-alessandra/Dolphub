@@ -27,54 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
-@RequestMapping("/editarCurso")
 public class MidiaController {
 
     @Autowired
     private ArquivoService arquivoService;
-
-    @GetMapping
-    public String editarCurso() {
-        return "editar_curso";
-    }
-
-    @GetMapping("listarArquivos")
-    public String listarArquivos(Model model) {
-        List<Arquivo> arquivos = arquivoService.listarArquivos();
-        model.addAttribute("arquivos", arquivos);
-        return "listar_arquivos"; // Nome da página HTML
-    }
-
-    @GetMapping("/enviarArquivo")
-    public String enviarArquivo(Model model) {
-        model.addAttribute("arquivo", new Arquivo());
-        return "enviar_arquivo";
-    }
-
-    @PostMapping("/salvarArquivo")
-    public String salvarArquivo(@ModelAttribute Arquivo arquivo,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("nome") String titulo,
-            @RequestParam("descricao") String descricao,
-            @RequestParam("dificuldade") int dificuldade,
-            RedirectAttributes redirectAttributes) throws IOException {
-
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Por favor, selecione um arquivo.");
-            return "redirect:/editarCurso/enviarArquivo";
-        }
-
-        arquivo.setNome(file.getOriginalFilename());
-        arquivo.setConteudo(file.getBytes());
-        arquivo.setDescricao(descricao);
-        arquivo.setDificuldade(dificuldade);
-        arquivo.setTitulo(titulo);
-
-        arquivoService.salvarArquivo(arquivo);
-        redirectAttributes.addFlashAttribute("message", "Arquivo salvo com sucesso!");
-        return "redirect:/editarCurso/listarArquivos"; // Redireciona para a lista de arquivos
-    }
 
     @GetMapping("/baixarArquivo/{id}")
     public ResponseEntity<ByteArrayResource> baixarArquivo(@PathVariable Long id) {
