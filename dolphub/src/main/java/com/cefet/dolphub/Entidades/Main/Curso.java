@@ -11,6 +11,8 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Data
