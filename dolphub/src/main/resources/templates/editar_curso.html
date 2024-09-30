@@ -19,51 +19,70 @@
 
 
                 <div class="exibicao-curso">
+                    <div th:if="${recursos == null}">
+                        Curso não encontrado
+                    </div>
+                    <div th:if="${recursos.isEmpty()}">
+                        Não há nenhum recurso nesse curso
+                    </div>
                     <ul>
 
                         <li th:each="recurso : ${recursos}" th:if="${recurso.topicoPai == null}">
                             <div>
-                                <div th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
+                                <div class="recurso-item-container topico-container" th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
                                     <div th:text="${recurso.titulo}"></div>
+                                    <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"><i class="fa-solid fa-file-circle-plus"></i></a>
                                 </div>
-                                <div th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
+                                <div class="recurso-item-container" th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
                                     <a th:href="@{/editarCurso/baixarArquivo/{id}(id=${recurso.id})}" th:text="${recurso.titulo}"></a>
+                                    <a th:href="@{/editarCurso/{idCurso}/apagarArquivo/{idArquivo}(idCurso=${curso.id}, idArquivo=${recurso.id})}"><i class="fa-solid fa-trash"></i></a>
                                 </div>
-                                <div th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}">
+                                <div class="recurso-item-container" th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}">
                                     <a th:text="${recurso.titulo}"></a>
                                 </div>
-                                <a th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}"
-                                    th:text="${recurso.titulo}"></a>
+                                <div class="recurso-item-container" th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
+                                    <a th:text="${recurso.titulo}"></a>
+                                </div>
                             </div>
 
 
                             <ul th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
                                 <li th:each="subRecurso : ${recurso.recursos}">
                                     <div>
-                                        <div th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}"
-                                            th:text="${subRecurso.titulo}">aaa</div>
-                                        <a th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}"
-                                            th:href="@{/editarCurso/baixarArquivo/{id}(id=${subRecurso.id})}"
-                                            th:text="${subRecurso.nome}"></a>
-                                        <a th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}"
-                                            th:text="${subRecurso.titulo}"></a>
-                                        <a th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}"
-                                            th:text="${subRecurso.titulo}"></a>
+                                        <div th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
+                                            <div th:text="${subRecurso.titulo}">aaa</div>
+                                            <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"><i class="fa-solid fa-file-circle-plus"></i></a>
+                                        </div>
+                                        <div th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
+                                            <a th:href="@{/editarCurso/baixarArquivo/{id}(id=${subRecurso.id})}" th:text="${subRecurso.titulo}"></a>
+                                            <a th:href="@{/editarCurso/{idCurso}/apagarArquivo/{idArquivo}(idCurso=${curso.id}, idArquivo=${subRecurso.id})}"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                        <div th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}">
+                                            <a th:text="${subRecurso.titulo}"></a>
+                                        </div>
+                                        <div th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
+                                            <a th:text="${subRecurso.titulo}"></a>
+                                        </div>
                                     </div>
 
 
                                     <ul th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
                                         <li th:each="subSubRecurso : ${subRecurso.recursos}">
                                             <div>
-                                                <div th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}"
-                                                    th:text="${subSubRecurso.titulo}">aaa</div>
-                                                <a th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}"
-                                                    th:href="@{/editarCurso/baixarArquivo/{id}(id=${subSubRecurso.id})}"
-                                                    th:text="${subSubRecurso.nome}"></a>
-                                                <a th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}"
-                                                    th:text="${subSubRecurso.titulo}"></a>
-                                                <a th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}"
-                                                    th:text="${subSubRecurso.titulo}"></a>
+                                                <div th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
+                                                    <div th:text="${subSubRecurso.titulo}">aaa</div>
+                                                    <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${subSubRecurso.id})}"><i class="fa-solid fa-file-circle-plus"></i></a>
+                                                </div>
+                                                <div th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
+                                                    <a th:href="@{/editarCurso/baixarArquivo/{id}(id=${subSubRecurso.id})}" th:text="${subSubRecurso.titulo}"></a>
+                                                    <a th:href="@{/editarCurso/{idCurso}/apagarArquivo/{idArquivo}(idCurso=${curso.id}, idArquivo=${subSubRecurso.id})}"><i class="fa-solid fa-trash"></i></a>
+                                                </div>
+                                                <div th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}">
+                                                    <a th:text="${subSubRecurso.titulo}"></a>
+                                                </div>
+                                                <div th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
+                                                    <a th:text="${subSubRecurso.titulo}"></a>
+                                                </div>
                                             </div>
                                         </li>
                                     </ul>

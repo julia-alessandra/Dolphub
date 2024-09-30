@@ -12,6 +12,8 @@ import lombok.*;
 
 import java.util.ArrayList;
 
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,11 +38,17 @@ public class Curso {
     @Column(name = "dataCriacao_curso")
     private Date dataCriacao;
 
-
     @ManyToMany(mappedBy = "cursos")
     private List<Matricula> matriculas;
-  
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private ArrayList<Recurso> recursos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Recurso> recursos = new ArrayList<>();
+
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
+    }
 }
