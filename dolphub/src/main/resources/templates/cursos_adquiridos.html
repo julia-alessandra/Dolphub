@@ -1,11 +1,8 @@
-<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dolphub</title>
-    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link href="styles/pattern.css" rel="stylesheet">
 
 </head>
 <body>
@@ -16,12 +13,12 @@
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
-            Faça sua página dentro desse container
+            <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
         </div>
 
     </main>
 
     </div>
     </body>
-    <script th:src="@{/javascript/pattern.js}"></script>
+    <script src="javascript/pattern.js"></script>
 </html>

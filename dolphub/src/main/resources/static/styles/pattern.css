@@ -8,6 +8,7 @@
 
     --cor-primaria-tom1: #b0b4ba;
     --cor-secundaria-tom1: #D9D9D9;
+    --cor-primaria-tom2: rgb(79, 79, 79);
     --fonte: 'Inter', sans-serif;
 }
 
@@ -178,4 +179,67 @@ body{
 .container-principal {
     padding: 20px;
     height: 100%;
+}
+
+
+/* controle deslizante */
+.slider {
+    width: 300px;
+}
+.dificuldade-texto {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+
+/* exibição de curso */
+#container-principal {
+    font-family: var(--fonte);
+}
+#header-menu-curso {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: solid var(--cor-primaria-tom1) 1px;
+}
+#header-menu-curso h3,
+#header-menu-curso p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#header-menu-curso h3 {
+    font-weight: normal;
+    font-size: 25px;
+    color: inherit;
+}
+#header-menu-curso p {
+    color: var(--cor-primaria-tom2);
+}
+#menu-curso {
+    display: flex;
+    flex-direction: row;
+}
+#menu-curso form {
+    padding: 10px 20px;
+}
+#menu-curso form:hover {
+    background-color: var(--cor-secundaria-tom1);
+    cursor: pointer;
+}
+.exibicao-curso {
+    padding: 10px 0px;
+}
+.exibicao-curso ul {
+    margin: 0; 
+    padding: 0; 
+    list-style-type: none;
+}
+
+.exibicao-curso ul ul {
+    margin-top: 5px; /* Espaçamento acima das listas aninhadas */
+    padding-left: 20px; /* Indentação da lista interna */
+}
+
+.exibicao-curso li {
+    margin-bottom: 5px; /* Espaçamento entre os itens de lista */
 }

@@ -7,6 +7,8 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Recurso {
@@ -17,10 +19,10 @@ public abstract class Recurso {
     @Column(name = "id_recurso")
     private Long id;
 
-    @Column(name = "nome_recurso")
-    private String nome;
+    @Column(name = "titulo_recurso")
+    private String titulo;
 
-    @Column(name = "dificultade_recurso")
+    @Column(name = "dificuldade_recurso")
     private Dificuldade dificuldade;
 
     @Column(name = "descricao_recurso")
@@ -29,7 +31,7 @@ public abstract class Recurso {
     @Column(name = "data_recurso")
     private Date data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curso_recurso")
     private Curso curso;
 
@@ -37,43 +39,7 @@ public abstract class Recurso {
     @JoinColumn(name = "topico_pai")
     private Topico topicoPai;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Dificuldade getDificuldade() {
-        return dificuldade;
-    }
-
-    public void setDificuldade(Dificuldade dificuldade) {
-        this.dificuldade = dificuldade;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
-    public Topico getTopicoPai() {
-        return topicoPai;
-    }
-
-    public void setTopicoPai(Topico topicoPai) {
-        this.topicoPai = topicoPai;
+    public void setDificuldade(int dificuldadeValor) {
+        this.dificuldade = Dificuldade.fromInt(dificuldadeValor);
     }
 }

@@ -14,5 +14,7 @@ public class Arquivo extends Midia {
     @Lob
     private byte[] conteudo;
 
-    private int duracao;
+    static String getTipo() {
+        return "pdf";
+    }
 }
