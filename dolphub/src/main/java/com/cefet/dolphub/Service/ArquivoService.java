@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cefet.dolphub.Repositorio.*;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Recursos.*;
 

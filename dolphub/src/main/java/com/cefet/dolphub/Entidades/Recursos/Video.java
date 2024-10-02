@@ -14,5 +14,8 @@ public class Video extends Midia {
     @Lob
     private byte[] conteudo;
 
+    @Column(name = "anotacao_video", length = 1500)
+    private String anotacao;
+
     private long duracao;
 }
