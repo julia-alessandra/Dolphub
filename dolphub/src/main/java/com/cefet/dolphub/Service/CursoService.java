@@ -18,9 +18,6 @@ public class CursoService {
     @Autowired
     private CursoRepository cursoRepository;
 
-    @Autowired
-    private CursoRepository cursoRepository;
-
     public Curso buscar(Long id) {
         Optional<Curso> curso = cursoRepository.findById(id);
         return curso.orElseThrow(() -> new RuntimeException("Curso não encontrado!"));
