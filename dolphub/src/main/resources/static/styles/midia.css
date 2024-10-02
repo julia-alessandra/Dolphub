@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --cor-primaria: black;
+    --cor-secundaria: #F4F4F4;
+    --cor-terciaria: blue;
+
+    --cor-primaria-tom1: #b0b4ba;
+    --cor-secundaria-tom1: #D9D9D9;
+    --cor-primaria-tom2: rgb(79, 79, 79);
+    --fonte: 'Inter', sans-serif;
+}
+
+.video-player {
+    width: 40vw;
+    max-width: 640px;
+    height: auto;
+}
+
+#header-video {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#cabecalho-video {
+    border-left: 1px solid var(--cor-primaria-tom1);
+    padding-left: 15px;
+}
+#cabecalho-video h3,
+#cabecalho-video p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#cabecalho-video h3 {
+    font-weight: normal;
+    font-size: 25px;
+    color: inherit;
+    margin-bottom: 0px;
+}
+#cabecalho-video p {
+    margin-top: 0px;
+    color: var(--cor-primaria-tom2);
+}
+
+#header-video a,
+#header-video a:hover,
+#header-video a:visited {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+#header-video a:first-child {
+    margin: 0px 20px 0px 5px;
+    font-size: 24px;
+}
+
+#link-editar-video {
+    margin-left: auto;
+    font-size: 24px;
+}
