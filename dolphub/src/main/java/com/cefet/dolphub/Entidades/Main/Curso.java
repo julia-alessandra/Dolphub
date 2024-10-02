@@ -43,8 +43,16 @@ public class Curso {
 
     @ManyToMany(mappedBy = "cursos")
     private List<Matricula> matriculas;
-  
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private ArrayList<Recurso> recursos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Recurso> recursos = new ArrayList<>();
+
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
+    }
 }
+

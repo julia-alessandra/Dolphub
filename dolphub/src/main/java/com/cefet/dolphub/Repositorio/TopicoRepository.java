@@ -7,11 +7,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cefet.dolphub.Entidades.Recursos.Recurso;
+import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 @Repository
-public interface RecursoRepository extends JpaRepository<Recurso, Long> {
-    List<Recurso> findByCursoId(Long cursoId);
-
-    Optional<Recurso> findById(Long id);
+public interface TopicoRepository extends JpaRepository<Topico, Long> {
 }

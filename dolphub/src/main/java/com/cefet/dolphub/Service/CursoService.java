@@ -8,6 +8,8 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.cefet.dolphub.Entidades.Main.*;
 import com.cefet.dolphub.Repositorio.*;
 import java.util.Optional;
 
@@ -16,7 +18,9 @@ public class CursoService {
     @Autowired
     private CursoRepository cursoRepository;
 
-    public CursoService() {
+    public Curso buscar(Long id) {
+        Optional<Curso> curso = cursoRepository.findById(id);
+        return curso.orElseThrow(() -> new RuntimeException("Curso não encontrado!"));
     }
 
     public Curso salvarCurso(Curso curso) {

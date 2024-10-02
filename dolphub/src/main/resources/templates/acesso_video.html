@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/midia.css}" rel="stylesheet">
+
+</head>
+<body>
+    <!-- container de tooltip -->
+    <div id="info-tooltip" class="tooltip" style="display: none;"></div>
+    <div class="tela-completa">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+    
+    <main>
+        <div th:replace="componentes/menu_superior :: menu_superior"></div>
+        
+
+        <div class="container-principal">
+            <header id="header-video">
+                <a th:if="${roleAcess == 'view'}" th:href="@{/acessoCurso/{id}(id=${cursoId})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
+                <a th:if="${roleAcess == 'edit'}" th:href="@{/editarCurso/{id}(id=${cursoId})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
+                <div id="cabecalho-video">
+                    <h3 th:text="${video.titulo}" class="info-element" data-info="Informação 1"></h3>
+                    <p th:text="${video.descricao}"></p>
+                </div>
+                <a id="link-editar-video" th:if="${roleAcess == 'edit'}" th:href="@{/editarCurso/{idCurso}/editarVideo/{idVideo}(idCurso=${cursoId}, idVideo=${video.id})}"><i class="fa-solid fa-pencil info-element" data-info="Editar"></i></a>
+            </header>
+    
+            <div class="video-container">
+                <video controls class="video-player">
+                    <source th:src="@{/videos/{id}(id=${video.id})}" type="video/mp4"> 
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+            </div>
+            
+            <div class="video-info">
+                
+            </div>
+            
+        </div>
+
+    </main>
+
+    </div>
+    </body>
+    <script th:src="@{/javascript/pattern.js}"></script>
+</html>
