@@ -14,28 +14,28 @@ import com.cefet.dolphub.Repositorio.*;
 import java.util.Optional;
 
 @Service
-public class CursoService {
+public class ProfessorService {
     @Autowired
-    private CursoRepository cursoRepository;
+    private ProfessorRepository professorRepository;
 
-    public CursoService() {
+    public ProfessorService() {
     }
 
-    public Curso salvarCurso(Curso curso) {
+    public Professor salvarProfessor(Professor professor) {
         System.out.println("teste");
-        return cursoRepository.save(curso);
+        return professorRepository.save(professor);
     }
 
-    public Optional<Curso> buscarCursoPorId(Long id) {
-        return cursoRepository.findById(id);
+    public Optional<Professor> buscarProfessorPorId(Long id) {
+        return professorRepository.findById(id);
     }
 
-    public Optional<Curso> buscarCursoPorIdProfessor(Professor professor){
-        return cursoRepository.findByProfessor(professor);
+    public Optional<Professor> buscarProfessorPorIdUsuario(Usuario usuario){
+        return professorRepository.findByUsuario(usuario);
     }
 
     public void deletarCurso(Long id) {
-        cursoRepository.deleteById(id);
+        professorRepository.deleteById(id);
     }
 
 
