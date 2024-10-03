@@ -14,9 +14,4 @@ public class HomeController {
     public String home() {
         return "paginainicial/index";
     }
-
-    @GetMapping("/inicio")
-    public String exibirInicio() {
-        return "pagina_inicial";
-    }
 }

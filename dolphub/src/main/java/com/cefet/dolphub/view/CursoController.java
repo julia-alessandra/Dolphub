@@ -13,7 +13,7 @@ import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ProfessorService;
-
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -53,5 +53,13 @@ public class CursoController {
         } else {
             return "redirect:/erro";  // Defina uma página de erro se necessário
         }
+    }
+    @GetMapping("/inicio")
+    public String listarCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+        // Buscar todos os cursos do professor logado
+        List<Curso> cursos = cursoService.listarCursosPorProfessor(professorService.buscarProfessorPorIdUsuario(usuarioLogado).get());
+        model.addAttribute("cursos", cursos);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+        return "pagina_inicial"; 
     }
 }
