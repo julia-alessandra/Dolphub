@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+
+</head>
+<body>
+    <div class="tela-completa">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+    
+    <main>
+        <div th:replace="componentes/menu_superior :: menu_superior"></div>
+        <div class="container-principal">
+            <h1 th:text="'Editando vídeo: ' + ${video.titulo}"></h1>
+    
+            <form th:action="@{/editarCurso/{idCurso}/salvarVideo(idVideo=${video.id})}" method="post" enctype="multipart/form-data">
+                <label>Nome:
+                    <input type="text" name="nome" th:value="${video.nome}" required>
+                </label>
+
+                <label>Descrição:
+                    <input type="text" name="descricao" th:value="${video.descricao}" required>
+                </label>
+
+                <label>Upload de vídeo:
+                    <input type="file" name="file" accept=".mp4" required>
+                </label>
+
+                <label>Nível de Dificuldade:
+                    <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" th:value="${video.dificuldade}" step="1" oninput="atualizarDificuldade()">
+                    <p class="dificuldade-texto" id="dificuldadeTexto" th:text="'Dificuldade: ' + ${video.dificuldade}"></p>
+                </label>
+
+                <input type="hidden" name="curso" th:value="${curso.id}">
+
+                <button type="submit">Salvar</button>
+            </form>
+            
+            <a th:href="@{/editarCurso/{id}(id=${cursoId})}" class="back-button">Voltar para o curso</a>
+        </div>
+
+    </main>
+
+    </div>
+    </body>
+    <script th:src="@{/javascript/pattern.js}"></script>
+</html>

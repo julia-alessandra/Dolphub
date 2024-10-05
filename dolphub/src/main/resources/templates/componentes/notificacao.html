@@ -1,0 +1,5 @@
+<div th:fragment="notificacao" id="notification" th:if="${notificacao != null}" th:class="'notification ' + ${tipoNotificacao}">
+    <span id="notification-message" th:text="${notificacao}">Texto padrão da notificação.</span>
+    <button class="close-btn" id="close-btn">&times;</button>
+    <div class="border-animation" id="border-animation"></div>
+</div>

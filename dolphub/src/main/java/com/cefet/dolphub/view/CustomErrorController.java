@@ -1,29 +1,45 @@
-// package com.cefet.dolphub.view;
+package com.cefet.dolphub.view;
 
-// import org.springframework.boot.web.servlet.error.ErrorAttributes;
-// import org.springframework.boot.web.servlet.error.ErrorController;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.servlet.ModelAndView;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.WebRequest;
 
-// import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-// @Controller
-// public class CustomErrorController implements ErrorController {
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 
-// private static final String PATH = "/error";
+import java.util.Map;
 
-// @RequestMapping(PATH)
-// public ModelAndView error(HttpServletRequest request) {
-// ModelAndView mav = new ModelAndView("error");
-// String errorMessage = (String)
-// request.getAttribute("javax.servlet.error.message");
-// mav.addObject("errorMessage", errorMessage);
-// return mav;
-// }
+@Controller
+public class CustomErrorController implements ErrorController {
 
-// @Override
-// public String getErrorPath() {
-// return PATH;
-// }
-// }
+    private final ErrorAttributes errorAttributes;
+
+    public CustomErrorController(ErrorAttributes errorAttributes) {
+        this.errorAttributes = errorAttributes;
+    }
+
+    @RequestMapping("/error")
+    public String handleError(HttpServletRequest request, WebRequest webRequest, Model model) {
+        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+
+        Map<String, Object> errorDetails = errorAttributes.getErrorAttributes(
+                webRequest,
+                ErrorAttributeOptions.of(
+                        ErrorAttributeOptions.Include.STACK_TRACE,
+                        ErrorAttributeOptions.Include.MESSAGE,
+                        ErrorAttributeOptions.Include.BINDING_ERRORS));
+
+        model.addAttribute("status", statusCode != null ? statusCode : errorDetails.get("status"));
+        model.addAttribute("error", errorDetails.get("error"));
+        model.addAttribute("message", errorDetails.get("message"));
+        model.addAttribute("trace", errorDetails.get("trace"));
+        model.addAttribute("timestamp", errorDetails.get("timestamp"));
+        model.addAttribute("path", errorDetails.get("path"));
+
+        return "error";
+    }
+}

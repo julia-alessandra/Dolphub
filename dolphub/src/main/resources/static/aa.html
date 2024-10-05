@@ -1,17 +1,18 @@
 
-<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
-
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Dolphub</title>
     <link href="styles/pattern.css" rel="stylesheet">
+    <link href="styles/editarCurso.css" rel="stylesheet">
 
 </head>
+
 <body>
     <div class="tela-completa">
-    <nav id="menu-lateral">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <nav id="menu-lateral">
         <div class="sidebar" id="sidebar">
             <i id="btn-toggle-menu" class="fa-solid fa-bars icon"></i>
             <div>
@@ -24,9 +25,9 @@
             </div>
         </div>
     </nav>
-    
-    <main>
-        <div id="menu-superior">
+
+        <main>
+            <div id="menu-superior">
         <nav>
             <!-- <i id="btn-toggle-menu" class="fa-solid fa-bars icon tmenu"></i> -->
             <!-- <img id="icon-main" src="imgs/icone_sem_fundo.png"> -->
@@ -36,90 +37,176 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </form>
 
-            <i class="fa-solid fa-user icon"></i>
+            <button type="button" onclick="window.location.href='atualizar';">
+                <i class="fa-solid fa-user icon"></i>
+            </button>        
         </nav>
     </div>
-        <div class="container-principal">
-            <header id="header-menu-curso">
+            <div class="container-principal">
+                <header id="header-menu-curso">
 
-                <div id="titulo-curso">
-                    <h3>Curso de python</h3>
-                    <p>Curso para iniciantes em programação com pyhton por Gustavo Guanabara </p>
-                </div>
+    <div id="titulo-curso">
+        <h3>Curso de python</h3>
+        <p>Curso para iniciantes em programação com pyhton por Gustavo Guanabara </p>
+    </div>
 
-                <div id="menu-curso">
-                    <form>Módulos</form>
-                    <form>Avisos</form>
-                    <form>Questões</form>
-                    <form>Fórum</form>
-                </div>
+    <div id="menu-curso">
+        <form>Módulos</form>
+        <form>Avisos</form>
+        <form>Questões</form>
+        <form>Fórum</form>
+    </div>
+</header>
 
-            </header>
 
-            
-            <div class="exibicao-curso">
-                <ul>
+                <div class="exibicao-curso">
                     
-                    <li>
-                        <div>Unidade 1</div>
-
-                        
-                        <ul>
-                            <li>
-                                <div>Arquivo 1</div>
-
-                                
-                                
-                            </li>
-                            <li>
-                                <div>Arquivo 2</div>
-
-                                
-                                
-                            </li>
-                            <li>
-                                <div>Atividade 1</div>
-
-                                
-                                
-                            </li>
-                        </ul>
-                    </li>
                     
-                    <li>
-                        <div>Unidade 2</div>
+                    <ul>
 
-                        
-                        <ul>
-                            <li>
-                                <div>Vídeo 1</div>
-
+                        <li>
+                            <div>
+                                <div class="recurso-item-container topico-container">
+                                    <div>Unidade 1</div>
+                                    <a href="/dolphub/editarCurso/1/enviarArquivo/1"><i class="fa-solid fa-file-circle-plus"></i></a>
+                                </div>
                                 
                                 
-                            </li>
-                            <li>
-                                <div>Subtemas</div>
-
                                 
-                                <ul>
-                                    <li>
-                                        <div>Arquivo 1 de Subtemas</div>
-                                    </li>
-                                    <li>
-                                        <div>Arquivo 2 de Subtemas</div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                            </div>
+
+
+                            <ul>
+                                <li>
+                                    <div>
+                                        
+                                        <div class="recurso-item-container">
+                                            <a href="/dolphub/editarCurso/baixarArquivo/3">Arquivo 1</a>
+                                            <a href="/dolphub/editarCurso/1/apagarArquivo/3"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                        
+                                        
+                                    </div>
+
+
+                                    
+                                </li>
+                                <li>
+                                    <div>
+                                        
+                                        <div class="recurso-item-container">
+                                            <a href="/dolphub/editarCurso/baixarArquivo/4">Arquivo 2</a>
+                                            <a href="/dolphub/editarCurso/1/apagarArquivo/4"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                        
+                                        
+                                    </div>
+
+
+                                    
+                                </li>
+                                <li>
+                                    <div>
+                                        
+                                        <div class="recurso-item-container">
+                                            <a href="/dolphub/editarCurso/baixarArquivo/15">Meu arquivo</a>
+                                            <a href="/dolphub/editarCurso/1/apagarArquivo/15"><i class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                        
+                                        
+                                    </div>
+
+
+                                    
+                                </li>
+                                <li>
+                                    <div>
+                                        
+                                        
+                                        
+                                        <div class="recurso-item-container">
+                                            <a>Atividade 1</a>
+                                        </div>
+                                    </div>
+
+
+                                    
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <div>
+                                <div class="recurso-item-container topico-container">
+                                    <div>Unidade 2</div>
+                                    <a href="/dolphub/editarCurso/1/enviarArquivo/2"><i class="fa-solid fa-file-circle-plus"></i></a>
+                                </div>
+                                
+                                
+                                
+                            </div>
+
+
+                            <ul>
+                                <li>
+                                    <div>
+                                        
+                                        
+                                        <div class="recurso-item-container">
+                                            <a>Vídeo 1</a>
+                                        </div>
+                                        
+                                    </div>
+
+
+                                    
+                                </li>
+                                <li>
+                                    <div>
+                                        <div class="recurso-item-container">
+                                            <div>Subtemas</div>
+                                            <a href="/dolphub/editarCurso/1/enviarArquivo/7"><i class="fa-solid fa-file-circle-plus"></i></a>
+                                        </div>
+                                        
+                                        
+                                        
+                                    </div>
+
+
+                                    <ul>
+                                        <li>
+                                            <div>
+                                                
+                                                <div class="recurso-item-container">
+                                                    <a href="/dolphub/editarCurso/baixarArquivo/8">Arquivo 1 de Subtemas</a>
+                                                    <a href="/dolphub/editarCurso/1/apagarArquivo/8"><i class="fa-solid fa-trash"></i></a>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                
+                                                <div class="recurso-item-container">
+                                                    <a href="/dolphub/editarCurso/baixarArquivo/9">Arquivo 2 de Subtemas</a>
+                                                    <a href="/dolphub/editarCurso/1/apagarArquivo/9"><i class="fa-solid fa-trash"></i></a>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-        </div>
-
-    </main>
-
+        </main>
     </div>
-    </body>
-    <script src="javascript/pattern.js"></script>
+</body>
+<script src="javascript/pattern.js"></script>
+
 </html>
