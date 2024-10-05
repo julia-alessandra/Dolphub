@@ -22,7 +22,7 @@
                 <a th:if="${roleAcess == 'view'}" th:href="@{/acessoCurso/{id}(id=${cursoId})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
                 <a th:if="${roleAcess == 'edit'}" th:href="@{/editarCurso/{id}(id=${cursoId})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
                 <div id="cabecalho-video">
-                    <h3 th:text="${video.titulo}" class="info-element" data-info="Informação 1"></h3>
+                    <h3 th:text="${video.titulo}"></h3>
                     <p th:text="${video.descricao}"></p>
                 </div>
                 <a id="link-editar-video" th:if="${roleAcess == 'edit'}" th:href="@{/editarCurso/{idCurso}/editarVideo/{idVideo}(idCurso=${cursoId}, idVideo=${video.id})}"><i class="fa-solid fa-pencil info-element" data-info="Editar"></i></a>
@@ -33,6 +33,23 @@
                     <source th:src="@{/videos/{id}(id=${video.id})}" type="video/mp4"> 
                     Seu navegador não suporta o elemento de vídeo.
                 </video>
+                <div id="lateral-video">
+                    <div id="controle-lateral-video">
+                        <div id="title-notas">Anotações do professor</div>
+                        <a class="info-element" data-info="Marcar como vizualizado"><i class="fa-regular fa-square"></i></a>
+                        <!-- <i class="fa-regular fa-square-check"></i> -->
+                        <a class="info-element" data-info="Favoritar"><i class="fa-regular fa-star"></i></a>
+                    </div>
+                    <div id="container-anotacoes">
+                        <div th:if="${video.anotacao == null or #strings.isEmpty(video.anotacao)}">
+                            Não há anotações disponíveis
+                        </div>
+                        <div th:if="${video.anotacao != null and !#strings.isEmpty(video.anotacao)}" id="anotacoes"
+                            th:text="${video.anotacao}">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="video-info">

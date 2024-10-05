@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
+import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
@@ -90,6 +91,7 @@ public class GerenciarRecursoController {
         model.addAttribute("arquivo", novo);
         model.addAttribute("topicoPai", pai.getId());
         model.addAttribute("curso", pai.getCurso());
+        model.addAttribute("operation", "enviar");
 
         System.out.println("Chegou aqui");
         return "enviar_arquivo";
@@ -168,6 +170,52 @@ public class GerenciarRecursoController {
                 .body(resource);
     }
 
+    @GetMapping("{idCurso}/editarArquivo/{idArquivo}")
+    public String editarArquivo(@PathVariable Long idCurso, @PathVariable Long idArquivo, Model model) {
+        Arquivo arquivo = arquivoService.buscar(idArquivo);
+        Curso curso = cursoService.buscar(idCurso);
+
+        if (arquivo == null) {
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Arquivo não encontrado");
+            return "redirect:/error";
+        }
+
+        model.addAttribute("arquivo", arquivo);
+        model.addAttribute("idCurso", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("operation", "editar");
+
+        return "enviar_arquivo";
+    }
+
+    @PostMapping("/atualizarArquivo")
+    public String atualizarArquivo(@RequestParam Long cursoId,
+            @RequestParam Long idArquivo,
+            @RequestParam String titulo,
+            @RequestParam String descricao,
+            @RequestParam int dificuldade,
+            RedirectAttributes redirectAttributes) {
+
+        Arquivo arquivo = arquivoService.buscar(idArquivo);
+
+        if (arquivo == null) {
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+            redirectAttributes.addFlashAttribute("notificacao", "Arquivo não encontrado");
+            return "redirect:/editarCurso/" + cursoId;
+        }
+
+        arquivo.setTitulo(titulo);
+        arquivo.setDescricao(descricao);
+        arquivo.setDificuldade(dificuldade);
+
+        arquivoService.salvarArquivo(arquivo);
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Arquivo atualizado");
+
+        return "redirect:/editarCurso/" + cursoId;
+    }
+
     @GetMapping("{idCurso}/apagarArquivo/{idArquivo}")
     public String apagarArquivo(@PathVariable Long idCurso, @PathVariable Long idArquivo,
             RedirectAttributes redirectAttributes) {
@@ -198,6 +246,7 @@ public class GerenciarRecursoController {
         model.addAttribute("video", novo);
         model.addAttribute("topicoPai", pai.getId());
         model.addAttribute("curso", pai.getCurso());
+        model.addAttribute("operation", "enviar");
         System.out.println("Chegou aqui");
         return "enviar_video";
     }
@@ -208,6 +257,7 @@ public class GerenciarRecursoController {
             @RequestParam("nome") String titulo,
             @RequestParam("descricao") String descricao,
             @RequestParam("dificuldade") int dificuldade,
+            @RequestParam("anotacao") String anotacao,
             @RequestParam("topicoPai") Long topicoPaiId,
             @RequestParam("curso") Long cursoId,
             RedirectAttributes redirectAttributes) throws IOException {
@@ -228,6 +278,7 @@ public class GerenciarRecursoController {
         video.setDescricao(descricao);
         video.setDificuldade(dificuldade);
         video.setTitulo(titulo);
+        video.setAnotacao(anotacao);
 
         Topico topicoPai = recursoService.buscarTopicoPai(topicoPaiId);
         Curso curso = cursoService.buscar(cursoId);
@@ -252,6 +303,7 @@ public class GerenciarRecursoController {
     public String acessarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model) {
 
         Video video = videoService.buscar(idVideo);
+        Curso curso = cursoService.buscar(idCurso);
 
         if (video == null) {
             model.addAttribute("tipoNotificacao", "error");
@@ -261,6 +313,7 @@ public class GerenciarRecursoController {
 
         model.addAttribute("video", video);
         model.addAttribute("cursoId", idCurso);
+        model.addAttribute("curso", curso);
         model.addAttribute("roleAcess", "edit");
 
         return "acesso_video";
@@ -269,17 +322,68 @@ public class GerenciarRecursoController {
     @GetMapping("{idCurso}/editarVideo/{idVideo}")
     public String editarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model) {
         Video video = videoService.buscar(idVideo);
+        Curso curso = cursoService.buscar(idCurso);
 
         if (video == null) {
             model.addAttribute("tipoNotificacao", "error");
             model.addAttribute("notificacao", "Vídeo não encontrado");
-            return "redirect:/editarCurso/" + idCurso;
+            return "redirect:/error";
         }
 
         model.addAttribute("video", video);
-        model.addAttribute("cursoId", idCurso);
+        model.addAttribute("idCurso", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("operation", "editar");
 
-        return "editar_video";
+        return "enviar_video";
+    }
+
+    @PostMapping("/atualizarVideo")
+    public String atualizarVideo(@RequestParam Long cursoId,
+            @RequestParam Long idVideo,
+            @RequestParam String titulo,
+            @RequestParam String descricao,
+            @RequestParam int dificuldade,
+            @RequestParam String anotacao,
+            RedirectAttributes redirectAttributes) {
+
+        Video video = videoService.buscar(idVideo);
+
+        if (video == null) {
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+            redirectAttributes.addFlashAttribute("notificacao", "Vídeo não encontrado");
+            return "redirect:/editarCurso/" + cursoId;
+        }
+
+        video.setTitulo(titulo);
+        video.setDescricao(descricao);
+        video.setDificuldade(dificuldade);
+        video.setAnotacao(anotacao);
+
+        videoService.salvarVideo(video);
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Vídeo atualizado");
+
+        return "redirect:/editarCurso/" + cursoId;
+    }
+
+    @GetMapping("{idCurso}/apagarVideo/{idVideo}")
+    public String apagarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo,
+            RedirectAttributes redirectAttributes) {
+
+        Video video = videoService.buscar(idVideo);
+
+        if (video != null) {
+            videoService.deletar(idVideo);
+            redirectAttributes.addFlashAttribute("message", "Arquivo apagado com sucesso!");
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+            redirectAttributes.addFlashAttribute("notificacao", "Vídeo apagado com successo");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Arquivo não encontrado.");
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "warning");
+            redirectAttributes.addFlashAttribute("notificacao", "Nenhum vídeo correspondente encontrado");
+        }
+        return "redirect:/editarCurso/" + idCurso;
     }
 
 }
