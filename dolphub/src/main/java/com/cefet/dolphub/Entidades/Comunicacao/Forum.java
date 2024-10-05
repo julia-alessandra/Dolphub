@@ -11,8 +11,7 @@ import lombok.*;
 public class Forum {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forum_sq")
-    @SequenceGenerator(schema = "public", name = "forum_sq", sequenceName = "forum_sq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_forum")
     private Long id;
 
