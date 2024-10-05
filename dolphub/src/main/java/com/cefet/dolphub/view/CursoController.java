@@ -34,10 +34,11 @@ public class CursoController {
             model.addAttribute("curso", new Curso());
             model.addAttribute("usuarioLogado", usuarioLogado);
             model.addAttribute("professor", professorOpt.get());
-            return "criar_curso";  // Nome da página HTML
+            return "criar_curso"; // Nome da página HTML
         } else {
-            // Se o professor não for encontrado, redirecionar ou mostrar uma mensagem de erro
-            return "redirect:/inicio";  // Defina uma página de erro se necessário
+            // Se o professor não for encontrado, redirecionar ou mostrar uma mensagem de
+            // erro
+            return "redirect:/inicio"; // Defina uma página de erro se necessário
         }
     }
 
@@ -49,17 +50,23 @@ public class CursoController {
         if (professorOpt.isPresent()) {
             curso.setProfessor(professorOpt.get()); // Associar o professor ao curso
             cursoService.salvarCurso(curso);
-            return "redirect:/inicio";  // Redirecionar após o salvamento
+            return "redirect:/inicio"; // Redirecionar após o salvamento
         } else {
-            return "redirect:/erro";  // Defina uma página de erro se necessário
+            return "redirect:/erro"; // Defina uma página de erro se necessário
         }
     }
+
     @GetMapping("/inicio")
     public String listarCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+        Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
         // Buscar todos os cursos do professor logado
-        List<Curso> cursos = cursoService.listarCursosPorProfessor(professorService.buscarProfessorPorIdUsuario(usuarioLogado).get());
-        model.addAttribute("cursos", cursos);
+        if (professorOpt.isPresent()) {
+            List<Curso> cursos = cursoService.listarCursosPorProfessor(professorService.buscarProfessorPorIdUsuario(usuarioLogado).get());
+            model.addAttribute("cursos", cursos);
+            model.addAttribute("usuarioLogado", usuarioLogado);
+            return "pagina_inicial";
+        }
         model.addAttribute("usuarioLogado", usuarioLogado);
-        return "pagina_inicial"; 
+        return "pagina_inicial";
     }
 }

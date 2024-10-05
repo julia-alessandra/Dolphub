@@ -20,7 +20,7 @@
 
             <div class="container-topico">
                 <h1 class="topico-nome">Seus cursos</h1>
-                <ul class="lista-cursos">
+                <ul class="lista-cursos" th:if="${cursos!=null}">
                     <li th:each="curso : ${cursos}">
                         <div class="card-curso">
                             <div class="foto-professor"></div>
