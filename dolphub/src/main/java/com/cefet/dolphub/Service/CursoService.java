@@ -1,10 +1,13 @@
 package com.cefet.dolphub.Service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import com.cefet.dolphub.Repositorio.*;
 import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Professor;
+import com.cefet.dolphub.Entidades.Main.Usuario;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +35,20 @@ public class CursoService {
         return cursoRepository.findById(id);
     }
 
+    public Optional<Curso> buscarCursoPorIdProfessor(Professor professor){
+        return cursoRepository.findByProfessor(professor);
+    }
+
+
+    public List<Curso> listarCursosPorProfessor(Professor professor) {
+        return cursoRepository.findAllByProfessor(professor);
+    }
+
+    
+
     public void deletarCurso(Long id) {
         cursoRepository.deleteById(id);
     }
+
 
 }

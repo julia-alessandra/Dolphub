@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/pagina_inicial.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="tela-completa">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div class="container-principal">
+                <a th:href="@{/criarCurso}">Criar curso</a>
+            </div>
+
+            <div class="container-topico">
+                <h1 class="topico-nome">Seus cursos</h1>
+                <ul class="lista-cursos">
+                    <li th:each="curso : ${cursos}">
+                        <div class="card-curso">
+                            <div class="foto-professor"></div>
+                            <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                            <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do Professor</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+    </div>
+</body>
+<script th:src="@{/javascript/pattern.js}"></script>
+
+</html>
