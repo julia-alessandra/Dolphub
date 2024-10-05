@@ -54,6 +54,10 @@ public class Usuario implements UserDetails{
     @Column(name = "id_statusAdm")
     private StatusAdm statusAdm;
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Professor professor; 
+
+
     @Override
     public String getPassword() {
         return this.senha;

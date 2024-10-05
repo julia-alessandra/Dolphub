@@ -14,8 +14,7 @@ import lombok.*;
 public abstract class Recurso {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recurso_sq")
-    @SequenceGenerator(schema = "public", name = "recurso_sq", sequenceName = "recurso_sq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_recurso")
     private Long id;
 

@@ -27,6 +27,6 @@ public class LoginController {
         Usuario usuario = usuarioService.buscarPorCpf(cpf).orElse(null);
         model.addAttribute("usuarioLogado", usuario);
         //System.out.println("login kgkgjkkg" + usuario.getNome());
-        return "redirect:/cursos";
+        return "redirect:/inicio";
     }
 }
