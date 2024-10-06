@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --cor-primaria: black;
+    --cor-primaria: #0D1117;
     --cor-secundaria: #F4F4F4;
-    --cor-terciaria: blue;
+    --cor-terciaria: #01579B;
 
     --cor-primaria-tom1: #b0b4ba;
     --cor-secundaria-tom1: #D9D9D9;
@@ -116,7 +116,177 @@
 
 
 /* enviar / editar arquivo */
+.titulo-env {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.titulo-env a {
+    padding: 10px;
+    font-size: 24px;
+}
+.titulo-env a,
+.titulo-env a:hover,
+.titulo-env a:visited {
+    color: inherit;
+}
+.titulo-env h3 {
+    font-weight: normal;
+    font-size: 25px;
+    color: inherit;
+    padding-left: 10px;
+    border-left: 1px solid var(--cor-primaria-tom1);
+}
+
 .container-arquivo form {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    margin: 20px 5px;
+}
+.container-arquivo .lnome,
+.container-arquivo .ldescricao {
+    flex-grow: 1;
+}
+.container-arquivo input {
+    box-sizing: border-box;
+}
+
+.container-arquivo .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 17px;
+}
+#dificuldadeTexto {
+    font-size: 14px;
+}
+.container-arquivo .btn-salvar {
+    width: 30%;
+    margin-top: 10px;
+}
+.container-arquivo input[type="text"],
+.container-arquivo input[type="file"] {
+    width: 100%;
+}
+.container-arquivo input[type="text"],
+.container-arquivo input[type="file"] {
+    border: 1px solid var(--cor-primaria-tom1);
+    padding: 6px;
+    margin: 5px 0px;
+}
+.container-arquivo input[type="text"]:focus,
+.container-arquivo input[type="text"]:focus-visible {
+    border: 1px solid var(--cor-primaria-tom1);
+    outline: none; 
+    box-shadow: none;
+}
+.container-arquivo form {
+    font-size: 20px;
+}
+
+.btn-salvar {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    font-size: 20px;
+    background-color: inherit;
+    border-radius: 100px;
+    padding: 7px;
+    border: 1px solid var(--cor-primaria);
+    font-family: var(--fonte);
+}
+.btn-salvar:hover {
+    background-color: var(--cor-terciaria);
+    cursor: pointer;
+    border: none;
+    color: var(--cor-secundaria)
+}
+input[type="range"] {
+    -webkit-appearance: none; 
+    width: 100%;
+    height: 8px; 
+    background: var(--cor-primaria-tom1); 
+    border-radius: 5px; 
+    outline: none;
+    opacity: 0.8;
+    transition: background 0.3s ease-in-out;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px; 
+    height: 16px; 
+    background: var(--cor-terciaria); 
+    cursor: pointer;
+    border-radius: 50%; 
+    transition: background 0.3s ease-in-out;
+}
+
+/* editar / enviar video */
+.container-form-video form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+.form-esq {
+    width: 60%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 7px;
+}
+.container-form-video form input[type="text"],
+.container-form-video form input[type="file"],
+.container-form-video form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--cor-primaria-tom1);
+    padding: 6px;
+    margin: 5px 0px;
+}
+.container-form-video form input[type="range"] {
+    box-sizing: border-box;
+    margin: 5px 0px;
+}
+.container-form-video form input:focus,
+.container-form-video form input:focus-visible,
+.container-form-video form textarea:focus,
+.container-form-video form textarea:focus-visible {
+    border: 1px solid var(--cor-primaria-tom1);
+    outline: none; 
+    box-shadow: none;
+}
+.container-form-video form textarea {
+    resize: none;
+    height: 100%;
+}
+.bloco-notas {
+    width: 30%;
+}
+.container-form-video .btn-salvar {
+    width: 30%;
+}
+.container-form-video form .vdificuldade input {
+    width: fit-content;
+}
+.form-esq .vnome,
+.form-esq .vdescricao {
+    width: 100%;
+}
+.form-esq .vupload {
+    width: 50%;
+    flex-grow: 1;
+}
+.vdificuldade {
+    width: fit-content;
+    margin-left: 12px;
+}
+.container-form-video input {
+    box-sizing: border-box;
 }

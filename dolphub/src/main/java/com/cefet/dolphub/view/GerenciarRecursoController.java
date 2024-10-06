@@ -3,6 +3,7 @@ package com.cefet.dolphub.view;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,7 +61,8 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("/{id}")
-    public String acessarGerenciarCurso(@PathVariable Long id, Model model) {
+    public String acessarGerenciarCurso(@PathVariable Long id, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         System.out.println("hfsuhfusdhfausahfas11111");
         Curso curso = cursoService.buscar(id);
         System.out.println("hfsuhfusdhfausahfa2222222");
@@ -69,6 +71,7 @@ public class GerenciarRecursoController {
 
         model.addAttribute("curso", curso);
         model.addAttribute("recursos", recursos);
+        model.addAttribute("usuarioLogado", usuarioLogado);
 
         return "editar_curso";
     }
@@ -81,7 +84,8 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("{idCurso}/enviarArquivo/{idPai}")
-    public String enviarArquivo(@PathVariable Long idCurso, @PathVariable Long idPai, Model model) {
+    public String enviarArquivo(@PathVariable Long idCurso, @PathVariable Long idPai, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         Arquivo novo = new Arquivo();
         Topico pai = recursoService.buscarTopicoPai(idPai);
         novo.setTopicoPai(pai);
@@ -92,6 +96,7 @@ public class GerenciarRecursoController {
         model.addAttribute("topicoPai", pai.getId());
         model.addAttribute("curso", pai.getCurso());
         model.addAttribute("operation", "enviar");
+        model.addAttribute("usuarioLogado", usuarioLogado);
 
         System.out.println("Chegou aqui");
         return "enviar_arquivo";
@@ -171,7 +176,8 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("{idCurso}/editarArquivo/{idArquivo}")
-    public String editarArquivo(@PathVariable Long idCurso, @PathVariable Long idArquivo, Model model) {
+    public String editarArquivo(@PathVariable Long idCurso, @PathVariable Long idArquivo, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         Arquivo arquivo = arquivoService.buscar(idArquivo);
         Curso curso = cursoService.buscar(idCurso);
 
@@ -185,6 +191,7 @@ public class GerenciarRecursoController {
         model.addAttribute("idCurso", idCurso);
         model.addAttribute("curso", curso);
         model.addAttribute("operation", "editar");
+        model.addAttribute("usuarioLogado", usuarioLogado);
 
         return "enviar_arquivo";
     }
@@ -236,7 +243,8 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("{idCurso}/enviarVideo/{idPai}")
-    public String enviarVideo(@PathVariable Long idCurso, @PathVariable Long idPai, Model model) {
+    public String enviarVideo(@PathVariable Long idCurso, @PathVariable Long idPai, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         Video novo = new Video();
         Topico pai = recursoService.buscarTopicoPai(idPai);
         novo.setTopicoPai(pai);
@@ -247,6 +255,7 @@ public class GerenciarRecursoController {
         model.addAttribute("topicoPai", pai.getId());
         model.addAttribute("curso", pai.getCurso());
         model.addAttribute("operation", "enviar");
+        model.addAttribute("usuarioLogado", usuarioLogado);
         System.out.println("Chegou aqui");
         return "enviar_video";
     }
@@ -300,7 +309,8 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("{idCurso}/acessoVideo/{idVideo}")
-    public String acessarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model) {
+    public String acessarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
         Video video = videoService.buscar(idVideo);
         Curso curso = cursoService.buscar(idCurso);
@@ -315,12 +325,14 @@ public class GerenciarRecursoController {
         model.addAttribute("cursoId", idCurso);
         model.addAttribute("curso", curso);
         model.addAttribute("roleAcess", "edit");
+        model.addAttribute("usuarioLogado", usuarioLogado);
 
         return "acesso_video";
     }
 
     @GetMapping("{idCurso}/editarVideo/{idVideo}")
-    public String editarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model) {
+    public String editarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         Video video = videoService.buscar(idVideo);
         Curso curso = cursoService.buscar(idCurso);
 
@@ -334,6 +346,7 @@ public class GerenciarRecursoController {
         model.addAttribute("idCurso", idCurso);
         model.addAttribute("curso", curso);
         model.addAttribute("operation", "editar");
+        model.addAttribute("usuarioLogado", usuarioLogado);
 
         return "enviar_video";
     }
