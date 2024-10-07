@@ -9,13 +9,13 @@ import lombok.*;
 @Entity
 @Table(name = "forum", schema = "public")
 public class Forum {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_forum")
     private Long id;
 
     @Column(name = "descricao_forum")
-    private String descricao;   
-    
+    private String descricao;
+
 }

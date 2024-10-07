@@ -40,6 +40,8 @@
                                         class="info-element" data-info="Novo arquivo"><i class="fa-solid fa-file-circle-plus"></i></a>
                                         <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
                                         class="info-element" data-info="Novo vídeo"><i class="fa-solid fa-video"></i></a>
+                                        <a th:href="@{/editarCurso/{idCurso}/gerarTopico/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
+                                        ><i class="fa-solid fa-circle-plus"></i></a>
                                     </div>
                                 </div>
                                 <div class="recurso-item-container" th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
@@ -73,6 +75,8 @@
                                                 class="info-element" data-info="Novo arquivo"><i class="fa-solid fa-file-circle-plus"></i></a>
                                                 <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                 class="info-element" data-info="Novo vídeo"><i class="fa-solid fa-video"></i></a>
+                                                <a th:href="@{/editarCurso/{idCurso}/gerarTopico/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
+                                                ><i class="fa-solid fa-circle-plus"></i></a>
                                             </div>
                                         </div>
                                         <div class="recurso-item-container" th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
@@ -132,6 +136,7 @@
                                 </li>
                             </ul>
                         </li>
+                        <li><a th:href="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}"><i class="fa-solid fa-circle-plus"></i></a></li>
                     </ul>
                 </div>
             </div>

@@ -28,6 +28,7 @@ import com.cefet.dolphub.Service.AcessoService;
 import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.RecursoService;
+import com.cefet.dolphub.Service.TopicoService;
 import com.cefet.dolphub.Service.VideoService;
 
 import org.springframework.ui.Model;
@@ -54,6 +55,8 @@ public class GerenciarRecursoController {
     private RecursoService recursoService;
     @Autowired
     private CursoService cursoService;
+    @Autowired
+    private TopicoService topicoService;
 
     @GetMapping
     public String editarCurso() {
@@ -88,13 +91,14 @@ public class GerenciarRecursoController {
             @AuthenticationPrincipal Usuario usuarioLogado) {
         Arquivo novo = new Arquivo();
         Topico pai = recursoService.buscarTopicoPai(idPai);
+        Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
         System.out.println(pai.getTitulo());
-        novo.setCurso(cursoService.buscar(idPai));
+        novo.setCurso(curso);
 
         model.addAttribute("arquivo", novo);
         model.addAttribute("topicoPai", pai.getId());
-        model.addAttribute("curso", pai.getCurso());
+        model.addAttribute("curso", curso);
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
 
@@ -247,13 +251,14 @@ public class GerenciarRecursoController {
             @AuthenticationPrincipal Usuario usuarioLogado) {
         Video novo = new Video();
         Topico pai = recursoService.buscarTopicoPai(idPai);
+        Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
         System.out.println(pai.getTitulo());
-        novo.setCurso(cursoService.buscar(idPai));
+        novo.setCurso(curso);
 
         model.addAttribute("video", novo);
         model.addAttribute("topicoPai", pai.getId());
-        model.addAttribute("curso", pai.getCurso());
+        model.addAttribute("curso", curso);
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
         System.out.println("Chegou aqui");
@@ -396,6 +401,27 @@ public class GerenciarRecursoController {
             redirectAttributes.addFlashAttribute("tipoNotificacao", "warning");
             redirectAttributes.addFlashAttribute("notificacao", "Nenhum vídeo correspondente encontrado");
         }
+        return "redirect:/editarCurso/" + idCurso;
+    }
+
+    @GetMapping("{idCurso}/gerarTopico")
+    public String gerarTopico(@PathVariable Long idCurso, RedirectAttributes redirectAttributes) {
+        Topico novo = new Topico();
+        novo.setCurso(cursoService.buscar(idCurso));
+        novo.setTopicoPai(null);
+        novo.setTitulo("Topico");
+        topicoService.salvarTopico(novo);
+        return "redirect:/editarCurso/" + idCurso;
+    }
+
+    @GetMapping("{idCurso}/gerarTopico/{idPai}")
+    public String gerarTopico(@PathVariable Long idCurso, @PathVariable Long idPai,
+            RedirectAttributes redirectAttributes) {
+        Topico novo = new Topico();
+        novo.setCurso(cursoService.buscar(idCurso));
+        novo.setTopicoPai(topicoService.buscar(idPai));
+        novo.setTitulo("Topico");
+        topicoService.salvarTopico(novo);
         return "redirect:/editarCurso/" + idCurso;
     }
 

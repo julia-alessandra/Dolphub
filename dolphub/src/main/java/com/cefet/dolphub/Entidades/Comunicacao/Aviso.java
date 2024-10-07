@@ -9,9 +9,9 @@ import lombok.*;
 @Entity
 @Table(name = "aviso", schema = "public")
 public class Aviso {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_aviso")
     private Long id;
 
@@ -20,5 +20,5 @@ public class Aviso {
 
     @Column(name = "mensagem_aviso")
     private String mensagem;
-    
+
 }
