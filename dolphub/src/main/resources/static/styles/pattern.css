@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --cor-primaria: black;
+    --cor-primaria: #0D1117;
     --cor-secundaria: #F4F4F4;
-    --cor-terciaria: blue;
+    --cor-terciaria: #01579B;
 
     --cor-primaria-tom1: #b0b4ba;
     --cor-secundaria-tom1: #D9D9D9;
@@ -19,8 +19,15 @@ body{
     font-family: var(--fonte);
     background-color: var(--cor-secundaria);
     height: 100%;
+    color: var(--cor-primaria);
 }
 
+
+#link-atualizar-perfil,
+#link-atualizar-perfil:hover,
+#link-atualizar-perfil:visited {
+    color: var(--cor-primaria);
+}
 .tela-completa {
     /*margin: 18px 16px;*/
     display: flex;
@@ -249,10 +256,8 @@ body{
 
 /* controle deslizante */
 .slider {
-    width: 300px;
 }
 .dificuldade-texto {
-    font-size: 18px;
     margin-top: 10px;
 }
 

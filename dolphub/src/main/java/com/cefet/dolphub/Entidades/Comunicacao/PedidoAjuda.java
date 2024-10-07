@@ -12,7 +12,7 @@ import lombok.*;
 public class PedidoAjuda {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ajuda")
     private Long id;
 
