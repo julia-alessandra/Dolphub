@@ -55,8 +55,8 @@ public class UsuarioController {
         Date now = new Date(System.currentTimeMillis());
         usuario.setDataCriacao(now);
         usuario.setStatusAdm(statusAdm.ATIVO);
-
-        usuario.setMatricula(usuarioService.geraMatricula(usuario));
+        // não preicsa 
+        //usuario.setMatricula(usuarioService.geraMatricula(usuario));
 
         // Criação do usuario professor
         Professor prof = new Professor();
