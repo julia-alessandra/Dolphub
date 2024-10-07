@@ -31,8 +31,11 @@ public class UsuarioService {
     public Optional<Usuario> buscarPorId(Long id) {
         return UsuarioRepository.findById(id);
     }
+        // acho que não precisa de numero de matrícula, é mais fácil procurar matrícula pelo id ou pelo nome do usuário 
+        // se eu quebrei algo e vc tá lendo isso olá Barruetavena :)
+        //matricula.setNumero(dataFormatada + ultimosQuatroDigitosCpf);
 
-    public Matricula geraMatricula(Usuario usuario){
+    /* public Matricula geraMatricula(Usuario usuario){
         Matricula matricula = new Matricula();
         matricula.setUsuario(usuario);
 
@@ -41,12 +44,10 @@ public class UsuarioService {
 
         String cpf = usuario.getCpf();
         String ultimosQuatroDigitosCpf = cpf.substring(cpf.length() - 4);
-
-        matricula.setNumero(dataFormatada + ultimosQuatroDigitosCpf);
-        matricula.setDataCriacao(usuario.getDataCriacao());
+        matricula.setDataMatricula(usuario.getDataCriacao());
 
         return matricula;
-    }
+    } */
 
     public void deletar(Long id) {
         UsuarioRepository.deleteById(id);
