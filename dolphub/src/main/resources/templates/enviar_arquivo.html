@@ -13,41 +13,79 @@
     <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
     
     <main>
+        <div id="info-tooltip" class="tooltip" style="display: none;"></div>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
 
             <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
+
+            <div class="container-arquivo enviar" th:if="${operation == 'enviar'}">
+                <div class="titulo-env">
+                    <a th:href="@{/editarCurso/{id}(id=${idCurso})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
+                    <h3>Enviar Arquivo</h3>
+                </div>
+                <form id="form-arquivo" th:action="@{/editarCurso/salvarArquivo}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="lnome">Nome:
+                            <input type="text" name="nome" required>
+                        </label>
             
-            <h3>Enviar Arquivo</h3>
-            <!-- th:object="${arquivo}" -->
-            <form th:action="@{/editarCurso/salvarArquivo}" method="post" enctype="multipart/form-data">
-                <label>Nome:
-                    <!-- th:field="*{nome}" -->
-                    <input type="text" name="nome" required>
-                </label>
+                        <label class="lupload">Upload:
+                            <input type="file" id="arquivo" name="file" accept=".pdf" required />
+                        </label>
+                    </div>
 
-                <label>Descrição:
-                    <!-- th:field="*{descricao}" -->
-                    <input type="text" name="descricao" required>
-                </label>
+                    <div class="form-group">
+                        <label class="ldescricao">Descrição:
+                            <input type="text" name="descricao" required>
+                        </label>
+            
+                        <label class="ldificuldade" id="label-dificuldade">
+                            <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                            <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                        </label>
+                    </div>
 
-                <label>Upload:
-                    <!-- th:field="*{conteudo}" -->
-                    <input type="file" id="arquivo" name="file" accept=".pdf" required/>
-                </label>
+                    <input type="hidden" name="curso" th:value="${curso.id}">
+                    <input type="hidden" name="topicoPai" th:value="${topicoPai}">
 
-                <label id="label-dificuldade">
-                    Nível de Dificuldade:
-                    <!-- th:field="*{dificuldade}" -->
-                    <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
-                    <p class="dificuldade-texto" id="dificuldadeTexto">Fácil</p>
-                </label>
+                    <button class="btn-salvar" type="submit">Salvar</button>
+                </form>
+            </div>
 
-                <input type="hidden" name="topicoPai" th:value="${topicoPai}">
-                <input type="hidden" name="curso" th:value="${curso.id}">
+            <div class="container-arquivo editar" th:if="${operation == 'editar'}">
+                <div class="titulo-env">
+                    <a th:href="@{/editarCurso/{id}(id=${idCurso})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
+                    <h3>Editar Arquivo</h3>
+                </div>
+                <form id="form-arquivo-edit" th:action="@{/editarCurso/atualizarArquivo}" method="post" >
+                    <div class="form-group">
+                        <label class="lnome">Nome:
+                            <input type="text" name="titulo" required th:value="${arquivo.titulo}">
+                        </label>
 
-                <button type="submit">Salvar</button>
-            </form>
+                        <label class="">Arquivo:
+                            <input type="text" id="arquivo" readonly th:value="${arquivo.nome}">
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="ldescricao">Descrição:
+                            <input type="text" name="descricao" required th:value="${arquivo.descricao}">
+                        </label>
+
+                        <label class="ldificuldade" id="label-dificuldade">
+                            <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                            <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" th:value="${arquivo.dificuldade}" step="1" oninput="atualizarDificuldade()">
+                        </label>
+                    </div>
+
+                    <input type="hidden" name="cursoId" th:value="${curso.id}">
+                    <input type="hidden" name="idArquivo" th:value="${arquivo.id}">
+
+                    <button class="btn-salvar" type="submit">Salvar</button>
+                </form>
+            </div>
 
         </div>
 
