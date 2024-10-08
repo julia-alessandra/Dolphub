@@ -33,23 +33,27 @@ public class MatriculaController {
         model.addAttribute("curso", new Curso()); // Objeto Curso vazio para o formulário
         return "inscrever_curso"; // Nome do template Thymeleaf
     }
+
     @GetMapping("/listarCursosAluno")
     public String listarCursosAluno(@AuthenticationPrincipal Usuario usuarioLogado, Model model) {
-        List<Matricula> matriculas = matriculaService.buscarMatriculaPorUsuario(usuarioLogado);
+        // Busca as matrículas do usuário logado
+        List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
 
-        if (!matriculas.isEmpty()) {
-            List<Curso> cursos = matriculas.stream()
-                    .map(Matricula::getCurso)
-                    .collect(Collectors.toList());
-            model.addAttribute("cursos", cursos);
-        } else {
-            model.addAttribute("mensagem", "Você ainda não está matriculado em nenhum curso.");
-        }
+        // Extrai os cursos das matrículas
+        List<Curso> cursos = matriculas.stream()
+                .map(Matricula::getCurso)
+                .collect(Collectors.toList());
 
-        return "listarCursosAluno";
+        // Adiciona a lista de cursos ao modelo
+        model.addAttribute("cursos", cursos);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
+        return "listar_cursos_aluno"; // Nome do template Thymeleaf para listar os cursos
     }
+
     @PostMapping("/salvarMatricula")
-    public String salvarMatricula(@ModelAttribute("curso") Curso curso, @AuthenticationPrincipal Usuario usuarioLogado) {
+    public String salvarMatricula(@ModelAttribute("curso") Curso curso,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         // Busca o curso pelo ID
         Curso cursoEncontrado = cursoService.buscarPorId(curso.getId());
 
@@ -64,4 +68,3 @@ public class MatriculaController {
         return "redirect:/listarCursosAluno"; // Redireciona para a página de listagem de cursos do aluno
     }
 }
-

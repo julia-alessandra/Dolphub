@@ -1,6 +1,5 @@
 package com.cefet.dolphub.Service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,12 +16,13 @@ import java.util.Optional;
 public class MatriculaService {
     @Autowired
     private MatriculaRepository matriculaRepository;
-    public List<Matricula> buscarMatriculaPorUsuario(Usuario usuario){
+
+    public List<Matricula> buscarMatriculasPorUsuario(Usuario usuario) {
         return matriculaRepository.findByUsuario(usuario);
     }
+
     public Matricula salvarMatricula(Matricula matricula) {
         return matriculaRepository.save(matricula);
     }
-
 
 }
