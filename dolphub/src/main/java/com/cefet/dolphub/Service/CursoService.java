@@ -1,6 +1,5 @@
 package com.cefet.dolphub.Service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -26,6 +25,10 @@ public class CursoService {
         return curso.orElseThrow(() -> new RuntimeException("Curso não encontrado!"));
     }
 
+    public Curso buscarPorId(Long id) {
+        return cursoRepository.findById(id).orElse(null);
+    }
+
     public Curso salvarCurso(Curso curso) {
         System.out.println("teste");
         return cursoRepository.save(curso);
@@ -35,20 +38,16 @@ public class CursoService {
         return cursoRepository.findById(id);
     }
 
-    public Optional<Curso> buscarCursoPorIdProfessor(Professor professor){
+    public Optional<Curso> buscarCursoPorIdProfessor(Professor professor) {
         return cursoRepository.findByProfessor(professor);
     }
-
 
     public List<Curso> listarCursosPorProfessor(Professor professor) {
         return cursoRepository.findAllByProfessor(professor);
     }
 
-    
-
     public void deletarCurso(Long id) {
         cursoRepository.deleteById(id);
     }
-
 
 }
