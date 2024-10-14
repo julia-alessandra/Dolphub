@@ -2,16 +2,12 @@ package com.cefet.dolphub.Entidades.Main;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
-import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -41,11 +37,16 @@ public class Curso {
     @Column(name = "dataCriacao_curso")
     private Date dataCriacao;
 
-    @ManyToMany(mappedBy = "cursos")
-    private List<Matricula> matriculas;
-
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Recurso> recursos = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "matricula",
+        joinColumns = @JoinColumn(name = "id_curso"),
+        inverseJoinColumns = @JoinColumn(name = "id_usuario")
+    )
+    private List<Usuario> usuarios;
 
     public List<Recurso> getRecursos() {
         return recursos;
@@ -55,4 +56,3 @@ public class Curso {
         this.recursos = recursos;
     }
 }
-

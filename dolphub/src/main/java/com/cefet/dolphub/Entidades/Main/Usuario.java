@@ -15,7 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "usuario", schema = "public")
-public class Usuario implements UserDetails{
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_sq")
@@ -55,8 +55,7 @@ public class Usuario implements UserDetails{
     private StatusAdm statusAdm;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Professor professor; 
-
+    private Professor professor;
 
     @Override
     public String getPassword() {
@@ -73,6 +72,11 @@ public class Usuario implements UserDetails{
         return Collections.emptyList();
     }
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Matricula matricula;
+    @ManyToMany
+    @JoinTable(
+        name = "matricula",
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_curso")
+    )
+    private List<Curso> cursos;
 }
