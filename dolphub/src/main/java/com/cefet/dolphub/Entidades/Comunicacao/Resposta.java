@@ -10,7 +10,7 @@ import lombok.*;
 @Entity
 @Table(name = "resposta", schema = "public")
 public class Resposta {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resposta_sq")
     @SequenceGenerator(schema = "public", name = "resposta_sq", sequenceName = "resposta_sq", initialValue = 1, allocationSize = 1)
@@ -23,5 +23,4 @@ public class Resposta {
     @Column(name = "data_resposta")
     private Date data;
 
-      
 }

@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
-import com.cefet.dolphub.Entidades.Recursos.Topico;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,9 +23,11 @@ public class Curso {
     @SequenceGenerator(schema = "public", name = "curso_sq", sequenceName = "curso_sq", initialValue = 1, allocationSize = 1)
     @Column(name = "id_curso")
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "id_professor")
     private Professor professor;
+
     @Column(name = "nome_curso")
     private String nome;
 
@@ -36,11 +37,22 @@ public class Curso {
     @Column(name = "dataCriacao_curso")
     private Date dataCriacao;
 
-
-    @ManyToMany(mappedBy = "cursos")
-    private List<Matricula> matriculas;
-  
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private ArrayList<Recurso> recursos = new ArrayList<>();
+    private List<Recurso> recursos = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+        name = "matricula",
+        joinColumns = @JoinColumn(name = "id_curso"),
+        inverseJoinColumns = @JoinColumn(name = "id_usuario")
+    )
+    private List<Usuario> usuarios;
+
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
+    }
 }

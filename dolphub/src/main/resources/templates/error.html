@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro</title>
+    <link th:href="@{/styles/erro.css}" rel="stylesheet">
+</head>
+<body>
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <h3>ALGO DEU ERRADO</h3>
+    <div class="error-container">
+        <div id="erro-principal">
+            <span th:text="${message}"></span>
+            <button id="toggleButton" onclick="toggleErrorDetails()"><i class="fa-solid fa-caret-down"></i></button>
+        </div>
+        <div id="detalhe-erro" class="minimized">
+            <p>Status: <span th:text="${status}"></span></p>
+            <p>Erro: <span th:text="${error}"></span></p>
+            <p>Mensagem: <span th:text="${message}"></span></p>
+            <p>Timestamp: <span th:text="${timestamp}"></span></p>
+            <p>Caminho: <span th:text="${path}"></span></p>
+            <div th:if="${trace}">
+                <p>Rastreamento de Pilha:</p>
+                <pre th:text="${trace}"></pre>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/javascript/erro.js}"></script>
+</body>
+</html>

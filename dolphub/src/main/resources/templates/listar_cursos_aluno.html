@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Cursos</title>
+    <link href="styles/pattern.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Cursos Inscritos</h1>
+        <p>Bem-vindo, <span th:text="${usuarioLogado.nome}">Usuário</span>!</p>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID do Curso</th>
+                    <th>Nome do Curso</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="curso : ${cursos}">
+                    <td th:text="${curso.id}"></td>
+                    <td th:text="${curso.nome}"></td>
+                    <td th:text="${curso.descricao}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(cursos)}">
+                    <td colspan="3" class="text-center">Nenhum curso inscrito.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/inscreverCurso}" class="btn btn-primary">Inscrever em um Novo Curso</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

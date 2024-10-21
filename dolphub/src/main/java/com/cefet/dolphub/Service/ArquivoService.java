@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cefet.dolphub.Repositorio.*;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Recursos.*;
 
 import java.util.List;
@@ -22,8 +26,9 @@ public class ArquivoService {
         return arquivoRepository.save(arquivo);
     }
 
-    public Optional<Arquivo> buscar(Long id) {
-        return arquivoRepository.findById(id);
+    public Arquivo buscar(Long id) {
+        Optional<Arquivo> arquivo = arquivoRepository.findById(id);
+        return arquivo.orElseThrow(() -> new RuntimeException("Arquivo não encontrado!"));
     }
 
     public Arquivo encontrarArquivoPorId(Long id) {

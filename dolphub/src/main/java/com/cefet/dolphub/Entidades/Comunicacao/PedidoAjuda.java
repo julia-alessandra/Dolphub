@@ -12,8 +12,7 @@ import lombok.*;
 public class PedidoAjuda {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ajuda_sq")
-    @SequenceGenerator(schema = "public", name = "ajuda_sq", sequenceName = "ajuda_sq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ajuda")
     private Long id;
 

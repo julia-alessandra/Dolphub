@@ -1,7 +1,9 @@
 package com.cefet.dolphub.view;
 
+import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.StatusAdm;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.UsuarioService;
 import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private ProfessorService professorService;
 
     @GetMapping("/formulario")
     public String exibirFormulario(Model model) {
@@ -51,9 +55,14 @@ public class UsuarioController {
         Date now = new Date(System.currentTimeMillis());
         usuario.setDataCriacao(now);
         usuario.setStatusAdm(statusAdm.ATIVO);
+        // não preicsa 
+        //usuario.setMatricula(usuarioService.geraMatricula(usuario));
 
-        usuario.setMatricula(usuarioService.geraMatricula(usuario));
-
+        // Criação do usuario professor
+        Professor prof = new Professor();
+        prof.setUsuario(usuario);
+        usuario.setProfessor(prof);
+        
         usuarioService.cadastrar(usuario);
         redirectAttributes.addFlashAttribute("usuario", usuario);
         return "redirect:/confirmacao";
@@ -83,6 +92,7 @@ public class UsuarioController {
         usuarioLogado.setCpf(usuarioAtualizado.getCpf());
         usuarioLogado.setTelefone(usuarioAtualizado.getTelefone());
         usuarioLogado.setCEP(usuarioAtualizado.getCEP());
+        usuarioLogado.setProfessor(usuarioAtualizado.getProfessor());
 
         usuarioService.atualizar(usuarioLogado);
         return "redirect:/atualizar";

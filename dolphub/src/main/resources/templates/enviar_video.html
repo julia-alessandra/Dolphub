@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/midia.css}" rel="stylesheet">
+
+</head>
+<body>
+    <div class="tela-completa">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+    
+    <main>
+        <div th:replace="componentes/notificacao :: notificacao"></div>
+        <div th:replace="componentes/menu_superior :: menu_superior"></div>
+        <div class="container-principal">
+            <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
+            <div class="container-form-video" th:if="${operation == 'enviar'}">
+                <div class="titulo-env">
+                    <a th:href="@{/editarCurso/{id}(id=${idCurso})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
+                    <h3>Enviar Vídeo</h3>
+                </div>
+                <form th:action="@{/editarCurso/salvarVideo}" method="post" enctype="multipart/form-data">
+                    <div class="form-esq">
+                        <label class="vnome">Nome:
+                            <input type="text" name="nome" required>
+                        </label>
+                    
+                        <label class="vdescricao">Descrição:
+                            <input type="text" name="descricao" required>
+                        </label>
+                    
+                        <label class="vupload">Upload do Vídeo:
+                            <input type="file" id="video" name="file" accept="video/*" required/>
+                        </label>
+                    
+                        <label class="vdificuldade" id="label-dificuldade">
+                            <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                            <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                        </label>
+                    </div>
+
+                    <label class="bloco-notas vnotas">Anotações:
+                        <textarea type="text" name="anotacao" required></textarea>
+                    </label>
+                
+                    <input type="hidden" name="topicoPai" th:value="${topicoPai}">
+                    <input type="hidden" name="curso" th:value="${curso.id}">
+                
+                    <button class="btn-salvar" type="submit">Salvar</button>
+                </form>
+            </div>
+
+            <div class="container-form-video" th:if="${operation == 'editar'}">
+                <div class="titulo-env">
+                    <a th:href="@{/editarCurso/{id}(id=${idCurso})}"><i class="fa-solid fa-arrow-left info-element" data-info="Voltar"></i></a>
+                    <h3>Editar Vídeo</h3>
+                </div>
+                <form th:action="@{/editarCurso/atualizarVideo}" method="post">
+                    <div class="form-esq">
+                        <label class="vnome">Nome:
+                            <input type="text" name="titulo" required th:value="${video.titulo}">
+                        </label>
+                    
+                        <label class="vdescricao">Descrição:
+                            <input type="text" name="descricao" required th:value="${video.descricao}">
+                        </label>
+                    
+                        <label class="vupload">Vídeo:
+                            <input type="text" readonly th:value="${video.nome}">
+                        </label>
+                    
+                        <label class="vdificuldade" id="label-dificuldade">
+                            <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                            <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" th:value="${video.dificuldade}" step="1" oninput="atualizarDificuldade()">
+                        </label>
+                    </div>
+
+                    <label class="vnotas">Anotações:
+                        <textarea name="anotacao" required></textarea>
+                    </label>
+                
+                    <input type="hidden" name="cursoId" th:value="${curso.id}">
+                    <input type="hidden" name="idVideo" th:value="${video.id}">
+                
+                    <button class="btn-salvar" type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    </div>
+    </body>
+    <script th:src="@{/javascript/pattern.js}"></script>
+</html>
