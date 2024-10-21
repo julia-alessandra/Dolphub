@@ -61,7 +61,8 @@ public class CursoController {
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
         // Buscar todos os cursos do professor logado
         if (professorOpt.isPresent()) {
-            List<Curso> cursos = cursoService.listarCursosPorProfessor(professorService.buscarProfessorPorIdUsuario(usuarioLogado).get());
+            List<Curso> cursos = cursoService
+                    .listarCursosPorProfessor(professorService.buscarProfessorPorIdUsuario(usuarioLogado).get());
             model.addAttribute("cursos", cursos);
             model.addAttribute("usuarioLogado", usuarioLogado);
             return "pagina_inicial";
@@ -69,4 +70,12 @@ public class CursoController {
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "pagina_inicial";
     }
+
+    @GetMapping("/todos-os-cursos")
+    public String listarTodosOsCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+        List<Curso> cursos = cursoService.listAllCursos();
+        model.addAttribute("cursos", cursos);
+        return "todos_os_cursos";
+    }
+
 }

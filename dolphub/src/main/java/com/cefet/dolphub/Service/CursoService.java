@@ -45,7 +45,9 @@ public class CursoService {
     public List<Curso> listarCursosPorProfessor(Professor professor) {
         return cursoRepository.findAllByProfessor(professor);
     }
-
+    public List<Curso> listAllCursos() {
+        return cursoRepository.findAll();
+    }
     public void deletarCurso(Long id) {
         cursoRepository.deleteById(id);
     }
