@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
@@ -32,6 +32,12 @@ public class MatriculaController {
         model.addAttribute("usuarioLogado", usuarioLogado);
         model.addAttribute("curso", new Curso()); // Objeto Curso vazio para o formulário
         return "inscrever_curso"; // Nome do template Thymeleaf
+    }
+    @GetMapping("/inscreverCursoId/{id}")
+    public String inscreverId(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado) {
+        this.salvarMatricula(cursoService.buscar(id), usuarioLogado); 
+        return "redirect:/listarCursosAluno"; // Redireciona após a inscrição
+
     }
 
     @GetMapping("/listarCursosAluno")
