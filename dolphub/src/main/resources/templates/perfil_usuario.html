@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Dolphub</title>
     <link href="styles/pattern.css" rel="stylesheet">
     <link href="styles/perfil.css" rel="stylesheet">
 </head>
+
 <body>
+    <div th:replace="componentes/notificacao :: notificacao"></div>
+
     <div class="tela-completa">
-        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
-        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
 
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
@@ -32,7 +35,8 @@
 
                             <div class="input-group">
                                 <label for="sobrenome">Sobrenome</label>
-                                <input type="text" id="sobrenome" name="sobrenome" th:value="${usuarioLogado.sobrenome}">
+                                <input type="text" id="sobrenome" name="sobrenome"
+                                    th:value="${usuarioLogado.sobrenome}">
                             </div>
 
                             <div class="input-group">
@@ -74,7 +78,7 @@
 
 
                     <button id="btn-deletar-conta" class="button" style="background-color: red;">Deletar Conta</button>
-                    
+
                     <form id="form-deletar-conta" th:action="@{/deletar-usuario}" method="post" style="display: none;">
                         <div class="input-group">
                             <label for="senhaConfirmacao">Digite sua senha para confirmar:</label>
@@ -89,5 +93,6 @@
 </body>
 <script src="javascript/pattern.js"></script>
 <script src="javascript/mudaImgPerfil.js"></script>
+<script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
 
 </html>

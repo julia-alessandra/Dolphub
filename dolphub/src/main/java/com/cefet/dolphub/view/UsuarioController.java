@@ -24,11 +24,12 @@ public class UsuarioController {
     @Autowired
     private ProfessorService professorService;
 
-    @GetMapping("/formulario")
+    @GetMapping("/cadastro")
     public String exibirFormulario(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "cadastrar_usuario";
     }
+
 
     @PostMapping("/salvarUsuario")
     public String salvarUsuario(@ModelAttribute Usuario usuario,
@@ -93,6 +94,10 @@ public class UsuarioController {
         usuarioLogado.setTelefone(usuarioAtualizado.getTelefone());
         usuarioLogado.setCEP(usuarioAtualizado.getCEP());
         usuarioLogado.setProfessor(usuarioAtualizado.getProfessor());
+
+
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Atualizado com sucesso.");
 
         usuarioService.atualizar(usuarioLogado);
         return "redirect:/atualizar";

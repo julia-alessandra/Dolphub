@@ -260,12 +260,11 @@ body{
 .container-principal {
     padding: 20px;
     padding-bottom: 15px;
+    overflow: auto;
 }
 
 
 /* controle deslizante */
-.slider {
-}
 .dificuldade-texto {
     margin-top: 10px;
 }
