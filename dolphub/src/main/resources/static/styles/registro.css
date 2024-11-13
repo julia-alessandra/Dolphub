@@ -1,4 +1,9 @@
 /* Body Styling */
+
+.hidden {
+    display: none;
+}
+
 body {
     background: linear-gradient(135deg, #6A82FB, #2958A4);
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -8,6 +13,25 @@ body {
     align-items: center;
     margin: 0;
 }
+
+.progress-container {
+    width: 100%;
+    background-color: #b0b0b0; /* Cor cinza do fundo */
+    border-radius: 10px;
+    height: 10px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar {
+    width: 50%; /* Progresso inicial de 50% */
+    height: 10px;
+    background-color: #0000a0; /* Cor azul da barra */
+    border-radius: 10px;
+    transition: width 0.4s ease; /* Transição suave */
+}
+
 
 /* Container Styling */
 .container {
@@ -37,8 +61,6 @@ p {
 
 /* Form Styling */
 form {
-    display: flex;
-    flex-wrap: wrap;
     gap: 20px;
     justify-content: space-between;
     text-align: left;
@@ -82,6 +104,8 @@ input[type="password"]:focus {
     flex: 0 0 48%;
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+
 }
 
 .checkbox-container {
@@ -112,7 +136,7 @@ input[type="password"]:focus {
 }
 
 /* Button Styling */
-button {
+button, #mostrar-parte-2 {
     width: 100%;
     padding: 15px;
     background-color: #2958A4;
@@ -136,4 +160,19 @@ button:hover {
     .form-group {
         flex: 0 0 100%;
     }
+}
+
+
+.button-like {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.button-like:hover {
+    background-color: #0056b3;
 }

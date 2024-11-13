@@ -50,6 +50,9 @@ public class Usuario implements UserDetails {
     @Column(name = "dataCriacao_usuario")
     private Date dataCriacao;
 
+    @Column(name = "favoritos_usuario")
+    private List<String> favoritos;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "id_statusAdm")
     private StatusAdm statusAdm;
