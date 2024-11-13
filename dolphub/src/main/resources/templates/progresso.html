@@ -1,0 +1,57 @@
+<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/progresso.css}" rel="stylesheet">
+
+</head>
+<body>
+    <div class="tela-completa">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+    
+    <main>
+        <div th:replace="componentes/menu_superior :: menu_superior"></div>
+        <div class="container-principal">
+
+            <div class="container">
+                <div class="card">
+                    <p>Quantidade de cursos:</p>
+                    <h1>0</h1>
+                    <span>0 estudantes participam do curso <span class="highlight">nome do curso</span> junto com você</span>
+                </div>
+                <div class="card">
+                    <p>Aulas assistidas:</p>
+                    <h1>0</h1>
+                    <span>Você assistiu <span class="highlight">0</span> de <span class="highlight">0</span> das aulas disponíveis</span>
+                </div>
+                <div class="card">
+                    <p>Sua taxa de acertos:</p>
+                    <h1>0%</h1>
+                    <span>Você acertou <span class="highlight">0%</span> de todas as questões resolvidas</span>
+                </div>
+                <div class="card">
+                    <p>Quantidade de acertos:</p>
+                    <h1>90</h1>
+                    <span>Você acertou <span class="highlight">0</span> de <span class="highlight">0</span> questões resolvidas</span>
+                </div>
+            </div>      
+            <div class="wide">
+                <p>Aulas assistidas por curso:</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <span class="progress-text">Nome do curso 0/0</span>
+            </div>  
+        </div>
+
+    </main>
+
+    </div>
+    </body>
+    <script th:src="@{/javascript/pattern.js}"></script>
+</html>

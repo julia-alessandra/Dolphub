@@ -27,24 +27,21 @@ public class CursoController {
 
     @GetMapping("/criarCurso")
     public String criarCurso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
-        // Buscar o professor associado ao usuário logado
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
 
         if (professorOpt.isPresent()) {
             model.addAttribute("curso", new Curso());
             model.addAttribute("usuarioLogado", usuarioLogado);
             model.addAttribute("professor", professorOpt.get());
-            return "criar_curso"; // Nome da página HTML
+            return "criar_curso"; 
         } else {
-            // Se o professor não for encontrado, redirecionar ou mostrar uma mensagem de
-            // erro
-            return "redirect:/inicio"; // Defina uma página de erro se necessário
+
+            return "redirect:/inicio";
         }
     }
 
     @PostMapping("/salvarCurso")
     public String salvarCurso(@ModelAttribute Curso curso, @AuthenticationPrincipal Usuario usuarioLogado) {
-        // Buscar o professor associado ao usuário logado
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
 
         if (professorOpt.isPresent()) {
@@ -52,11 +49,11 @@ public class CursoController {
             cursoService.salvarCurso(curso);
             return "redirect:/inicio"; // Redirecionar após o salvamento
         } else {
-            return "redirect:/erro"; // Defina uma página de erro se necessário
+            return "redirect:/erro";
         }
     }
 
-    @GetMapping("/inicio")
+    @GetMapping("/listarCursos")
     public String listarCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
         // Buscar todos os cursos do professor logado

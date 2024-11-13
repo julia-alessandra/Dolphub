@@ -24,12 +24,6 @@ public class UsuarioController {
     @Autowired
     private ProfessorService professorService;
 
-    @GetMapping("/cadastro")
-    public String exibirFormulario(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "cadastrar_usuario";
-    }
-
 
     @PostMapping("/salvarUsuario")
     public String salvarUsuario(@ModelAttribute Usuario usuario,
@@ -56,8 +50,6 @@ public class UsuarioController {
         Date now = new Date(System.currentTimeMillis());
         usuario.setDataCriacao(now);
         usuario.setStatusAdm(statusAdm.ATIVO);
-        // não preicsa 
-        //usuario.setMatricula(usuarioService.geraMatricula(usuario));
 
         // Criação do usuario professor
         Professor prof = new Professor();
@@ -74,11 +66,6 @@ public class UsuarioController {
         return "login";
     }
 
-    @GetMapping("/atualizar")
-    public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
-        model.addAttribute("usuarioLogado", usuarioLogado);
-        return "perfil_usuario";
-    }
 
     @PostMapping("/atualizar-usuario")
     public String atualizarUsuario(@ModelAttribute Usuario usuarioAtualizado,
