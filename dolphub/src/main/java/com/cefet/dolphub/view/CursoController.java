@@ -57,40 +57,26 @@ public class CursoController {
         }
     }
 
-    @GetMapping("/inicio")
-public String listarCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
-    Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
-    
-    if (professorOpt.isPresent()) {
-        List<Curso> cursos = cursoService.listarCursosPorProfessor(professorOpt.get());
-        List<Curso> limiteCurso = new ArrayList<>();
-        
-        // Adiciona até 10 cursos ou até o tamanho da lista
-        for (int i = 0; i < Math.min(cursos.size(), 10); i++) {
-            limiteCurso.add(cursos.get(i));
-        }
-        
-        model.addAttribute("cursos", limiteCurso);
-        model.addAttribute("usuarioLogado", usuarioLogado);
-        return "pagina_inicial";
-    }
-    
-    model.addAttribute("usuarioLogado", usuarioLogado);
-    return "pagina_inicial";
-}
-
     @GetMapping("/listarCursos")
     public String listarCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
+        
         if (professorOpt.isPresent()) {
-            List<Curso> cursos = cursoService
-                    .listarCursosPorProfessor(professorService.buscarProfessorPorIdUsuario(usuarioLogado).get());
-            model.addAttribute("cursos", cursos);
+            List<Curso> cursos = cursoService.listarCursosPorProfessor(professorOpt.get());
+            List<Curso> limiteCurso = new ArrayList<>();
+            
+            // Adiciona até 10 cursos ou até o tamanho da lista
+            for (int i = 0; i < Math.min(cursos.size(), 10); i++) {
+                limiteCurso.add(cursos.get(i));
+            }
+            
+            model.addAttribute("cursos", limiteCurso);
             model.addAttribute("usuarioLogado", usuarioLogado);
-            return "lista_curso";
+            return "pagina_inicial";
         }
+        
         model.addAttribute("usuarioLogado", usuarioLogado);
-        return "lista_curso";
+        return "pagina_inicial";
     }
 
     @PostMapping("/deletar-curso")

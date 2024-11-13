@@ -93,7 +93,7 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        System.out.println(pai.getTitulo());
+        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("arquivo", novo);
@@ -253,7 +253,7 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        System.out.println(pai.getTitulo());
+        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("video", novo);
@@ -407,22 +407,36 @@ public class GerenciarRecursoController {
     @GetMapping("{idCurso}/gerarTopico")
     public String gerarTopico(@PathVariable Long idCurso, RedirectAttributes redirectAttributes) {
         Topico novo = new Topico();
-        novo.setCurso(cursoService.buscar(idCurso));
-        novo.setTopicoPai(null);
-        novo.setTitulo("Topico");
+        Curso curso = cursoService.buscar(idCurso);
+        novo.setCurso(curso);
+        novo.setTopicoPai(null); // Tópico de nível superior
+
         topicoService.salvarTopico(novo);
         return "redirect:/editarCurso/" + idCurso;
     }
 
     @GetMapping("{idCurso}/gerarTopico/{idPai}")
-    public String gerarTopico(@PathVariable Long idCurso, @PathVariable Long idPai,
+    public String gerarSubTopico(@PathVariable Long idCurso, @PathVariable Long idPai,
             RedirectAttributes redirectAttributes) {
-        Topico novo = new Topico();
-        novo.setCurso(cursoService.buscar(idCurso));
-        novo.setTopicoPai(topicoService.buscar(idPai));
-        novo.setTitulo("Topico");
-        topicoService.salvarTopico(novo);
+        Topico subTopico = new Topico();
+        Curso curso = cursoService.buscar(idCurso);
+        Topico topicoPai = recursoService.buscarTopicoPai(idPai);
+
+        subTopico.setCurso(curso);
+        subTopico.setTopicoPai(topicoPai);
+
+        topicoService.salvarTopico(subTopico);
         return "redirect:/editarCurso/" + idCurso;
+    }
+
+    @GetMapping("/criar_topico")
+    public String mostrarFormularioCriacaoTopico() {
+        return "criar_topico";
+    }
+
+    @PostMapping("/criar_topico")
+    public String criarTopico(@RequestParam String titulo, @RequestParam(required = false) String topicoPai) {
+        return "redirect:/editarCurso"; 
     }
 
 }

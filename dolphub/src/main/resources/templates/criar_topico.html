@@ -2,42 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Dolphub</title>
-    <link href="styles/pattern.css" rel="stylesheet">
+    <title>Dolphub - Dashboard</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/pagina_inicial.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="tela-completa">
         <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
         <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
         <main>
-            <div th:replace="componentes/menu_superior :: menu_superior"></div>
-            <div class="container-principal">
-                <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
+            <div class="container-criar-topico">
+                <h1>Criar Novo Tópico</h1>
+                <form th:action="@{/criar_topico}" method="post">
+                    <label for="titulo">Título do Tópico:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+        
+                    <label for="topicoPai">Tópico Pai (opcional):</label>
+                    <input type="text" id="topicoPai" name="topicoPai" placeholder="ID do tópico pai, se houver">
+        
+                    <button type="submit">Criar Tópico</button>
+                </form>
             </div>
-            <h1>Criar Tópico</h1>
-            <form th:action="@{/salvarTopico}" th:object="${topico}" method="post">
-                <div>
-                    <label for="nome">Nome do Tópico</label>
-                    <input type="text" id="nome" th:field="*{nome}" placeholder="Nome do Tópico" required />
-                </div>
-                <div>
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" th:field="*{descricao}" placeholder="Descrição do Tópico"
-                        required></textarea>
-                </div>
-                <label class="ldificuldade" id="label-dificuldade">
-                    <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
-                    <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3"
-                        value="0" step="1" oninput="atualizarDificuldade()">
-                </label>
-                <input type="hidden" name="curso" th:value="${curso.id}">
-                <input type="hidden" name="topicoPaiId" th:value="${topicoPai}">
-                <button type="submit">Salvar</button>
-            </form>
         </main>
     </div>
 </body>
-<script src="javascript/pattern.js"></script>
+<script th:src="@{/javascript/pattern.js}"></script>
 
 </html>
