@@ -30,6 +30,18 @@
                     </li>
                 </ul>
             </div>
+            <div class="container-topico"></div>
+                <h1 class="topico-nome">Cursos mais recentes</h1>
+                <ul class="lista-cursos" th:if="${cursos!=null}">
+                    <li th:each="curso : ${cursos}">
+                        <div class="card-curso">
+                            <div class="foto-professor"></div>
+                            <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                            <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do Professor</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </main>
 
     </div>
