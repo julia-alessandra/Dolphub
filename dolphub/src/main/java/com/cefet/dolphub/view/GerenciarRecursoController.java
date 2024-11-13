@@ -429,14 +429,13 @@ public class GerenciarRecursoController {
         return "redirect:/editarCurso/" + idCurso;
     }
 
-    @GetMapping("/criar_topico")
-    public String mostrarFormularioCriacaoTopico() {
-        return "criar_topico";
+    @PostMapping("/criarTopico")
+    public String criarTopico(@RequestParam("topicoPaiId") Long topicoPaiId, @RequestParam("titulo") String titulo) {
+        Topico topicoPai = topicoPaiId != null ? topicoService.findById(topicoPaiId) : null;
+        Topico novoTopico = new Topico(titulo, topicoPai);
+        topicoService.save(novoTopico);
+        return "redirect:/editarCurso/{idCurso}";
     }
 
-    @PostMapping("/criar_topico")
-    public String criarTopico(@RequestParam String titulo, @RequestParam(required = false) String topicoPai) {
-        return "redirect:/editarCurso"; 
-    }
 
 }
