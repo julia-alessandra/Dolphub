@@ -10,20 +10,22 @@
     <div class="tela-completa">
         <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
         <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
-
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
             <div class="container-principal">
                 <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
-                <p>Aqui tem que ter todos os cursos que o usuario se inscreveu</p>
             </div>
-
+            <h1>Inscrever Curso</h1>
+            <form th:action="@{/salvarMatricula}" th:object="${curso}" method="post">
+                <div>
+                    <label for="id">Id do Curso</label>
+                    <input type="text" id="id" th:field="*{id}" placeholder="Id do Curso" required />
+                </div>
+                <button type="submit">Salvar</button>
+            </form>
         </main>
-
     </div>
 </body>
 <script src="javascript/pattern.js"></script>
-<script src="javascript/menu.js"></script>
-
 
 </html>

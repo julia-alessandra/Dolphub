@@ -1,13 +1,16 @@
-    <nav id="menu-lateral" th:fragment="menu_lateral">
-        <div class="sidebar" id="sidebar">
-            <i id="btn-toggle-menu" class="fa-solid fa-bars icon"></i>
-            <div>
-                <form th:action="@{/inicio}"><button><i class="fa-solid fa-house"></i><span class="menu-text-visible">INÍCIO</span></button></form>
-                <form><button><i class="fa-regular fa-hourglass"></i><span class="menu-text-visible">PROGRESSO</span></button></form>
-                <form><button><i class="fa-solid fa-pen-to-square"></i><span class="menu-text-visible">INSCRIÇÕES</span></button></form>
-                <form th:action="@{/seusCursos}"><button><i class="fa-solid fa-graduation-cap"></i><span class="menu-text-visible">CURSOS</span></button></form>
-                <form class="item-menu-final"><button><i class="fa-solid fa-folder"></i><span class="menu-text-visible">ARQUIVADOS</span></button></form>
-                <form class="item-menu-fina"><button><i class="fa-solid fa-gear"></i><span class="menu-text-visible">CONFIGURAÇÕES</span></button></form>
-            </div>
+
+<nav id="menu-lateral" th:fragment="menu_lateral">
+    <div class="sidebar" id="sidebar">
+        <i id="btn-toggle-menu" class="fa-solid fa-bars icon"></i>
+        <div>
+            <a th:href="@{/inicio}"><i class="fa-solid fa-house"></i><span class="menu-text-visible">INÍCIO</span></a>
+            <a th:href="@{/progresso}"><i class="fa-regular fa-hourglass"></i><span class="menu-text-visible">PROGRESSO</span></a>
+            <a th:href="@{/adquiridos}"><i class="fa-solid fa-pen-to-square"></i><span class="menu-text-visible">INSCRIÇÕES</span></a>
+            <a th:href="@{/disponiveis}"><i class="fa-solid fa-graduation-cap"></i><span class="menu-text-visible">CURSOS</span></a>
         </div>
-    </nav>
+        <div class="item-menu-final">
+            <a th:href="@{/atualizar}" ><i class="fa-solid fa-folder"></i><span class="menu-text-visible">Arquivados</span></a>
+            <a th:href="@{/atualizar}" ><i class="fa-solid fa-gear"></i><span class="menu-text-visible">Configurações</span></a>
+        </div>
+    </div>
+</nav>
