@@ -98,6 +98,7 @@ main {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    overflow-x:auto;
 }
 
 .card-curso {
@@ -156,4 +157,22 @@ main {
 .aviso p {
     font-size: 14px;
     color: #666;
+}
+
+#topico-titulo-seus-cursos{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+#topico-titulo-seus-cursos form{
+    margin-left: 5px;
+}
+#topico-titulo-seus-cursos input{
+    border: none;
+    outline: none;
+    padding: 5px;
+    flex-grow: 1;
+    border-radius: 25px;
+    font-size: 16px;
+    background-color: var(--cor-secundaria-tom1);
 }

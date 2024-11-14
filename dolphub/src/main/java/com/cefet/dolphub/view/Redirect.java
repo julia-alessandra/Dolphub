@@ -1,15 +1,28 @@
 package com.cefet.dolphub.view;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Service.ProfessorService;
+import com.cefet.dolphub.Service.CursoService;
 
 @Controller
 public class Redirect {
 
+    @Autowired
+    private ProfessorService professorService;
+    @Autowired
+    private CursoService cursoService;
     // Cadastrarusuario
     @GetMapping("/cadastro")
     public String exibirFormulario(Model model) {
@@ -27,6 +40,22 @@ public class Redirect {
     // Pagina Inicial do usuario
     @GetMapping("/inicio")
     public String paginaInicial(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+        Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
+        
+        if (professorOpt.isPresent()) {
+            List<Curso> cursos = cursoService.listarCursosPorProfessor(professorOpt.get());
+            List<Curso> limiteCurso = new ArrayList<>();
+            
+            // Adiciona até 10 cursos ou até o tamanho da lista
+            for (int i = 0; i < Math.min(cursos.size(), 10); i++) {
+                limiteCurso.add(cursos.get(i));
+            }
+            
+            model.addAttribute("cursos", limiteCurso);
+            model.addAttribute("usuarioLogado", usuarioLogado);
+            return "pagina_inicial";
+        }
+        
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "pagina_inicial";
     }

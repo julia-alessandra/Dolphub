@@ -16,7 +16,7 @@
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
 
-                <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>! Bem-vindo ao seu painel</h1>
+            <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>! Bem-vindo ao seu painel</h1>
 
             <!-- Estatísticas -->
             <section class="section-estatisticas">
@@ -27,7 +27,7 @@
                         <p>Cursos Inscritos</p>
                     </div>
                     <div class="estatistica">
-                        <p>0</p>
+                        <p id="numCriados">0</p>
                         <p>Cursos Criados</p>
                     </div>
                     <div class="estatistica">
@@ -45,31 +45,24 @@
             <!-- Seus Cursos -->
             <section class="section-seus-cursos">
                 <div class="container-topico">
-                    <h1 class="topico-nome">Seus cursos</h1>
-                    <ul class="lista-cursos" th:if="${cursos != null}">
+                    <div id="topico-titulo-seus-cursos">
+                        <h1 class="topico-nome">Seus cursos</h1>
+                        <form class="search">   
+                            <input type="text" id="searchInput" placeholder="Buscar por título do curso">
+                        </form>
+                    </div>
+                    <ul id="listaSeusCursos" class="lista-cursos" th:if="${cursos != null}">
                         <li th:each="curso : ${cursos}">
-                            <div class="card-curso">
-                                <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
-                                <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do Professor</p>
-                            </div>
+                            <a th:href="@{${'/editarCurso/' + curso.id}}" style="text-decoration: none;">
+                                <div class="card-curso">
+                                    <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                                    <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do
+                                        Professor</p>
+                                </div>
+                            </a>
                         </li>
                     </ul>
                 </div>
-            </section>
-            <!-- Seus Cursos -->
-            <section class="section-cursos-recentes">
-            <div class="container-topico"></div>
-                  <h1 class="topico-nome">Cursos mais recentes</h1>
-                  <ul class="lista-cursos" th:if="${cursos!=null}">
-                      <li th:each="curso : ${cursos}">
-                          <div class="card-curso">
-                              <div class="foto-professor"></div>
-                              <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
-                              <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do Professor</p>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
             </section>
 
             <!-- Próximas Aulas -->
@@ -90,5 +83,7 @@
     </div>
 </body>
 <script th:src="@{/javascript/pattern.js}"></script>
+<script th:src="@{/javascript/pagina_inicial.js}"></script>
+
 
 </html>

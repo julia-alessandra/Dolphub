@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,13 +64,13 @@ public class GerenciarRecursoController {
         return "editar_curso";
     }
 
-    @GetMapping("/{id}")
-    public String acessarGerenciarCurso(@PathVariable Long id, Model model,
+    @GetMapping("{idCurso}")
+    public String acessarGerenciarCurso(@PathVariable Long idCurso, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
         System.out.println("hfsuhfusdhfausahfas11111");
-        Curso curso = cursoService.buscar(id);
+        Curso curso = cursoService.buscar(idCurso);
         System.out.println("hfsuhfusdhfausahfa2222222");
-        List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(id);
+        List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(idCurso);
         System.out.println("hfsuhfusdhfausahfas3333333");
 
         model.addAttribute("curso", curso);
@@ -93,7 +94,7 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        System.out.println(pai.getTitulo());
+        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("arquivo", novo);
@@ -253,7 +254,7 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        System.out.println(pai.getTitulo());
+        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("video", novo);
@@ -405,24 +406,25 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("{idCurso}/gerarTopico")
-    public String gerarTopico(@PathVariable Long idCurso, RedirectAttributes redirectAttributes) {
+    public String gerarTopico(@PathVariable Long idCurso, @RequestParam String titulo, RedirectAttributes redirectAttributes) {
         Topico novo = new Topico();
         novo.setCurso(cursoService.buscar(idCurso));
         novo.setTopicoPai(null);
-        novo.setTitulo("Topico");
+        novo.setTitulo(titulo);
         topicoService.salvarTopico(novo);
         return "redirect:/editarCurso/" + idCurso;
     }
 
     @GetMapping("{idCurso}/gerarTopico/{idPai}")
-    public String gerarTopico(@PathVariable Long idCurso, @PathVariable Long idPai,
+    public String gerarTopico(@PathVariable Long idCurso,@RequestParam String titulo ,@PathVariable Long idPai,
             RedirectAttributes redirectAttributes) {
         Topico novo = new Topico();
         novo.setCurso(cursoService.buscar(idCurso));
         novo.setTopicoPai(topicoService.buscar(idPai));
-        novo.setTitulo("Topico");
+        novo.setTitulo(titulo);
         topicoService.salvarTopico(novo);
         return "redirect:/editarCurso/" + idCurso;
     }
+
 
 }

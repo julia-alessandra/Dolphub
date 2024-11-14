@@ -71,19 +71,5 @@ public class TopicoController {
         return "formularioTopico"; 
     }
 
-    @PostMapping("/salvar")
-    public String salvarTopico(@ModelAttribute Topico topico, @RequestParam("cursoId") Long cursoId,
-                               @RequestParam(value = "topicoPaiId", required = false) Long topicoPaiId,
-                               RedirectAttributes redirectAttributes) {
-        Optional<Curso> optionalCurso = cursoService.buscarCursoPorId(cursoId);
-        
-        if (!optionalCurso.isPresent()) {
-            redirectAttributes.addFlashAttribute("erro", "Curso não encontrado!");
-            return "redirect:/cursos"; 
-        }
 
-        Curso curso = optionalCurso.get();
-        topicoService.criarTopico(topico, curso, topicoPaiId);
-        return "redirect:/cursos/" + cursoId; 
-    }
 }

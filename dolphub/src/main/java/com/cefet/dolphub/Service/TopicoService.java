@@ -19,7 +19,12 @@ public class TopicoService {
     @Autowired
     private TopicoRepository topicoRepository;
 
+    
     public TopicoService() {
+    }
+
+    public List<Topico> listarTopicosPorCurso(Curso curso) {
+        return topicoRepository.findByCurso(curso);
     }
 
     public Topico salvarTopico(Topico topico) {
@@ -41,20 +46,6 @@ public class TopicoService {
 
     public List<Topico> listarTopicos() {
         return topicoRepository.findAll();
-    }
-
-    public List<Topico> listarTopicosPorCurso(Curso curso) {
-        return topicoRepository.findByCurso(curso);
-    }
-
-    public Topico criarTopico(Topico topico, Curso curso, Long topicoPaiId) {
-        topico.setCurso(curso);
-        if (topicoPaiId != null) {
-            Topico topicoPai = topicoRepository.findByIdAndCurso(topicoPaiId, curso)
-                    .orElseThrow(() -> new IllegalArgumentException("Tópico pai não encontrado!"));
-            topico.setTopicoPai(topicoPai);
-        }
-        return topicoRepository.save(topico);
     }
 
 }

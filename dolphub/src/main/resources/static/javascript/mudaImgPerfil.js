@@ -29,4 +29,5 @@ let deletarConta = document.querySelector("#btn-deletar-conta")
 deletarConta.addEventListener("click", function() {
     var formDeletarConta = document.getElementById("form-deletar-conta");
     formDeletarConta.style.display = "block";
+    deletarConta.remove();
 });
