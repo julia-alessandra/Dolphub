@@ -39,16 +39,21 @@
                                     <div class="title-topico"><span th:text="${recurso.titulo}"></span><i
                                             class="fa-solid fa-caret-down"></i></div>
                                     <div class="recurso-container-edicao">
+                                        <form class="formTitulo"
+                                            th:action="@{/editarCurso/{idCurso}/gerarTopico/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
+                                            method="GET">
+                                            <input class="inputTitulo" type="text" name="titulo"
+                                                placeholder="Digite o título do tópico" required />
+                                            <button type="submit" class="btn-adicionar-topico" data-id="${recurso.id}">
+                                                <i class="fa-solid fa-circle-plus"></i>
+                                            </button>
+                                        </form>
                                         <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
                                             class="info-element" data-info="Novo arquivo"><i
                                                 class="fa-solid fa-file-circle-plus"></i></a>
                                         <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
                                             class="info-element" data-info="Novo vídeo"><i
                                                 class="fa-solid fa-video"></i></a>
-                                        <a th:href="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}"
-                                            class="btn-adicionar-topico" data-id="${recurso.id}">
-                                            <i class="fa-solid fa-circle-plus"></i> Adicionar Tópico
-                                        </a>
                                     </div>
                                 </div>
                                 <div class="recurso-item-container"
@@ -101,16 +106,22 @@
                                             <div class="title-topico"><span th:text="${subRecurso.titulo}"></span><i
                                                     class="fa-solid fa-caret-down"></i></div>
                                             <div class="recurso-container-edicao">
+                                                <form class="formTitulo"
+                                                    th:action="@{/editarCurso/{idCurso}/gerarTopico/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
+                                                    method="GET">
+                                                    <input class="inputTitulo" type="text" name="titulo"
+                                                        placeholder="Digite o título do tópico" required />
+                                                    <button type="submit" class="btn-adicionar-topico"
+                                                        data-id="${recurso.id}">
+                                                        <i class="fa-solid fa-circle-plus"></i>
+                                                    </button>
+                                                </form>
                                                 <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                     class="info-element" data-info="Novo arquivo"><i
                                                         class="fa-solid fa-file-circle-plus"></i></a>
                                                 <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                     class="info-element" data-info="Novo vídeo"><i
                                                         class="fa-solid fa-video"></i></a>
-                                                <a th:href="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}"
-                                                    class="btn-adicionar-topico" data-id="${recurso.id}">
-                                                    <i class="fa-solid fa-circle-plus"></i> Adicionar Tópico
-                                                </a>
                                             </div>
                                         </div>
                                         <div class="recurso-item-container"
@@ -225,30 +236,17 @@
                                 </li>
                             </ul>
                         </li>
-                        <!-- Botão geral para adicionar tópico na raiz -->
                         <li>
-                            <a th:href="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}"
-                                class="btn-adicionar-topico" data-id="null">
-                                <i class="fa-solid fa-circle-plus"></i> Adicionar Tópico Inicial
-                            </a>
+                            <form class="formTitulo"
+                                th:action="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}" method="GET">
+                                <input class="inputTitulo" type="text" name="titulo"
+                                    placeholder="Digite o título do tópico" required />
+                                <button type="submit" class="btn-adicionar-topico" data-id="${recurso.id}">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                </button>
+                            </form>
                         </li>
                     </ul>
-                </div>
-                <!-- Modal para criação de tópico -->
-                <div id="modal-topico-overlay"></div>
-                <div id="modal-topico">
-                    <h3>Criar Tópico</h3>
-                    <form th:action="@{/editarCurso/criarTopico}" method="post">
-                        <input type="hidden" id="topico-pai-id" name="topicoPaiId" />
-                        <div class="form-group">
-                            <label for="titulo">Título do Tópico:</label>
-                            <input type="text" id="titulo" name="titulo" required />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit">Criar Tópico</button>
-                            <button type="button" id="cancelar-modal">Cancelar</button>
-                        </div>
-                    </form>
                 </div>
             </div>
 
@@ -256,32 +254,5 @@
     </div>
 </body>
 <script th:src="@{/javascript/pattern.js}"></script>
-<script>
-    // Variáveis para o modal e seu overlay
-    const modal = document.getElementById("modal-topico");
-    const overlay = document.getElementById("modal-topico-overlay");
-    const topicoPaiIdInput = document.getElementById("topico-pai-id");
-
-    // Abre o modal e define o ID do tópico pai
-    document.querySelectorAll(".btn-adicionar-topico").forEach(button => {
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
-            const topicoPaiId = event.currentTarget.getAttribute("data-id");
-            topicoPaiIdInput.value = topicoPaiId; // Define o ID do tópico pai
-            modal.style.display = "block";
-            overlay.style.display = "block";
-        });
-    });
-
-    // Fecha o modal ao clicar em "Cancelar" ou fora do modal
-    document.getElementById("cancelar-modal").addEventListener("click", () => {
-        modal.style.display = "none";
-        overlay.style.display = "none";
-    });
-    overlay.addEventListener("click", () => {
-        modal.style.display = "none";
-        overlay.style.display = "none";
-    });
-</script>
 
 </html>

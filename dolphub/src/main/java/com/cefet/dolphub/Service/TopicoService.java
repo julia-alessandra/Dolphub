@@ -30,15 +30,6 @@ public class TopicoService {
     public Topico salvarTopico(Topico topico) {
         return topicoRepository.save(topico);
     }
-    public Topico criarTopico(Topico topico, Curso curso, Long topicoPaiId) {
-        topico.setCurso(curso);
-        if (topicoPaiId != null) {
-            Topico topicoPai = topicoRepository.findByIdAndCurso(topicoPaiId, curso)
-                    .orElseThrow(() -> new IllegalArgumentException("Tópico pai não encontrado!"));
-            topico.setTopicoPai(topicoPai);
-        }
-        return topicoRepository.save(topico);
-    }
 
     public Topico buscar(Long id) {
         Optional<Topico> topico = topicoRepository.findById(id);
