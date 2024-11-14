@@ -4,6 +4,8 @@
 <head>
     <title>Dolphub</title>
     <link href="styles/pattern.css" rel="stylesheet">
+    <link href="styles/criarCurso.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -13,9 +15,8 @@
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
             <div class="container-principal">
-                <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
                 <h1>Criar Curso</h1>
-                <form th:action="@{/salvarCurso}" th:object="${curso}" method="post">
+                <form id="formCriar" th:action="@{/salvarCurso}" th:object="${curso}" method="post">
                     <div>
                         <label for="nome">Nome do Curso</label>
                         <input type="text" id="nome" th:field="*{nome}" placeholder="Nome do Curso" required />

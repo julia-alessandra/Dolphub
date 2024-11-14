@@ -16,9 +16,7 @@
 .btn:hover {
     opacity: 0.8;
 }
-
-input[type="text"] {
-    width: 100%;
+.formTitulo input[type="text"] {
     border-radius: 2px;
     border: 1px solid #ccc;
 }
@@ -26,6 +24,7 @@ input[type="text"] {
 .formTitulo{
     display:flex;
     flex-direction: row;
+    margin-right: 5px;
 }
 .btn-adicionar-topico, input[type="submit"], input[type="reset"] {
 	background: none;

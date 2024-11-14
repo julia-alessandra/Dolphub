@@ -33,6 +33,9 @@ public class CursoService {
         System.out.println("teste");
         return cursoRepository.save(curso);
     }
+    public void atualizar(Curso curso) {
+        cursoRepository.save(curso);
+    }
 
     public Optional<Curso> buscarCursoPorId(Long id) {
         return cursoRepository.findById(id);
