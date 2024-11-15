@@ -266,6 +266,27 @@ body {
 }
 .sidebar .item-menu-final i { /* Arquivados e Configurações */
     color: #999;
+.sidebar form button,
+.sidebar a button {
+    all: unset;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+}
+.sidebar:not(.minimized) form button,
+.sidebar:not(.minimized) a button {
+    gap: 14px;
+}
+.sidebar.minimized form button,
+.sidebar.minimized a button {
+    gap: 0;
+}
+
+.sidebar form:hover,
+.sidebar a:hover {
+    background-color: var(--cor-secundaria-tom1);
+    cursor: pointer;
 }
 
 /* Final items adjustment */
@@ -391,6 +412,26 @@ body {
     cursor: pointer;
 }
 
+#menu-curso form,
+#menu-curso a {
+    padding: 10px 20px;
+}
+#menu-curso form:hover,
+#menu-curso a:hover {
+    background-color: var(--cor-secundaria-tom1);
+    cursor: pointer;
+}
+#menu-curso a {
+    text-decoration: none;
+    color: inherit;
+  }
+#menu-curso a:visited {
+    color: inherit;
+  }  
+#menu-curso a:hover, a:active {
+    text-decoration: none;
+    color: inherit;
+  }
 .exibicao-curso ul {
     margin: 0;
     padding: 0;
