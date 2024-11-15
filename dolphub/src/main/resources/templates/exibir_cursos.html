@@ -1,27 +1,51 @@
-<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
-
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Dolphub</title>
-    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+  <title>Dolphub</title>
+  <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+  <link href="styles/cursos.css" rel="stylesheet" />
+
 
 </head>
+
 <body>
-    <div class="tela-completa">
+  <div class="tela-completa">
     <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
     <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
-    
+
     <main>
-        <div th:replace="componentes/menu_superior :: menu_superior"></div>
-        <div class="container-principal">
-            Cursos que usuarios podem se inscrever
+      <div th:replace="componentes/menu_superior :: menu_superior"></div>
+      <div class="container-principal">
+        <div class="container-topico">
+          <h1 class="topico-nome">Todos os Cursos</h1>
+
+          <ul class="lista-cursos" th:if="${cursos != null}">
+            <li th:each="curso : ${cursos}">
+              <div class="card-curso">
+                <div class="foto-professor"></div>
+                <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">
+                  Nome do Professor
+                </p>
+                <p>
+                  <a th:href="'/dolphub/inscreverCursoId/' + ${curso.id}">Inscrever</a>
+                </p>
+              </div>
+            </li>
+          </ul>
+          <div th:if="${#lists.isEmpty(cursos)}">
+            <p>Nenhum curso disponível no momento.</p>
+          </div>
+
         </div>
+      </div>
 
     </main>
 
-    </div>
-    </body>
-    <script th:src="@{/javascript/pattern.js}"></script>
+  </div>
+</body>
+<script th:src="@{/javascript/pattern.js}"></script>
+
 </html>

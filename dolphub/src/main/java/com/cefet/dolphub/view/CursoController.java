@@ -73,7 +73,7 @@ public class CursoController {
         }
     }
 
-    @GetMapping("/todos-os-cursos")
+   @GetMapping("/todos-os-cursos")
     public String listarTodosOsCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         List<Curso> cursos = cursoService.listAllCursos();
         model.addAttribute("cursos", cursos);
