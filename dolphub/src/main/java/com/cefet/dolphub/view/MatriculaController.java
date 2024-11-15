@@ -37,7 +37,7 @@ public class MatriculaController {
     @GetMapping("/inscreverCursoId/{id}")
     public String inscreverId(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado) {
         this.salvarMatricula(cursoService.buscar(id), usuarioLogado);
-        return "redirect:/todos-os-cursos"; // Redireciona após a inscrição
+        return "redirect:/adquiridos"; // Redireciona após a inscrição
 
     }
 
@@ -80,7 +80,7 @@ public class MatriculaController {
             model.addAttribute("notificacao", "Curso não encontrado.");
         }
 
-        return "redirect:/todos-os-cursos"; // Redireciona para a página de listagem de cursos do aluno
+        return "redirect:/disponiveis"; // Redireciona para a página de listagem de cursos do aluno
     }
 
     @PostMapping("/salvarMatricula")
@@ -97,6 +97,6 @@ public class MatriculaController {
             matriculaService.salvarMatricula(matricula); // Salva a matrícula
         }
 
-        return "redirect:/todos-os-cursos"; // Redireciona para a página de listagem de cursos do aluno
+        return "redirect:/adquiridos"; // Redireciona para a página de listagem de cursos do aluno
     }
 }
