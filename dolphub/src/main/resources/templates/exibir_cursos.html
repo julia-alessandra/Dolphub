@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -6,8 +5,6 @@
   <title>Dolphub</title>
   <link th:href="@{/styles/pattern.css}" rel="stylesheet">
   <link href="styles/cursos.css" rel="stylesheet" />
-
-
 </head>
 
 <body>
@@ -19,10 +16,13 @@
       <div th:replace="componentes/menu_superior :: menu_superior"></div>
       <div class="container-principal">
         <div class="container-topico">
-          <h1 class="topico-nome">Todos os Cursos</h1>
+          <h1 class="topico-nome">Cursos disponíveis</h1>
+
+          <!-- Campo de pesquisa -->
+          <input type="text" id="searchInput" onkeyup="searchCourses()" placeholder="Pesquisar cursos..." class="search-bar">
 
           <ul class="lista-cursos" th:if="${cursos != null}">
-            <li th:each="curso : ${cursos}">
+            <li th:each="curso : ${cursos}" class="curso-item">
               <div class="card-curso">
                 <div class="foto-professor"></div>
                 <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
@@ -35,6 +35,7 @@
               </div>
             </li>
           </ul>
+
           <div th:if="${#lists.isEmpty(cursos)}">
             <p>Nenhum curso disponível no momento.</p>
           </div>
@@ -45,7 +46,34 @@
     </main>
 
   </div>
+
+  <!-- Script de pesquisa -->
+  <script th:src="@{/javascript/pattern.js}"></script>
+  <script>
+    function searchCourses() {
+      var input = document.getElementById('searchInput');
+      var filter = input.value.toLowerCase();
+      var ul = document.querySelector('.lista-cursos');
+      var li = ul.getElementsByClassName('curso-item');
+
+      for (var i = 0; i < li.length; i++) {
+        var cursoTitle = li[i].getElementsByClassName('titulo-curso')[0];
+        var professorName = li[i].getElementsByClassName('prof-curso')[0];
+
+        if (cursoTitle && professorName) {
+          var titleText = cursoTitle.textContent || cursoTitle.innerText;
+          var professorText = professorName.textContent || professorName.innerText;
+
+          if (titleText.toLowerCase().indexOf(filter) > -1 || professorText.toLowerCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
+
 </body>
-<script th:src="@{/javascript/pattern.js}"></script>
 
 </html>
