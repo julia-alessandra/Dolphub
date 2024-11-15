@@ -15,15 +15,18 @@ import java.util.ArrayList;
 import java.sql.Date;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.UsuarioService;
+import com.cefet.dolphub.Service.MatriculaService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class CursoController {
@@ -32,11 +35,13 @@ public class CursoController {
     private CursoService cursoService;
 
     @Autowired
+    private MatriculaService matriculaService;
+
+    @Autowired
     private ProfessorService professorService;
 
     @Autowired
     private UsuarioService usuarioService;
-
 
     @GetMapping("/criarCurso")
     public String criarCurso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
@@ -72,8 +77,21 @@ public class CursoController {
     public String listarTodosOsCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         List<Curso> cursos = cursoService.listAllCursos();
         model.addAttribute("cursos", cursos);
+        List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
+
+        List<Curso> matriculaLista = matriculas.stream()
+                .map(Matricula::getCurso)
+                .collect(Collectors.toList());
+        cursos = cursos.stream().filter(curso -> !matriculaLista.contains(curso))
+                .collect(Collectors.toList());
+
+        model.addAttribute("cursos", cursos);
+        model.addAttribute("matriculaLista", matriculaLista);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
         return "todos_os_cursos";
     }
+
 
     @RequestMapping("/editarCurso/{idCurso}/config")
     public String editarCursoConfig(@PathVariable("idCurso") Long idCurso, Model model,
