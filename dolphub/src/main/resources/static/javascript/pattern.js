@@ -112,3 +112,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+    // Alterna a visibilidade do menu ao clicar no ícone de perfil
+
+document.addEventListener('DOMContentLoaded', function() {
+    const menu = document.getElementById("menu");
+    const perfil = document.getElementById("perfil");
+  
+    perfil.addEventListener("click", function(event) {
+      event.stopPropagation(); // Impede que o clique se propague para o documento
+      menu.classList.toggle("hidden");
+    });
+  
+    // Fecha o menu se clicar fora dele
+    document.addEventListener("click", function(event) {
+      if (!menu.contains(event.target) && event.target !== perfil) {
+        menu.classList.add("hidden");
+      }
+    });
+  });
+  

@@ -1,56 +1,178 @@
-.container-topico {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.topico-nome {
-    font-size: 28px;
-    font-weight: bold;
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f4f4f4;
     color: #333;
-    margin-bottom: 20px;
-    grid-column: 1 / -1; /* Faz o h1 ocupar toda a linha */
-    text-align: left;
+    margin: 0;
+    padding: 0;
 }
 
+.tela-completa {
+    display: flex;
+}
+
+main {
+    width: 100%;
+    overflow-y: auto;
+}
+
+
+/* Estatísticas */
+.section-estatisticas {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-estatisticas h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#estatisticas {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.estatistica {
+    background-color: #333;
+    border-radius: 8px;
+    width: 180px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.estatistica p {
+    margin: 0;
+    color: #f4f4f4;
+}
+
+.estatistica p:first-child {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.estatistica p:last-child {
+    font-size: 16px;
+}
+
+.btn-ver-mais {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-ver-mais:hover {
+    background-color: #0056b3;
+}
+/* Estilização da seção "Seus Cursos" */
+.section-seus-cursos {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-seus-cursos h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.lista-cursos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-x:auto;
+}
 
 .card-curso {
-    border-top: 10px solid #3a6ea5;
-    background-color: white;
-    border-radius: 10px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    width: 200px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 20px;
-    width: 15vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    border-width: 20px;
-    margin: 10px;
-}
-
-.foto-professor {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    margin: 0 auto 20px auto;
 }
 
 .titulo-curso {
     font-size: 18px;
     color: #333;
-    margin-bottom: 10px;
 }
 
 .prof-curso {
     font-size: 14px;
-    color: #777;
+    color: #666;
 }
 
-.lista-cursos{
+/* Próximas Aulas */
+.section-ultimos-avisos {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-ultimos-avisos h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.avisos {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.aviso {
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.aviso h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.aviso p {
+    font-size: 14px;
+    color: #666;
+}
+
+#topico-titulo-seus-cursos{
+    display:flex;
     flex-direction: row;
+    align-items: center;
+}
+#topico-titulo-seus-cursos form{
+    margin-left: 5px;
+}
+#topico-titulo-seus-cursos input{
+    border: none;
+    outline: none;
+    padding: 5px;
+    flex-grow: 1;
+    border-radius: 25px;
+    font-size: 16px;
+    background-color: var(--cor-secundaria-tom1);
 }

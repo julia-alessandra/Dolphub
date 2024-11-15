@@ -1,16 +1,32 @@
-<!-- src/main/resources/templates/fragments/menu.html -->
-    <div id="menu-superior" th:fragment="menu_superior">
-        <nav>
-            <!-- <i id="btn-toggle-menu" class="fa-solid fa-bars icon tmenu"></i> -->
-            <!-- <img id="icon-main" src="imgs/icone_sem_fundo.png"> -->
+<!DOCTYPE html>
+<head>
+  <link href="styles/menu.css" rel="stylesheet">
+</head>
+<body>
+  <div id="menu-superior" th:fragment="menu_superior">
+    <nav>
+      <form class="search">
+        <input type="text">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </form>
 
-            <form class="search">
-                <input type="text">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </form>
+      <button id="perfil" type="button">
+        <i class="fa-solid fa-user icon"></i>
+      </button>
 
-            <a id="link-atualizar-perfil" type="button" th:href="@{/atualizar}">
-                <i class="fa-solid fa-user icon"></i>
-            </a>        
-        </nav>
-    </div>
+      <!-- Menu suspenso -->
+      <div class="hidden" id="menu">
+        <ul>
+          <li><a th:href="@{/atualizar}">Perfil</a></li>
+          <li><a th:href="@{/criarCurso}">Criar curso</a></li>
+          <li><a th:href="@{/ajuda}">Central de ajuda</a></li>
+          <li><a href="#">Sair</a></li>
+        </ul>
+      </div>
+
+    </nav>
+  </div>
+
+  <script src="menu.js"></script>
+</body>
+</html>

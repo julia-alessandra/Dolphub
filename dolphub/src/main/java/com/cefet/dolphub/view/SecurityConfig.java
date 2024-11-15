@@ -15,7 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/formulario", "/salvarUsuario", "/login", "/styles/**").permitAll()//Caminhos permitidos pro usuario seguir sem login
+                        .requestMatchers("/", "/cadastro", "/salvarUsuario", "/login", "/confirmacao", "/styles/**").permitAll()//Caminhos permitidos pro usuario seguir sem login
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

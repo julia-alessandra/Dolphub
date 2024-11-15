@@ -1,0 +1,66 @@
+
+
+#formCriar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: var(--cor-secundaria);
+    border: 1px solid var(--cor-primaria-tom1);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#formCriar label {
+    font-size: 16px;
+    color: var(--cor-primaria);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+#formCriar input[type="text"],
+#formCriar textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-primaria-tom1);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #F9F9F9;
+    color: var(--cor-primaria);
+    font-family: var(--fonte);
+    transition: all 0.3s ease;
+}
+
+#formCriar input[type="text"]:focus,
+#formCriar textarea:focus {
+    border-color: var(--cor-terciaria);
+    background-color: #FFF;
+    box-shadow: 0 0 5px rgba(1, 87, 155, 0.3);
+    outline: none;
+}
+
+#formCriar textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#formCriar button[type="submit"] {
+    align-self: flex-start;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--cor-terciaria);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formCriar button[type="submit"]:hover {
+    background-color: #004d7a;
+}
+
+#formCriar button[type="submit"]:focus {
+    outline: none;
+}

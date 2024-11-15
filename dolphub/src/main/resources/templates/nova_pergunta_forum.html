@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dolphub</title>
+    <link href="styles/pattern.css" rel="stylesheet">
+    <link href="styles/pergunta.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <main>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <div class="form-container">
+
+            <h1>Nova pergunta</h1>
+            <form action="/pergunta/salvar" method="POST">
+                <label for="assunto">Assunto:</label>
+                <input type="text" id="assunto" name="assunto" required>
+
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required>
+
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+
+
+        </div>
+    </main>
+</body>
+<script src="javascript/pattern.js"></script>
+<script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+
+</html>

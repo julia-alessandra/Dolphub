@@ -33,6 +33,9 @@ public class CursoService {
         System.out.println("teste");
         return cursoRepository.save(curso);
     }
+    public void atualizar(Curso curso) {
+        cursoRepository.save(curso);
+    }
 
     public Optional<Curso> buscarCursoPorId(Long id) {
         return cursoRepository.findById(id);
@@ -45,7 +48,9 @@ public class CursoService {
     public List<Curso> listarCursosPorProfessor(Professor professor) {
         return cursoRepository.findAllByProfessor(professor);
     }
-
+    public List<Curso> listAllCursos() {
+        return cursoRepository.findAll();
+    }
     public void deletarCurso(Long id) {
         cursoRepository.deleteById(id);
     }

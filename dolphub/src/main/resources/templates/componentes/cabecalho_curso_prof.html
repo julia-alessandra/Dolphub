@@ -1,0 +1,17 @@
+<header id="header-menu-curso" th:fragment="cabecalho_curso_prof" th:if="${curso != null}">
+
+    <div id="titulo-curso">
+        <div id="divTitulo" style="display:flex; align-items: center;"> 
+            <h3 th:text="${curso.nome}">Curso de python</h3><a class="info-element" data-info="Configurações" style="margin-left: 5px; color: #000000;text-decoration: none;" th:href="@{/editarCurso/{idCurso}/config(idCurso=${curso.id})}">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i></a>
+        </div>
+        <p th:text="${curso.descricao}">Curso para iniciantes em programação com pyhton por Gustavo Guanabara </p>
+    </div>
+
+    <div id="menu-curso">
+        <form>Módulos</form>
+        <form>Avisos</form>
+        <form>Questões</form>
+        <form>Fórum</form>
+    </div>
+</header>
