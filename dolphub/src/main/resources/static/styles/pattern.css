@@ -264,8 +264,10 @@ body {
 .sidebar a:nth-child(3) i, .sidebar a:nth-child(4) i { /* Inscrições e Cursos */
     font-size: 18px;
 }
-.sidebar .item-menu-final i { /* Arquivados e Configurações */
+/* Arquivados e Configurações */
+.sidebar .item-menu-final i { 
     color: #999;
+}
 .sidebar form button,
 .sidebar a button {
     all: unset;
