@@ -7,5 +7,4 @@ import com.cefet.dolphub.Entidades.Recursos.*;
 
 @Repository
 public interface QuestaoRepository extends JpaRepository<Questao, Long> {
-    // Spring boot meu prefeito
 }
