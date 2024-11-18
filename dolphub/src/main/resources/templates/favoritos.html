@@ -1,0 +1,82 @@
+<!-- <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Referência para o CSS, se necessário 
+</head>
+<body>
+    <div class="container">
+        <h1>Favoritos</h1>
+
+        <h2>Meus Favoritos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome da Mídia</th>
+                    <th>Data de Adição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="favorito : ${favoritos}">
+                    <td th:text="${favorito.id}">ID</td>
+                    <td th:text="${favorito.titulo}">Nome da Mídia</td>
+                    <td th:text="${#dates.format(favorito.dataFavorito, 'dd/MM/yyyy HH:mm')}">Data de Adição</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="tela-completa">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div class="container-principal">
+                <div class="container">
+                    <h1>Favoritos</h1>
+
+                    <h2>Meus Favoritos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome da Mídia</th>
+                                <th>Curso</th>
+                                <th>Data de Adição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="favorito : ${favoritos}">
+                                <td th:text="${favorito.titulo}">Nome da Mídia</td>
+                                <td th:text="${favorito.nomeCurso}">Nome do Curso</td>
+                                <td th:text="${#dates.format(favorito.dataFavorito, 'dd/MM/yyyy HH:mm')}">Data de Adição
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+</body>
+<script th:src="@{/javascript/pattern.js}"></script>
+
+</html>
