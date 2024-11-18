@@ -30,18 +30,7 @@
                         Não há nenhum recurso nesse curso
                     </div> -->
                     <ul id="lista-principal">
-                        <li>
-                            <form class="formTitulo" style="display:none;"
-                                th:action="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}" method="GET">
-                                <input class="inputTitulo" type="text" name="titulo"
-                                    placeholder="Digite o título do tópico" required />
-                                <button type="submit" class="btn-adicionar-topico" data-id="${recurso.id}">
-                                    <a class="info-element" data-info="Novo tópico"><i
-                                            class="fa-solid fa-circle-plus"></i></a>
-                                </button>
-                            </form>
-                            <i class="btnOpen fa-solid fa-folder-plus" onclick="toggleForm(this)"></i>
-                        </li>
+                        
                         <li class="topico-original" th:each="recurso : ${recursos}"
                             th:if="${recurso.topicoPai == null}">
                             <div>
@@ -60,7 +49,7 @@
                                                         class="fa-solid fa-circle-plus"></i></a>
                                             </button>
                                         </form>
-                                        <i class="btnOpen fa-solid fa-folder-plus" onclick="toggleForm(this)"></i>
+                                        <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico" onclick="toggleForm(this)"></i>
                                         <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
                                             class="info-element" data-info="Novo arquivo"><i
                                                 class="fa-solid fa-file-circle-plus"></i></a>
@@ -130,12 +119,12 @@
                                                                 class="fa-solid fa-circle-plus"></i></a>
                                                     </button>
                                                 </form>
-                                                <i class="btnOpen fa-solid fa-folder-plus"
+                                                <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico"
                                                     onclick="toggleForm(this)"></i>
-                                                <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
+                                                <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                     class="info-element" data-info="Novo arquivo"><i
                                                         class="fa-solid fa-file-circle-plus"></i></a>
-                                                <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
+                                                <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                     class="info-element" data-info="Novo vídeo"><i
                                                         class="fa-solid fa-video"></i></a>
                                             </div>
@@ -253,6 +242,18 @@
                             </ul>
                         </li>
 
+                        <li>
+                            <form class="formTitulo" style="display:none;"
+                                th:action="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}" method="GET">
+                                <input class="inputTitulo" type="text" name="titulo"
+                                    placeholder="Digite o título do tópico" required />
+                                <button type="submit" class="btn-adicionar-topico" data-id="${recurso.id}">
+                                    <a class="info-element" data-info="Novo tópico"><i
+                                            class="fa-solid fa-circle-plus"></i></a>
+                                </button>
+                            </form>
+                            <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico" onclick="toggleForm(this)"></i>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -33,6 +33,7 @@ public class CursoService {
         System.out.println("teste");
         return cursoRepository.save(curso);
     }
+
     public void atualizar(Curso curso) {
         cursoRepository.save(curso);
     }
@@ -48,11 +49,20 @@ public class CursoService {
     public List<Curso> listarCursosPorProfessor(Professor professor) {
         return cursoRepository.findAllByProfessor(professor);
     }
+
     public List<Curso> listAllCursos() {
         return cursoRepository.findAll();
     }
+
     public void deletarCurso(Long id) {
         cursoRepository.deleteById(id);
+    }
+
+    public boolean getEditAcess(Curso curso, Usuario user) {
+        System.out.println("fahsdfjadsfhljdsafhlasjfdlf");
+        System.out.println(user.getId());
+        System.out.println(curso.getProfessor().getId());
+        return user.equals(curso.getProfessor().getUsuario());
     }
 
 }

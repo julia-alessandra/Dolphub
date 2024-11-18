@@ -15,8 +15,8 @@
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
             <div class="container-principal">
-                <h1>Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
-                <h2 class="topico-nome">Meus Cursos Inscritos</h2>
+                <h1 class="txt-title">Olá, <span th:text="${usuarioLogado.nome}">Fulano</span>!</h1>
+                <h2 class="topico-nome txt-title">Meus Cursos Inscritos</h2>
 
                 <!-- Campo de pesquisa -->
                 <input type="text" id="searchInput" onkeyup="searchCourses()" placeholder="Pesquisar cursos..." class="search-bar">

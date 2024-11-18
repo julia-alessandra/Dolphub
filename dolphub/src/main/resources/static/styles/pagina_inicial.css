@@ -15,10 +15,13 @@ main {
     overflow-y: auto;
 }
 
+h1 {
+    margin-bottom: 0px;
+}
 
 /* Estatísticas */
 .section-estatisticas {
-    margin: 20px 0;
+    margin: 10px 0;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -38,7 +41,8 @@ main {
 }
 
 .estatistica {
-    background-color: #333;
+    /* background-color: #333; */
+    border: 4px solid var(--cor-primaria-tom2);
     border-radius: 8px;
     width: 180px;
     padding: 20px;
@@ -48,7 +52,7 @@ main {
 
 .estatistica p {
     margin: 0;
-    color: #f4f4f4;
+    color: var(--cor-primaria-tom2);
 }
 
 .estatistica p:first-child {
@@ -101,14 +105,16 @@ main {
     overflow-x:auto;
 }
 
-.card-curso {
+/* .card-curso {
     background-color: #f4f4f4;
     padding: 15px;
     border-radius: 8px;
     width: 200px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
+} 
+    peguei o card curso do lucas e coloquei no pattern    
+*/
 
 .titulo-curso {
     font-size: 18px;
@@ -162,17 +168,26 @@ main {
 #topico-titulo-seus-cursos{
     display:flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
+    gap: 25px;
+    padding-bottom: 10px;
+    font-size: 17px;
+}
+h1.topico-nome {
+    margin: 0px;
 }
 #topico-titulo-seus-cursos form{
     margin-left: 5px;
+    flex-grow: 1;
 }
 #topico-titulo-seus-cursos input{
     border: none;
     outline: none;
-    padding: 5px;
     flex-grow: 1;
     border-radius: 25px;
     font-size: 16px;
-    background-color: var(--cor-secundaria-tom1);
+    width: 100%;
+    border: 1px solid var(--cor-secundaria-tom1);
+    box-sizing: border-box;
+    /* background-color: var(--cor-secundaria-tom1); */
 }
