@@ -4,16 +4,26 @@
     gap: 20px;
 }
 
+h1.txt-title {
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+h2.txt-title {
+  font-weight: normal;
+  margin-top: 0px;
+}
+
 .topico-nome {
+  font-weight: normal;
     font-size: 28px;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #333;
     margin-bottom: 20px;
     grid-column: 1 / -1; /* Faz o h1 ocupar toda a linha */
     text-align: left;
 }
 
-.card-curso {
+/* .card-curso {
     border-top: 10px solid #3a6ea5;
     background-color: white;
     border-radius: 10px;
@@ -28,7 +38,9 @@
     justify-content: flex-start;
     border-width: 20px;
     margin: 10px;
-}
+} 
+    ta no pattern agora    
+*/
 
 .foto-professor {
     width: 50px;
@@ -82,6 +94,9 @@ ul.lista-cursos {
   /* Botão de Remover inscrição */
   a[href*="sairCurso"] {
     background-color: #d9534f;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
   }
   
   a[href*="sairCurso"]:hover {
@@ -91,9 +106,15 @@ ul.lista-cursos {
   /* Botão de Acessar curso */
   a[href*="acessoCurso"] {
     background-color: #5cb85c;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
   }
   
   a[href*="acessoCurso"]:hover {
     background-color: #4cae4c;
   }
   
+  .card-curso > p {
+    width: 100%;
+  }
