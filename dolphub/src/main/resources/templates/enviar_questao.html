@@ -15,7 +15,43 @@
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
-            Faça sua página dentro desse container
+            <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
+            <div id="enviar-questao" class="container-questao">
+
+                <form>
+                    <div>
+                        <label for="enunciado">Enunciado:
+                            <textarea type="text" id="enunciado" name="enunciado" th:field="*{questao.enunciado}" required></textarea>
+                        </label>
+                    
+                        <div>
+                            <p>Alternativas:<i class="fa-solid fa-plus"></i></p>
+                        </div>
+
+                        <div>
+                            <label class="ldificuldade" id="label-dificuldade">
+                                <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                                <input th:value="*{questao.dificuldade}" type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                            </label>
+
+                            <div id="container-tags">
+                                <h3>Tags</h3>
+                                <div>
+                                    <input type="text" id="tagInput" placeholder="Nova tag" />
+                                    <button onclick="addTag()">+</button>
+                                </div>
+                                <div id="tagsContainer">
+                                    <!-- Tags aqui -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div id="editar-questao" class="container-questao"></div>
         </div>
 
     </main>
@@ -23,4 +59,5 @@
     </div>
     </body>
     <script th:src="@{/javascript/pattern.js}"></script>
+    <script th:src="@{/javascript/tag.js}"></script>
 </html>

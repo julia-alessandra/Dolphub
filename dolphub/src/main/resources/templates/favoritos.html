@@ -62,10 +62,23 @@
                         </thead>
                         <tbody>
                             <tr th:each="favorito : ${favoritos}">
+                                <div class="recurso-item-container"
+                                th:if="${favorito.tipo}=='arquivo'">
+
                                 <td th:text="${favorito.titulo}">Nome da Mídia</td>
                                 <td th:text="${favorito.nomeCurso}">Nome do Curso</td>
                                 <td th:text="${#dates.format(favorito.dataFavorito, 'dd/MM/yyyy HH:mm')}">Data de Adição
                                 </td>
+                                </div>
+                                <div class="recurso-item-container"
+                                th:if="${favorito.tipo}=='video'">
+
+                                <td th:text="${favorito.titulo}">Nome da Mídia</td>
+                                <td th:text="${favorito.nomeCurso}">Nome do Curso</td>
+                                <td th:text="${#dates.format(favorito.dataFavorito, 'dd/MM/yyyy HH:mm')}">Data de Adição
+                                </td>
+                                </div>
+
                             </tr>
                         </tbody>
                     </table>
