@@ -22,20 +22,23 @@ public class GerenciarQuestaoController {
     @Autowired
     private CursoService cursoService;
 
-    @GetMapping("editarCurso/{idCurso}/enviarQuestao/{idPai}")
-    public String enviarQuestao(@PathVariable Long idCurso, @PathVariable Long idPai, Model model,
+    @GetMapping("editarCurso/{idCurso}/enviarQuestao")
+    public String enviarQuestao(@PathVariable Long idCurso, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
         Questao questao = new Questao();
-        Topico topicoPai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
 
-        model.addAttribute("arquivo", questao);
-        model.addAttribute("topicoPai", topicoPai.getId());
+        model.addAttribute("questao", questao);
         model.addAttribute("curso", curso);
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
 
         return "enviar_questao";
     }
+
+    // @GetMapping("editarCurso/{idCurso}/salvarQuestao")
+    // public String salvarQuestao() {
+
+    // }
 
 }
