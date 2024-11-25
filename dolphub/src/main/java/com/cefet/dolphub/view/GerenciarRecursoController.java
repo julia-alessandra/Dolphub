@@ -22,6 +22,7 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
+import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
@@ -29,6 +30,7 @@ import com.cefet.dolphub.Entidades.Recursos.Video;
 import com.cefet.dolphub.Repositorio.*;
 import com.cefet.dolphub.Service.AcessoService;
 import com.cefet.dolphub.Service.ArquivoService;
+import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.RecursoService;
@@ -63,6 +65,8 @@ public class GerenciarRecursoController {
     private TopicoService topicoService;
     @Autowired
     private ProfessorService professorService;
+    @Autowired
+    private AtividadeService atividadeService;
 
     @GetMapping
     public String editarCurso() {
@@ -449,6 +453,147 @@ public class GerenciarRecursoController {
         novo.setTopicoPai(topicoService.buscar(idPai));
         novo.setTitulo(titulo);
         topicoService.salvarTopico(novo);
+        return "redirect:/editarCurso/" + idCurso;
+    }
+
+    @GetMapping("{idCurso}/enviarAtividade/{idPai}")
+    public String enviarAtividade(@PathVariable Long idCurso, @PathVariable Long idPai, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+        Atividade novo = new Atividade();
+        Topico pai = recursoService.buscarTopicoPai(idPai);
+        Curso curso = cursoService.buscar(idCurso);
+        novo.setTopicoPai(pai);
+        novo.setCurso(curso);
+
+        model.addAttribute("atividade", novo);
+        model.addAttribute("topicoPai", pai.getId());
+        model.addAttribute("curso", curso);
+        model.addAttribute("operation", "enviar");
+        model.addAttribute("usuarioLogado", usuarioLogado);
+        return "enviar_atividade";
+    }
+
+    @PostMapping("/salvarAtividade")
+    public String salvarAtividade(@ModelAttribute Atividade atividade,
+            @RequestParam("nome") String titulo,
+            @RequestParam("descricao") String descricao,
+            @RequestParam("dificuldade") int dificuldade,
+            @RequestParam("anotacao") String anotacao,
+            @RequestParam("topicoPai") Long topicoPaiId,
+            @RequestParam("curso") Long cursoId,
+            RedirectAttributes redirectAttributes) throws IOException {
+
+                atividade.setDescricao(descricao);
+                atividade.setDificuldade(dificuldade);
+                atividade.setTitulo(titulo);
+                atividade.setAnotacao(anotacao);
+
+        Topico topicoPai = recursoService.buscarTopicoPai(topicoPaiId);
+        Curso curso = cursoService.buscar(cursoId);
+
+        if (topicoPai == null || curso == null) {
+            redirectAttributes.addFlashAttribute("error", "Tópico pai ou curso não encontrado.");
+            return "redirect:/editarCurso/enviarAtividade";
+        }
+
+        atividade.setTopicoPai(topicoPai);
+        atividade.setCurso(curso);
+
+        atividadeService.salvarAtividade(atividade);
+        redirectAttributes.addFlashAttribute("message", "Atividade salva com sucesso!");
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Atividade salva com successo.");
+
+        return "redirect:/editarCurso/" + cursoId;
+    }
+    @GetMapping("{idCurso}/acessoAtividade/{idAtividade}")
+    public String acessoAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+
+        Atividade novo = atividadeService.buscar(idAtividade);
+        Curso curso = cursoService.buscar(idCurso);
+
+        if (novo == null) {
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Vídeo não encontrado");
+            return "redirect:/acessoCurso/" + idCurso;
+        }
+
+        model.addAttribute("atividade", novo);
+        model.addAttribute("cursoId", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("roleAcess", "edit");
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
+        return "acesso_atividade";
+    }
+
+    @GetMapping("{idCurso}/editarAtividade/{idAtividade}")
+    public String editarAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+        Atividade atv = atividadeService.buscar(idAtividade);
+        Curso curso = cursoService.buscar(idCurso);
+
+        if (atv == null) {
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Atividade não encontrada");
+            return "redirect:/error";
+        }
+
+        model.addAttribute("atividade", atv);
+        model.addAttribute("idCurso", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("operation", "editar");
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
+        return "enviar_atividade";
+    }
+
+    @PostMapping("/atualizarAtividade")
+    public String atualizarAtividade(@RequestParam Long cursoId,
+            @RequestParam Long idAtividade,
+            @RequestParam String titulo,
+            @RequestParam String descricao,
+            @RequestParam int dificuldade,
+            @RequestParam String anotacao,
+            RedirectAttributes redirectAttributes) {
+
+        Atividade atv = atividadeService.buscar(idAtividade);
+
+        if (atv == null) {
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+            redirectAttributes.addFlashAttribute("notificacao", "Atividade não encontrada");
+            return "redirect:/editarCurso/" + cursoId;
+        }
+
+        atv.setTitulo(titulo);
+        atv.setDescricao(descricao);
+        atv.setDificuldade(dificuldade);
+        atv.setAnotacao(anotacao);
+
+        atividadeService.salvarAtividade(atv);
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Atividade atualizada");
+
+        return "redirect:/editarCurso/" + cursoId;
+    }
+
+    @GetMapping("{idCurso}/apagarAtividade/{idAtividade}")
+    public String apagarAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade,
+            RedirectAttributes redirectAttributes) {
+
+        Atividade atv = atividadeService.buscar(idAtividade);
+
+        if (atv != null) {
+            atividadeService.deletar(idAtividade);
+            redirectAttributes.addFlashAttribute("message", "Atividade apagada com sucesso!");
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+            redirectAttributes.addFlashAttribute("notificacao", "Atividade apagada com successo");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Atividade não encontrada.");
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "warning");
+            redirectAttributes.addFlashAttribute("notificacao", "Nenhuma Atividade correspondente encontrada");
+        }
         return "redirect:/editarCurso/" + idCurso;
     }
 

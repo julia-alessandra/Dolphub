@@ -24,6 +24,7 @@
 .formTitulo{
     display:flex;
     flex-direction: row;
+    align-items: center;
     margin-right: 5px;
 }
 .btn-adicionar-topico, input[type="submit"], input[type="reset"] {
@@ -34,4 +35,10 @@
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+}
+
+.criarTopicoRaizLi{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
 }
