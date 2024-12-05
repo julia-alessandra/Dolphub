@@ -25,7 +25,7 @@
                     <h2>Estatísticas</h2>
                     <div id="estatisticas">
                         <div class="estatistica">
-                            <p>0</p>
+                            <p th:text="${quantidadeDeCursosInscritos}">0</p>
                             <p>Cursos Inscritos</p>
                         </div>
                         <div class="estatistica">
@@ -37,9 +37,20 @@
                             <p>Aulas Assistidas</p>
                         </div>
                         <div class="estatistica">
-                            <p>0</p>
+                            <p id="porcentagem">-</p>
+                            <p>Porcentagem de acertos</p>
+                        </div>
+
+                        <div class="estatistica">
+                            <p th:text="${questoesRespondidas}">0</p>
                             <p>Questões Respondidas</p>
                         </div>
+
+                        <div class="estatistica">
+                            <p id="numCriados">0</p>
+                            <p>Questões Corretas</p>
+                        </div>
+
                     </div>
                     <a href="#" class="btn-ver-mais">Veja mais</a>
                 </section>
@@ -49,8 +60,9 @@
                     <div class="container-topico">
                         <div id="topico-titulo-seus-cursos">
                             <h1 class="topico-nome">Seus cursos</h1>
-                            <form class="search">   
-                                <input class="search-bar" type="text" id="searchInput" placeholder="Buscar por título do curso">
+                            <form class="search">
+                                <input class="search-bar" type="text" id="searchInput"
+                                    placeholder="Buscar por título do curso">
                             </form>
                         </div>
                         <ul id="listaSeusCursos" class="lista-cursos" th:if="${cursos != null}">
@@ -58,7 +70,8 @@
                                 <a th:href="@{${'/editarCurso/' + curso.id}}" style="text-decoration: none;">
                                     <div class="card-curso">
                                         <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
-                                        <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do
+                                        <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome
+                                            do
                                             Professor</p>
                                     </div>
                                 </a>
