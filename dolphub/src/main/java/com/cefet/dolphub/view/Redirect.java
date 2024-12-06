@@ -15,7 +15,9 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 import com.cefet.dolphub.Service.ProfessorService;
+import com.cefet.dolphub.Service.QuestaoService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.MatriculaService;
 
@@ -28,6 +30,9 @@ public class Redirect {
     @Autowired
     private ProfessorService professorService;
     @Autowired
+    private QuestaoService questaoService;
+
+    @Autowired
     private CursoService cursoService;
 
     // Cadastrarusuario
@@ -37,14 +42,12 @@ public class Redirect {
         return "cadastrar_usuario";
     }
 
-    // Central de ajuda
     @GetMapping("/ajuda")
     public String pedirAjuda(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "central_ajuda";
     }
 
-    // Pagina Inicial do usuario
     @GetMapping("/inicio")
     public String paginaInicial(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
@@ -52,14 +55,19 @@ public class Redirect {
         if (professorOpt.isPresent()) {
             List<Curso> cursos = cursoService.listarCursosPorProfessor(professorOpt.get());
             List<Curso> limiteCurso = new ArrayList<>();
+            List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
 
-            // Adiciona até 10 cursos ou até o tamanho da lista
             for (int i = 0; i < Math.min(cursos.size(), 10); i++) {
                 limiteCurso.add(cursos.get(i));
             }
 
             model.addAttribute("cursos", limiteCurso);
             model.addAttribute("usuarioLogado", usuarioLogado);
+            model.addAttribute("quantidadeDeCursosInscritos", matriculas.size());
+            List<QuestaoRespondida> listaQuestaoRespondidas = questaoService.listaQuestoesRepondidas(usuarioLogado.getId());
+            model.addAttribute("questoesRespondidas", listaQuestaoRespondidas.size());
+            int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
+            model.addAttribute("questoesAcertadas", null);
             return "pagina_inicial";
         }
 
@@ -67,14 +75,12 @@ public class Redirect {
         return "pagina_inicial";
     }
 
-    // Progresso
     @GetMapping("/progresso")
     public String progresso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";
     }
 
-    // Cursos já adquiridos pelo usuario
     @GetMapping("/adquiridos")
     public String cursosAdquiridos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         List<Curso> cursos = cursoService.listAllCursos();
@@ -91,12 +97,9 @@ public class Redirect {
         model.addAttribute("matriculaLista", matriculaLista);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-
         return "cursos_adquiridos"; // Página que exibe os cursos em que o usuário está matriculado
     }
 
-    // Cursos que foram criados por outros usuarios e estão disponiveis para
-    // inscrição
     @GetMapping("/disponiveis")
     public String cursosDisponiveis(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         List<Curso> cursos = cursoService.listAllCursos();
@@ -116,7 +119,6 @@ public class Redirect {
         return "exibir_cursos";
     }
 
-    // Atualizar perfil do usuario
     @GetMapping("/atualizar")
     public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);
