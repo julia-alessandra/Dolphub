@@ -1,5 +1,10 @@
 package com.cefet.dolphub.Entidades.Main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cefet.dolphub.Entidades.Recursos.Questao;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +14,7 @@ import lombok.*;
 @Entity
 @Table(name = "tag", schema = "public")
 public class Tag {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_sq")
     @SequenceGenerator(schema = "public", name = "tag_sq", sequenceName = "tag_sq", initialValue = 1, allocationSize = 1)
@@ -18,4 +23,7 @@ public class Tag {
 
     @Column(name = "nome_tag", unique = true)
     private String nome;
+
+    @ManyToMany(mappedBy = "tags")
+    private List<Questao> questoes = new ArrayList<>();
 }

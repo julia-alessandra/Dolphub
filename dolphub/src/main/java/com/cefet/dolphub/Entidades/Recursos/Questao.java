@@ -3,6 +3,7 @@ package com.cefet.dolphub.Entidades.Recursos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cefet.dolphub.Entidades.Main.Tag;
 import com.cefet.dolphub.Entidades.Recursos.Relacionamento.QuestaoAtividade;
 
 import jakarta.persistence.*;
@@ -32,5 +33,9 @@ public class Questao {
 
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Alternativa> alternativas = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "questao_tag", schema = "public", joinColumns = @JoinColumn(name = "id_questao"), inverseJoinColumns = @JoinColumn(name = "id_tag"))
+    private List<Tag> tags = new ArrayList<>();
 
 }

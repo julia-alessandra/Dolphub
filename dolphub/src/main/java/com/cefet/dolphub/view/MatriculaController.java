@@ -31,14 +31,16 @@ public class MatriculaController {
     public String mostrarFormularioInscricao(@AuthenticationPrincipal Usuario usuarioLogado, Model model) {
         model.addAttribute("usuarioLogado", usuarioLogado);
         model.addAttribute("curso", new Curso()); // Objeto Curso vazio para o formulário
-        return "inscrever_curso"; // Nome do template Thymeleaf
+        return "redirect:/todos-os-cursos"; // Nome do template Thymeleaf
     }
+
     @GetMapping("/inscreverCursoId/{id}")
     public String inscreverId(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado) {
-        this.salvarMatricula(cursoService.buscar(id), usuarioLogado); 
-        return "redirect:/listarCursosAluno"; // Redireciona após a inscrição
+        this.salvarMatricula(cursoService.buscar(id), usuarioLogado);
+        return "redirect:/adquiridos"; // Redireciona após a inscrição
 
     }
+
 
     @GetMapping("/listarCursosAluno")
     public String listarCursosAluno(@AuthenticationPrincipal Usuario usuarioLogado, Model model) {
@@ -54,7 +56,31 @@ public class MatriculaController {
         model.addAttribute("cursos", cursos);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        return "listar_cursos_aluno"; // Nome do template Thymeleaf para listar os cursos
+        return "redirect:/todos-os-cursos"; // Nome do template Thymeleaf para listar os cursos
+    }
+
+    @GetMapping("/sairCurso/{cursoId}")
+    public String removerMatricula(@PathVariable("cursoId") Long cursoId,
+            @AuthenticationPrincipal Usuario usuarioLogado,
+            Model model) {
+        Curso curso = cursoService.buscarPorId(cursoId);
+
+        if (curso != null) {
+            List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
+            Optional<Matricula> matriculaOpt = matriculas.stream()
+                    .filter(m -> m.getCurso().getId().equals(cursoId))
+                    .findFirst();
+            if (matriculaOpt.isPresent()) {
+                matriculaService.removerMatricula(matriculaOpt.get());
+                model.addAttribute("notificacao", "Você foi removido do curso com sucesso.");
+            } else {
+                model.addAttribute("notificacao", "Você não está matriculado neste curso.");
+            }
+        } else {
+            model.addAttribute("notificacao", "Curso não encontrado.");
+        }
+
+        return "redirect:/disponiveis"; // Redireciona para a página de listagem de cursos do aluno
     }
 
     @PostMapping("/salvarMatricula")
@@ -71,6 +97,6 @@ public class MatriculaController {
             matriculaService.salvarMatricula(matricula); // Salva a matrícula
         }
 
-        return "redirect:/listarCursosAluno"; // Redireciona para a página de listagem de cursos do aluno
+        return "redirect:/adquiridos"; // Redireciona para a página de listagem de cursos do aluno
     }
 }

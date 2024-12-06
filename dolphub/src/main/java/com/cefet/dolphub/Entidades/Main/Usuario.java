@@ -76,10 +76,10 @@ public class Usuario implements UserDetails {
     }
 
     @ManyToMany
-    @JoinTable(
-        name = "matricula",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_curso")
-    )
+    @JoinTable(name = "matricula", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_curso"))
     private List<Curso> cursos;
+
+    public boolean equals(Usuario user) {
+        return this.getId() == user.getId();
+    }
 }

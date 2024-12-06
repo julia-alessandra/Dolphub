@@ -1,0 +1,120 @@
+.container-topico {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1.txt-title {
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+h2.txt-title {
+  font-weight: normal;
+  margin-top: 0px;
+}
+
+.topico-nome {
+  font-weight: normal;
+    font-size: 28px;
+    /* font-weight: bold; */
+    color: #333;
+    margin-bottom: 20px;
+    grid-column: 1 / -1; /* Faz o h1 ocupar toda a linha */
+    text-align: left;
+}
+
+/* .card-curso {
+    border-top: 10px solid #3a6ea5;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    width: 30vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-width: 20px;
+    margin: 10px;
+} 
+    ta no pattern agora    
+*/
+
+.foto-professor {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    margin: 0 auto 20px auto;
+}
+
+.titulo-curso {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.prof-curso {
+    font-size: 14px;
+    color: #777;
+}
+
+.lista-cursos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Para garantir que os cards fiquem organizados em várias linhas, se necessário */
+    gap: 20px;
+}
+/* Remover bolinhas da lista */
+ul.lista-cursos {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Estilizar os botões */
+  a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Botão de Inscrição */
+  a[href*="inscreverCursoId"] {
+    background-color: #007bff;
+  }
+  
+  a[href*="inscreverCursoId"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Botão de Remover inscrição */
+  a[href*="sairCurso"] {
+    background-color: #d9534f;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+  }
+  
+  a[href*="sairCurso"]:hover {
+    background-color: #c9302c;
+  }
+  
+  /* Botão de Acessar curso */
+  a[href*="acessoCurso"] {
+    background-color: #5cb85c;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+  }
+  
+  a[href*="acessoCurso"]:hover {
+    background-color: #4cae4c;
+  }
+  
+  .card-curso > p {
+    width: 100%;
+  }

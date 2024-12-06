@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.cefet.dolphub.Entidades.Recursos.*;
 
 @Repository
-public interface QuestaoRepository extends JpaRepository<Questao, Long> {
+public interface AlternativaRepository extends JpaRepository<Alternativa, Long> {
 }

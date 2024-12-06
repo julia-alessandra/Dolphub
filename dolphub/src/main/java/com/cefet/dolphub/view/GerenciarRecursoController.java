@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
@@ -27,6 +30,7 @@ import com.cefet.dolphub.Repositorio.*;
 import com.cefet.dolphub.Service.AcessoService;
 import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.CursoService;
+import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.RecursoService;
 import com.cefet.dolphub.Service.TopicoService;
 import com.cefet.dolphub.Service.VideoService;
@@ -57,20 +61,42 @@ public class GerenciarRecursoController {
     private CursoService cursoService;
     @Autowired
     private TopicoService topicoService;
+    @Autowired
+    private ProfessorService professorService;
 
     @GetMapping
     public String editarCurso() {
         return "editar_curso";
     }
 
-    @GetMapping("/{id}")
-    public String acessarGerenciarCurso(@PathVariable Long id, Model model,
+    @GetMapping("{idCurso}")
+    public String acessarGerenciarCurso(@PathVariable Long idCurso, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
         System.out.println("hfsuhfusdhfausahfas11111");
-        Curso curso = cursoService.buscar(id);
+        Curso curso = cursoService.buscar(idCurso);
         System.out.println("hfsuhfusdhfausahfa2222222");
-        List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(id);
+        List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(idCurso);
         System.out.println("hfsuhfusdhfausahfas3333333");
+
+        if (!cursoService.getEditAcess(curso, usuarioLogado)) {
+            Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
+            if (professorOpt.isPresent()) {
+                List<Curso> cursos = cursoService.listarCursosPorProfessor(professorOpt.get());
+                List<Curso> limiteCurso = new ArrayList<>();
+                for (int i = 0; i < Math.min(cursos.size(), 10); i++) {
+                    limiteCurso.add(cursos.get(i));
+                }
+                model.addAttribute("cursos", limiteCurso);
+                model.addAttribute("usuarioLogado", usuarioLogado);
+                model.addAttribute("tipoNotificacao", "error");
+                model.addAttribute("notificacao", "Acesso negado à edição do curso");
+                return "pagina_inicial";
+            }
+            model.addAttribute("usuarioLogado", usuarioLogado);
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Acesso negado à edição do curso");
+            return "pagina_inicial";
+        }
 
         model.addAttribute("curso", curso);
         model.addAttribute("recursos", recursos);
@@ -93,7 +119,7 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        System.out.println(pai.getTitulo());
+        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("arquivo", novo);
@@ -253,7 +279,7 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        System.out.println(pai.getTitulo());
+        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("video", novo);
@@ -405,22 +431,23 @@ public class GerenciarRecursoController {
     }
 
     @GetMapping("{idCurso}/gerarTopico")
-    public String gerarTopico(@PathVariable Long idCurso, RedirectAttributes redirectAttributes) {
+    public String gerarTopico(@PathVariable Long idCurso, @RequestParam String titulo,
+            RedirectAttributes redirectAttributes) {
         Topico novo = new Topico();
         novo.setCurso(cursoService.buscar(idCurso));
         novo.setTopicoPai(null);
-        novo.setTitulo("Topico");
+        novo.setTitulo(titulo);
         topicoService.salvarTopico(novo);
         return "redirect:/editarCurso/" + idCurso;
     }
 
     @GetMapping("{idCurso}/gerarTopico/{idPai}")
-    public String gerarTopico(@PathVariable Long idCurso, @PathVariable Long idPai,
+    public String gerarTopico(@PathVariable Long idCurso, @RequestParam String titulo, @PathVariable Long idPai,
             RedirectAttributes redirectAttributes) {
         Topico novo = new Topico();
         novo.setCurso(cursoService.buscar(idCurso));
         novo.setTopicoPai(topicoService.buscar(idPai));
-        novo.setTitulo("Topico");
+        novo.setTitulo(titulo);
         topicoService.salvarTopico(novo);
         return "redirect:/editarCurso/" + idCurso;
     }

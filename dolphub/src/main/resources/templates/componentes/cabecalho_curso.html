@@ -1,12 +1,14 @@
 <header id="header-menu-curso" th:fragment="cabecalho_curso" th:if="${curso != null}">
 
     <div id="titulo-curso">
-        <h3 th:text="${curso.nome}">Curso de python</h3>
+        <div id="idTitulo"style="display:flex; align-items: center;">
+            <h3 th:text="${curso.nome}">Curso de python</h3>
+        </div>
         <p th:text="${curso.descricao}">Curso para iniciantes em programação com pyhton por Gustavo Guanabara </p>
     </div>
 
     <div id="menu-curso">
-        <form>Módulos</form>
+        <a th:href="@{/editarCurso/{id}(id=${curso.id})}">Módulos</a>
         <form>Avisos</form>
         <form>Questões</form>
         <form>Fórum</form>

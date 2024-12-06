@@ -78,7 +78,7 @@
                     </div>
 
                     <label class="vnotas">Anotações:
-                        <textarea name="anotacao" required></textarea>
+                        <textarea name="anotacao" th:text="${video.anotacao}" required></textarea>
                     </label>
                 
                     <input type="hidden" name="cursoId" th:value="${curso.id}">

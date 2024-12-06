@@ -34,6 +34,10 @@ public class CursoService {
         return cursoRepository.save(curso);
     }
 
+    public void atualizar(Curso curso) {
+        cursoRepository.save(curso);
+    }
+
     public Optional<Curso> buscarCursoPorId(Long id) {
         return cursoRepository.findById(id);
     }
@@ -46,8 +50,19 @@ public class CursoService {
         return cursoRepository.findAllByProfessor(professor);
     }
 
+    public List<Curso> listAllCursos() {
+        return cursoRepository.findAll();
+    }
+
     public void deletarCurso(Long id) {
         cursoRepository.deleteById(id);
+    }
+
+    public boolean getEditAcess(Curso curso, Usuario user) {
+        System.out.println("fahsdfjadsfhljdsafhlasjfdlf");
+        System.out.println(user.getId());
+        System.out.println(curso.getProfessor().getId());
+        return user.equals(curso.getProfessor().getUsuario());
     }
 
 }

@@ -19,7 +19,12 @@ public class TopicoService {
     @Autowired
     private TopicoRepository topicoRepository;
 
+    
     public TopicoService() {
+    }
+
+    public List<Topico> listarTopicosPorCurso(Curso curso) {
+        return topicoRepository.findByCurso(curso);
     }
 
     public Topico salvarTopico(Topico topico) {
