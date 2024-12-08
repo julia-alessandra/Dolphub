@@ -69,6 +69,7 @@ public class QuestaoService {
             Long idAlternativa = questao.getAlternativa().getId();
             if (this.verificarAlternativa(idQuestao, idAlternativa)) {
                 ++acertos;
+                System.out.println("O id da questão é " + idQuestao);
             }
         }
         return acertos;

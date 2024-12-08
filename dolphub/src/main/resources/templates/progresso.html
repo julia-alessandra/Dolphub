@@ -21,24 +21,29 @@
             <div class="container">
                 <div class="card">
                     <p>Quantidade de cursos:</p>
-                    <h1>0</h1>
-                    <span>0 estudantes participam do curso <span class="highlight">nome do curso</span> junto com você</span>
+                    <h1 th:text="${quantidadeDeCursosInscritos}" >0</h1>
+                    <span>A média por aluno é de<span class="highlight">x</span> cursos</span>
                 </div>
                 <div class="card">
                     <p>Aulas assistidas:</p>
-                    <h1>0</h1>
+                    <h1 th:text="${aulasAssistidas}">0</h1>
                     <span>Você assistiu <span class="highlight">0</span> de <span class="highlight">0</span> das aulas disponíveis</span>
                 </div>
                 <div class="card">
                     <p>Sua taxa de acertos:</p>
-                    <h1>0%</h1>
+                    <h1 th:text="${taxaDeAcerto}">0%</h1>
                     <span>Você acertou <span class="highlight">0%</span> de todas as questões resolvidas</span>
                 </div>
                 <div class="card">
                     <p>Quantidade de acertos:</p>
-                    <h1>90</h1>
+                    <h1 th:text="${quantidadeDeAcertos}">90</h1>
                     <span>Você acertou <span class="highlight">0</span> de <span class="highlight">0</span> questões resolvidas</span>
                 </div>
+                <div class="card">
+                    <p id="numCriados" th:text="${cursos}">0</p>
+                    <p>Cursos Criados</p>
+                </div>
+
             </div>      
             <div class="wide">
                 <p>Aulas assistidas por curso:</p>

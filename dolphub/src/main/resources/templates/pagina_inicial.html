@@ -29,16 +29,12 @@
                             <p>Cursos Inscritos</p>
                         </div>
                         <div class="estatistica">
-                            <p id="numCriados">0</p>
-                            <p>Cursos Criados</p>
-                        </div>
-                        <div class="estatistica">
                             <p>0</p>
                             <p>Aulas Assistidas</p>
                         </div>
                         <div class="estatistica">
-                            <p id="porcentagem">-</p>
-                            <p>Porcentagem de acertos</p>
+                            <p><span th:text="${porcentagemAcertos}">-</span>%</p>
+                            <p>de acerto nas questões</p>
                         </div>
 
                         <div class="estatistica">
@@ -47,7 +43,7 @@
                         </div>
 
                         <div class="estatistica">
-                            <p id="numCriados">0</p>
+                            <p th:text="${questoesAcertadas}">1234</p>
                             <p>Questões Corretas</p>
                         </div>
 
