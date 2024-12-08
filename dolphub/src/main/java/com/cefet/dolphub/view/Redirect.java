@@ -10,7 +10,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.cefet.dolphub.Entidades.Comunicacao.Aviso;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
@@ -138,9 +140,11 @@ public class Redirect {
         return "exibir_cursos";
     }
 
+    //atualizar informaçoes do usuario
     @GetMapping("/atualizar")
     public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "perfil_usuario";
     }
+
 }
