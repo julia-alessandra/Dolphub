@@ -21,12 +21,45 @@
             <span th:if="${role == 'aluno'}"><div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div></span>
 
             <div id="container-questao">
-                <section>
-                    Aqui vai o filtro
+                <section id="banco-questao-menu">
+                    <div id="controle-questao" th:if="${role == 'professor'}">
+                        <a id="add-questao" th:href="@{/editarCurso/{idCurso}/enviarQuestao(idCurso=${curso.id})}">Criar questão <i class="fa-solid fa-plus"></i></a>
+                    </div>
+
+                    <form id="filtro">
+                        <h3>Filtro de questões</h3>
+                        
+                        <input id="chave" type="text" placeholder="Palavras-chave">
+                        
+                        <label class="option-filtro"> Selecionar tags:
+                            <select name="tags" multiple size="5">
+                                <option>Alcaneo</option>
+                                <option>Alceno</option>
+                                <option>Butano</option>
+                            </select>
+                        </label>
+                        
+                        <div class="option-filtro">Filtrar por período:
+                            <label class="label-periodo">De:
+                                <input type="date">
+                            </label>
+                            <label class="label-periodo">Até:
+                                <input type="date">
+                            </label>
+                        </div>
+
+                        <button type="submit">Pesquisar</button>
+                    </form>
+
                 </section>
 
-                <section>
-                    <div th:each="questao : ${questoes}" class="questao-container">
+                <!-- container para prof -->
+                <section th:if="${role == 'professor'}" id="lista-questoes-container">
+                    <form th:each="questao : ${questoes}" class="questao-container">
+                        <div class="acoes">
+                            <a th:href="@{'/editarCurso/editarQuestao/' + ${questao.id}}"><i class="fa-solid fa-pencil"></i></a>
+                            <a th:href="@{/editarCurso/{idCurso}/apagarQuestao/{id}(idCurso=${curso.id}, id=${questao.id})}"><i class="fa-solid fa-trash"></i></a>
+                        </div>
                         <div class="questao-enunciado" th:text="${questao.enunciado}"></div>
                 
                         <div class="alternativas">
@@ -35,17 +68,26 @@
                                 <span th:text="${alternativa.descricao}"></span>
                             </div>
                         </div>
-                
-                        <div class="acoes">
-                            <a th:href="@{'/editarCurso/editarQuestao/' + ${questao.id}}"><i class="fa-solid fa-pencil"></i></a>
-                            <a th:href="@{/editarCurso/{idCurso}/apagarQuestao/{id}(idCurso=${curso.id}, id=${questao.id})}"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
+                        <button type="submit">Responder</button>
+                    </form>
                 </section>
 
-                <section id="controle-questao">
-                    <a th:href="@{/editarCurso/{idCurso}/enviarQuestao(idCurso=${curso.id})}">Criar questão</a>
+                <!-- container para alunos -->
+                <section th:if="${role == 'aluno'}" id="lista-questoes-container">
+                    <form th:each="questao : ${questoes}" class="questao-container">
+
+                        <div class="questao-enunciado" th:text="${questao.enunciado}"></div>
+                
+                        <div class="alternativas">
+                            <div th:each="alternativa : ${questao.alternativas}" class="alternativa">
+                                <input type="radio">
+                                <span th:text="${alternativa.descricao}"></span>
+                            </div>
+                        </div>
+                        <button type="submit">Responder</button>
+                    </form>
                 </section>
+
             </div>
         </div>
 

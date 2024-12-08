@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Video;
 import com.cefet.dolphub.Service.AcessoService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.MatriculaService;
+import com.cefet.dolphub.Service.QuestaoService;
 import com.cefet.dolphub.Service.VideoService;
 import com.cefet.dolphub.view.MatriculaController;
 
@@ -32,13 +34,17 @@ public class AcessarCursoController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private QuestaoService questaoService;
+
     @GetMapping("/acessoCurso/{id}")
-    public String listarRecursosPorCurso(@AuthenticationPrincipal Usuario usuarioLogado, @PathVariable Long id, Model model) {
+    public String listarRecursosPorCurso(@AuthenticationPrincipal Usuario usuarioLogado, @PathVariable Long id,
+            Model model) {
         Curso curso = cursoService.buscar(id);
-        if(!matriculaService.matriculaExiste(usuarioLogado, curso))
+        if (!matriculaService.matriculaExiste(usuarioLogado, curso))
             return "error";
         List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(id);
-        
+
         model.addAttribute("curso", curso);
         model.addAttribute("recursos", recursos);
         return "acesso_curso";
@@ -60,5 +66,20 @@ public class AcessarCursoController {
         model.addAttribute("roleAcess", "view");
 
         return "acesso_video";
+    }
+
+    @GetMapping("acessoCurso/{idCurso}/bancoQuestao")
+    public String acessarBanco(@PathVariable Long idCurso, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+
+        Curso curso = cursoService.buscar(idCurso);
+        List<Questao> questoes = questaoService.listarTodas();
+
+        model.addAttribute("questoes", questoes);
+        model.addAttribute("curso", curso);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+        model.addAttribute("role", "aluno");
+
+        return "banco_questao";
     }
 }

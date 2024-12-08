@@ -37,7 +37,7 @@ public class QuestaoService {
         return topico.orElseThrow(() -> new RuntimeException("Tópico não encontrado!"));
     }
 
-    public void atualizarQuestao(Long id, Questao questaoAtualizada, List<String> descricoes,
+    public Questao atualizarQuestao(Long id, Questao questaoAtualizada, List<String> descricoes,
             List<Boolean> verificacoes) {
         Questao questaoExistente = buscar(id);
 
@@ -45,15 +45,23 @@ public class QuestaoService {
         questaoExistente.setDificuldade(questaoAtualizada.getDificuldade().getValor());
 
         questaoExistente.getAlternativas().clear();
+
+        System.out.println("Alt:");
+        listarItens(descricoes);
+        listarItens(verificacoes);
+        System.out.println(descricoes.size());
+        System.out.println(verificacoes.size());
+
         for (int i = 0; i < descricoes.size(); i++) {
             Alternativa alternativa = new Alternativa();
             alternativa.setDescricao(descricoes.get(i));
-            alternativa.setVerificacao(verificacoes.get(i));
+            alternativa.setVerificacao(verificacoes.get(i + 1));
             alternativa.setQuestao(questaoExistente);
             questaoExistente.getAlternativas().add(alternativa);
         }
 
         questaoRepository.save(questaoExistente);
+        return questaoExistente;
     }
 
     public Alternativa buscarAlternativa(Long id) {
@@ -108,5 +116,16 @@ public class QuestaoService {
 
     public List<QuestaoRespondida> listaQuestoesRepondidas(Long id) {
         return questaoRespondidaRepository.findByUsuarioId(id);
+    }
+
+    private <T> void listarItens(List<T> lista) {
+        if (lista == null || lista.isEmpty()) {
+            System.out.println("A lista está vazia.");
+            return;
+        }
+
+        for (T item : lista) {
+            System.out.println(item);
+        }
     }
 }

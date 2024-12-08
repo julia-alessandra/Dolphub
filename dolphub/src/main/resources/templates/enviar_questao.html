@@ -18,32 +18,38 @@
             <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
             <div id="enviar-questao" class="container-questao">
 
-                <form th:if="${operation == 'enviar'}" th:action="@{/editarCurso/salvarQuestao}" method="POST">
+                <form class="form-questao" th:if="${operation == 'enviar'}" th:action="@{/editarCurso/salvarQuestao}" method="POST">
                     <input type="hidden" name="cursoId" th:value="${curso.id}" />
-            
-                    <label for="enunciado">Enunciado:
-                    <textarea id="enunciado" name="enunciado" required></textarea>
-                    </label>
-            
-                    <label class="ldificuldade" id="label-dificuldade">
-                        <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
-                        <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
-                    </label>
-            
-                    <div id="alternativas">
-                        <div class="alternativa">
-                            <input type="checkbox" class="check" name="verificacaoAlternativa[]" value="0" />
-                            <input type="text" name="descricaoAlternativa[]" required />
+                    
+                    <div class="nobtn">
+                        <div>
+                            <label for="enunciado">Enunciado:
+                                <textarea id="enunciado" name="enunciado" required></textarea>
+                            </label>
+                    
+                            <label class="ldificuldade" id="label-dificuldade">
+                                <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                                <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                            </label>
                         </div>
-                        <div class="alternativa">
-                            <input type="checkbox" class="check" name="verificacaoAlternativa[]" value="1" />
-                            <input type="text" name="descricaoAlternativa[]" required />
+                        
+                        <div class="container-dir">
+                            <div id="alternativas">
+                                <div class="alternativa">
+                                    <input type="checkbox" class="check" name="verificacaoAlternativa[]" value="0" />
+                                    <input type="text" name="descricaoAlternativa[]" required />
+                                </div>
+                                <div class="alternativa">
+                                    <input type="checkbox" class="check" name="verificacaoAlternativa[]" value="1" />
+                                    <input type="text" name="descricaoAlternativa[]" required />
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" onclick="adicionarAlternativa()">Adicionar Alternativa</button>
+                                <button type="button" onclick="removerAlternativa()">Remover Alternativa</button>
+                            </div>
                         </div>
                     </div>
-            
-                    <button type="button" onclick="adicionarAlternativa()">Adicionar Alternativa</button>
-                    <button type="button" onclick="removerAlternativa()">Remover Alternativa</button>
-                    <br><br>
                     <button type="submit">Cadastrar Questão</button>
                 </form>
                 <!-- <form>
@@ -64,24 +70,32 @@
 
                 </form> -->
 
-                <form th:if="${operation == 'editar'}" th:action="@{/editarCurso/salvarEdicaoQuestao/{id}(id=${questao.id})}" method="post">
-                    <div>
-                        <label for="enunciado">Enunciado:</label>
-                        <input type="text" id="enunciado" name="enunciado" th:value="${questao.enunciado}" required />
-                    </div>
+                <form class="form-questao" th:if="${operation == 'editar'}" th:action="@{/editarCurso/salvarEdicaoQuestao/{id}(id=${questao.id})}" method="post">
+                    <div class="nobtn">
+                        <div>
+                            <div>
+                                <label for="enunciado">Enunciado:</label>
+                                <input type="text" id="enunciado" name="enunciado" th:value="${questao.enunciado}" required />
+                            </div>
 
-                    <label class="ldificuldade" id="label-dificuldade">
-                        <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
-                        <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
-                    </label>
-            
-                    <div id="alternativas">
-                        <div class="alternativa" th:each="alternativa, index : ${questao.alternativas}">
-                            <input class="check" type="checkbox" name="verificacaoAlternativa" th:checked="${alternativa.verificacao}" />
-                            <input type="text" name="descricaoAlternativa" th:value="${alternativa.descricao}" required />
+                            <label class="ldificuldade" id="label-dificuldade">
+                                <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                                <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                            </label>
+                        </div>
+                        <div class="container-dir">
+                            <div id="alternativas">
+                                <div class="alternativa" th:each="alternativa, index : ${questao.alternativas}">
+                                    <input type="hidden" name="verificacaoAlternativa" value="false" />
+                                    <input class="check" type="checkbox" name="verificacaoAlternativa" th:checked="${alternativa.verificacao}" />
+                                    <input type="text" name="descricaoAlternativa" th:value="${alternativa.descricao}" required />
+                                </div>
+                            </div>
                         </div>
                     </div>
             
+                    
+                    
                     <button type="submit">Salvar</button>
                 </form>
 

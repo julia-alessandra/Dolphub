@@ -116,8 +116,8 @@ public class GerenciarQuestaoController {
             @ModelAttribute Questao questaoAtualizada,
             @RequestParam("descricaoAlternativa") List<String> descricoes,
             @RequestParam("verificacaoAlternativa") List<Boolean> verificacoes) {
-        questaoService.atualizarQuestao(id, questaoAtualizada, descricoes, verificacoes);
-        return "redirect:/cursos/" + questaoAtualizada.getCurso().getId();
+        questaoAtualizada = questaoService.atualizarQuestao(id, questaoAtualizada, descricoes, verificacoes);
+        return "redirect:/editarCurso/" + questaoAtualizada.getCurso().getId() + "/bancoQuestao";
     }
 
     @GetMapping("/editarCurso/{idCurso}/apagarQuestao/{id}")
