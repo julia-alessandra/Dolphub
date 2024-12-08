@@ -1,0 +1,71 @@
+         /* Estilos para o formulário */
+         form#avisoForm {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            width: 90%;
+            margin: 0 auto 24px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form#avisoForm label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        form#avisoForm input, 
+        form#avisoForm textarea {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        form#avisoForm button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            
+        }
+
+        form#avisoForm button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para os avisos */
+        .aviso-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px 0;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .aviso-titulo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .aviso-mensagem {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .aviso-detalhes {
+            font-size: 14px;
+            color: #777;
+            margin-top: 8px;
+        }
