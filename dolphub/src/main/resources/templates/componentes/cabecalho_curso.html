@@ -10,7 +10,7 @@
     <div id="menu-curso">
         <a th:href="@{/editarCurso/{id}(id=${curso.id})}">Módulos</a>
         <form>Avisos</form>
-        <form>Questões</form>
+        <a th:href="@{/acessoCurso/{id}(id=${curso.id})}">Questões</a>
         <form>Fórum</form>
     </div>
 </header>

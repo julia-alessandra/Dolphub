@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cefet.dolphub.Entidades.Recursos.Alternativa;
+import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 
 import jakarta.persistence.*;
@@ -41,11 +43,7 @@ public class Curso {
     private List<Recurso> recursos = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(
-        name = "matricula",
-        joinColumns = @JoinColumn(name = "id_curso"),
-        inverseJoinColumns = @JoinColumn(name = "id_usuario")
-    )
+    @JoinTable(name = "matricula", joinColumns = @JoinColumn(name = "id_curso"), inverseJoinColumns = @JoinColumn(name = "id_usuario"))
     private List<Usuario> usuarios;
 
     public List<Recurso> getRecursos() {
@@ -55,4 +53,7 @@ public class Curso {
     public void setRecursos(List<Recurso> recursos) {
         this.recursos = recursos;
     }
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Questao> questoes = new ArrayList<>();
 }

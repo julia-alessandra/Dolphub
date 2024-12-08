@@ -5,7 +5,7 @@
 <head>
     <title>Dolphub</title>
     <link th:href="@{/styles/pattern.css}" rel="stylesheet">
-
+    <link th:href="@{/styles/questao.css}" rel="stylesheet">
 </head>
 <body>
     <div class="tela-completa">
@@ -18,7 +18,35 @@
             <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
             <div id="enviar-questao" class="container-questao">
 
-                <form>
+                <form th:if="${operation == 'enviar'}" th:action="@{/editarCurso/salvarQuestao}" method="POST">
+                    <input type="hidden" name="cursoId" th:value="${curso.id}" />
+            
+                    <label for="enunciado">Enunciado:
+                    <textarea id="enunciado" name="enunciado" required></textarea>
+                    </label>
+            
+                    <label class="ldificuldade" id="label-dificuldade">
+                        <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                        <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                    </label>
+            
+                    <div id="alternativas">
+                        <div class="alternativa">
+                            <input type="checkbox" class="check" name="verificacaoAlternativa[]" value="0" />
+                            <input type="text" name="descricaoAlternativa[]" required />
+                        </div>
+                        <div class="alternativa">
+                            <input type="checkbox" class="check" name="verificacaoAlternativa[]" value="1" />
+                            <input type="text" name="descricaoAlternativa[]" required />
+                        </div>
+                    </div>
+            
+                    <button type="button" onclick="adicionarAlternativa()">Adicionar Alternativa</button>
+                    <button type="button" onclick="removerAlternativa()">Remover Alternativa</button>
+                    <br><br>
+                    <button type="submit">Cadastrar Questão</button>
+                </form>
+                <!-- <form>
                     <div>
                         <label for="enunciado">Enunciado:
                             <textarea type="text" id="enunciado" name="enunciado" th:field="*{questao.enunciado}" required></textarea>
@@ -29,24 +57,32 @@
                         </div>
 
                         <div>
-                            <label class="ldificuldade" id="label-dificuldade">
-                                <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
-                                <input th:value="*{questao.dificuldade}" type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
-                            </label>
+                        <label class="ldificuldade" id="label-dificuldade">
+                            <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                            <input th:value="*{questao.dificuldade}" type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                        </label>
 
-                            <div id="container-tags">
-                                <h3>Tags</h3>
-                                <div>
-                                    <input type="text" id="tagInput" placeholder="Nova tag" />
-                                    <button onclick="addTag()">+</button>
-                                </div>
-                                <div id="tagsContainer">
-                                    <!-- Tags aqui -->
-                                </div>
-                            </div>
-                        </div>
+                </form> -->
+
+                <form th:if="${operation == 'editar'}" th:action="@{/editarCurso/salvarEdicaoQuestao/{id}(id=${questao.id})}" method="post">
+                    <div>
+                        <label for="enunciado">Enunciado:</label>
+                        <input type="text" id="enunciado" name="enunciado" th:value="${questao.enunciado}" required />
                     </div>
 
+                    <label class="ldificuldade" id="label-dificuldade">
+                        <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                        <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0" max="3" value="0" step="1" oninput="atualizarDificuldade()">
+                    </label>
+            
+                    <div id="alternativas">
+                        <div class="alternativa" th:each="alternativa, index : ${questao.alternativas}">
+                            <input class="check" type="checkbox" name="verificacaoAlternativa" th:checked="${alternativa.verificacao}" />
+                            <input type="text" name="descricaoAlternativa" th:value="${alternativa.descricao}" required />
+                        </div>
+                    </div>
+            
+                    <button type="submit">Salvar</button>
                 </form>
 
             </div>
@@ -59,5 +95,6 @@
     </div>
     </body>
     <script th:src="@{/javascript/pattern.js}"></script>
-    <script th:src="@{/javascript/tag.js}"></script>
+    <script th:src="@{/javascript/questao.js}"></script>
+    <!-- <script th:src="@{/javascript/tag.js}"></script> -->
 </html>

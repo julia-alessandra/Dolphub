@@ -13,6 +13,7 @@ import com.cefet.dolphub.Repositorio.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class QuestaoService {
 
@@ -34,6 +35,25 @@ public class QuestaoService {
     public Topico buscarTopicoPai(Long id) {
         Optional<Topico> topico = topicoRepository.findById(id);
         return topico.orElseThrow(() -> new RuntimeException("Tópico não encontrado!"));
+    }
+
+    public void atualizarQuestao(Long id, Questao questaoAtualizada, List<String> descricoes,
+            List<Boolean> verificacoes) {
+        Questao questaoExistente = buscar(id);
+
+        questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
+        questaoExistente.setDificuldade(questaoAtualizada.getDificuldade().getValor());
+
+        questaoExistente.getAlternativas().clear();
+        for (int i = 0; i < descricoes.size(); i++) {
+            Alternativa alternativa = new Alternativa();
+            alternativa.setDescricao(descricoes.get(i));
+            alternativa.setVerificacao(verificacoes.get(i));
+            alternativa.setQuestao(questaoExistente);
+            questaoExistente.getAlternativas().add(alternativa);
+        }
+
+        questaoRepository.save(questaoExistente);
     }
 
     public Alternativa buscarAlternativa(Long id) {
@@ -79,6 +99,10 @@ public class QuestaoService {
     }
 
     public List<Questao> listaQuestoes() {
+        return questaoRepository.findAll();
+    }
+
+    public List<Questao> listarTodas() {
         return questaoRepository.findAll();
     }
 
