@@ -15,9 +15,11 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Entidades.Recursos.AulaAssistida;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.QuestaoService;
+import com.cefet.dolphub.Service.AulaAssistidaService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.MatriculaService;
 
@@ -31,6 +33,8 @@ public class Redirect {
     private ProfessorService professorService;
     @Autowired
     private QuestaoService questaoService;
+    @Autowired
+    private AulaAssistidaService aulaAssistidaService;
 
     @Autowired
     private CursoService cursoService;
@@ -62,7 +66,10 @@ public class Redirect {
 
             model.addAttribute("cursos", limiteCurso);
         }
+        int quantidadeDeAulasAssistidas = aulaAssistidaService.numeroDeAulasAssistidasPorUsuario(usuarioLogado);
         List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
+        System.out.println("o numero de aulas assistidas foram:" + quantidadeDeAulasAssistidas);
+        model.addAttribute("quantidadeDeAulasAssistidas", quantidadeDeAulasAssistidas);
 
         model.addAttribute("usuarioLogado", usuarioLogado);
         model.addAttribute("quantidadeDeCursosInscritos", matriculas.size());
@@ -73,9 +80,15 @@ public class Redirect {
         int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
         System.out.println(acertos);
         model.addAttribute("questoesAcertadas", acertos);
-        int porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        Double porcentagem;
+        if (quantidadeDeQuestoesRespondidas == 0)
+            porcentagem = 0.0;
+        else
+            porcentagem = (double) acertos / quantidadeDeQuestoesRespondidas;
+        System.out.println(acertos + " / " + quantidadeDeQuestoesRespondidas);
+        System.out.println(porcentagem + " %");
         porcentagem *= 100;
-        System.out.println(porcentagem +" %");
+        System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagem);
 
         model.addAttribute("usuarioLogado", usuarioLogado);
@@ -84,18 +97,30 @@ public class Redirect {
 
     @GetMapping("/progresso")
     public String progresso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
-
+        int quantidadeDeAulasAssistidas = aulaAssistidaService.numeroDeAulasAssistidasPorUsuario(usuarioLogado);
         List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
+        System.out.println("o numero de aulas assistidas foram:" + quantidadeDeAulasAssistidas);
+        model.addAttribute("quantidadeDeAulasAssistidas", quantidadeDeAulasAssistidas);
+
         model.addAttribute("quantidadeDeCursosInscritos", matriculas.size());
         List<QuestaoRespondida> listaQuestaoRespondidas = questaoService.listaQuestoesRepondidas(usuarioLogado.getId());
         int quantidadeDeQuestoesRespondidas = listaQuestaoRespondidas.size();
+
         model.addAttribute("questoesRespondidas", quantidadeDeQuestoesRespondidas);
         int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
+        System.out.println(acertos);
         model.addAttribute("questoesAcertadas", acertos);
-        int porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        Double porcentagem;
+        if (quantidadeDeQuestoesRespondidas == 0)
+            porcentagem = 0.0;
+        else
+            porcentagem = (double) acertos / quantidadeDeQuestoesRespondidas;
+        System.out.println(acertos + " / " + quantidadeDeQuestoesRespondidas);
+        System.out.println(porcentagem + " %");
         porcentagem *= 100;
-        System.out.println(porcentagem +" %");
+        System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagem);
+
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";
     }

@@ -29,7 +29,7 @@
                             <p>Cursos Inscritos</p>
                         </div>
                         <div class="estatistica">
-                            <p>0</p>
+                            <p th:text="${quantidadeDeAulasAssistidas}">0</p>
                             <p>Aulas Assistidas</p>
                         </div>
                         <div class="estatistica">
@@ -38,17 +38,12 @@
                         </div>
 
                         <div class="estatistica">
-                            <p th:text="${questoesRespondidas}">0</p>
-                            <p>Questões Respondidas</p>
-                        </div>
-
-                        <div class="estatistica">
                             <p th:text="${questoesAcertadas}">1234</p>
                             <p>Questões Corretas</p>
                         </div>
 
                     </div>
-                    <a href="#" class="btn-ver-mais">Veja mais</a>
+                    <a href="progresso" class="btn-ver-mais">Veja mais</a>
                 </section>
 
                 <!-- Seus Cursos -->
