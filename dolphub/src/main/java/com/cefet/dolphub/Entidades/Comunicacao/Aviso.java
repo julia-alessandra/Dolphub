@@ -1,5 +1,11 @@
 package com.cefet.dolphub.Entidades.Comunicacao;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
+import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Usuario;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,5 +26,15 @@ public class Aviso {
 
     @Column(name = "mensagem_aviso")
     private String mensagem;
+
+        @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    private LocalDate data;
 
 }

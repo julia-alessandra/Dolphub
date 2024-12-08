@@ -10,7 +10,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.cefet.dolphub.Entidades.Comunicacao.Aviso;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
@@ -55,21 +57,28 @@ public class Redirect {
         if (professorOpt.isPresent()) {
             List<Curso> cursos = cursoService.listarCursosPorProfessor(professorOpt.get());
             List<Curso> limiteCurso = new ArrayList<>();
-            List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
 
             for (int i = 0; i < Math.min(cursos.size(), 10); i++) {
                 limiteCurso.add(cursos.get(i));
             }
 
             model.addAttribute("cursos", limiteCurso);
-            model.addAttribute("usuarioLogado", usuarioLogado);
-            model.addAttribute("quantidadeDeCursosInscritos", matriculas.size());
-            List<QuestaoRespondida> listaQuestaoRespondidas = questaoService.listaQuestoesRepondidas(usuarioLogado.getId());
-            model.addAttribute("questoesRespondidas", listaQuestaoRespondidas.size());
-            int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
-            model.addAttribute("questoesAcertadas", null);
-            return "pagina_inicial";
         }
+        List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
+
+        model.addAttribute("usuarioLogado", usuarioLogado);
+        model.addAttribute("quantidadeDeCursosInscritos", matriculas.size());
+        List<QuestaoRespondida> listaQuestaoRespondidas = questaoService.listaQuestoesRepondidas(usuarioLogado.getId());
+        int quantidadeDeQuestoesRespondidas = listaQuestaoRespondidas.size();
+
+        model.addAttribute("questoesRespondidas", quantidadeDeQuestoesRespondidas);
+        int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
+        System.out.println(acertos);
+        model.addAttribute("questoesAcertadas", acertos);
+        int porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        porcentagem *= 100;
+        System.out.println(porcentagem +" %");
+        model.addAttribute("porcentagemAcertos", porcentagem);
 
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "pagina_inicial";
@@ -77,6 +86,18 @@ public class Redirect {
 
     @GetMapping("/progresso")
     public String progresso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+
+        List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
+        model.addAttribute("quantidadeDeCursosInscritos", matriculas.size());
+        List<QuestaoRespondida> listaQuestaoRespondidas = questaoService.listaQuestoesRepondidas(usuarioLogado.getId());
+        int quantidadeDeQuestoesRespondidas = listaQuestaoRespondidas.size();
+        model.addAttribute("questoesRespondidas", quantidadeDeQuestoesRespondidas);
+        int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
+        model.addAttribute("questoesAcertadas", acertos);
+        int porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        porcentagem *= 100;
+        System.out.println(porcentagem +" %");
+        model.addAttribute("porcentagemAcertos", porcentagem);
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";
     }
@@ -119,9 +140,11 @@ public class Redirect {
         return "exibir_cursos";
     }
 
+    //atualizar informaçoes do usuario
     @GetMapping("/atualizar")
     public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "perfil_usuario";
     }
+
 }

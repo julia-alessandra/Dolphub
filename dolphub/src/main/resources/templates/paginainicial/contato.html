@@ -1,44 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolphub</title>
+    <title>Contato - Dolphub</title>
     <link rel="stylesheet" href="styles/contato.css">
-    <link rel="stylesheet" href="styles/cabecalho.css">
-    <link rel="stylesheet" href="styles/padrao.css">
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <ul>
-                    <li><img src="imgs/icone_sem_fundo.png"></li>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="cursos.html">Cursos</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                    <li><a href="login.html" class="btn-login">Entrar</a></li>
-                    <li><a href="registrar1.html" class="btn-registro">Cadastrar</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section id="contato" class="contato">
-        <div class="container">
-            <h2>Contato</h2>
-            <p>Estamos aqui para ajudar. Entre em contato conosco através do formulário abaixo ou das nossas redes
-                sociais.</p>
-            <form action="#" method="post" class="contato-form">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
-                <label for="message">Mensagem:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-                <button type="submit" class="btn-primary">Enviar</button>
-            </form>
+    <!-- Cabeçalho -->
+    <div class="header">
+        <div class="logo">
+            <img src="imgs/icone_sem_fundo.png" alt="Logo Dolphub">
         </div>
-    </section>
+        <div class="header-right">
+            <a href="cadastro.html">Criar conta</a>
+            <a href="login.html">Entrar</a>
+        </div>
+    </div>
+
+    <!-- Seção Contato -->
+    <div class="contato-section">
+        <h1>Fale Conosco</h1>
+        <p>Entre em contato conosco para esclarecer dúvidas, enviar sugestões ou resolver problemas.</p>
+        <form action="#" method="post">
+            <input type="text" name="nome" placeholder="Seu nome" required>
+            <input type="email" name="email" placeholder="Seu e-mail" required>
+            <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Sobre Nós</a>
+            <a href="#">Termos de Serviço</a>
+            <a href="#">Política de Privacidade</a>
+            <a href="#">Ajuda</a>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Dolphub. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

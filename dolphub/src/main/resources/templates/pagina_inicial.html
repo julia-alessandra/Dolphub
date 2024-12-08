@@ -29,16 +29,12 @@
                             <p>Cursos Inscritos</p>
                         </div>
                         <div class="estatistica">
-                            <p id="numCriados">0</p>
-                            <p>Cursos Criados</p>
-                        </div>
-                        <div class="estatistica">
                             <p>0</p>
                             <p>Aulas Assistidas</p>
                         </div>
                         <div class="estatistica">
-                            <p id="porcentagem">-</p>
-                            <p>Porcentagem de acertos</p>
+                            <p><span th:text="${porcentagemAcertos}">-</span>%</p>
+                            <p>de acerto nas questões</p>
                         </div>
 
                         <div class="estatistica">
@@ -47,7 +43,7 @@
                         </div>
 
                         <div class="estatistica">
-                            <p id="numCriados">0</p>
+                            <p th:text="${questoesAcertadas}">1234</p>
                             <p>Questões Corretas</p>
                         </div>
 
@@ -77,21 +73,6 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                </section>
-
-                <!-- Próximas Aulas -->
-                <section class="section-ultimos-avisos">
-                    <h2>Últimos avisos</h2>
-                    <div class="avisos">
-                        <div class="aviso">
-                            <h3>Aviso titulo</h3>
-                            <p>Data: 15 de Novembro, 2024</p>
-                        </div>
-                        <div class="aviso">
-                            <h3>Aviso 2</h3>
-                            <p>Data: 18 de Novembro, 2024</p>
-                        </div>
                     </div>
                 </section>
             </div>
