@@ -76,7 +76,7 @@ public class QuestaoService {
     public Alternativa alternativaCorreta(Long id) {
         Questao questao = this.buscar(id);
         for (Alternativa alternativa : questao.getAlternativas()) {
-            if (alternativa.getVerificacao())
+            if (alternativa.getVerificacao() != null)
                 return alternativa;
         }
         throw new RuntimeException("Nenhuma alternativa correta encontrada para a questão com ID: " + id);

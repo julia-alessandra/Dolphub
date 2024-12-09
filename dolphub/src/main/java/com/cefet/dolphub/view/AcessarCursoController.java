@@ -66,9 +66,9 @@ public class AcessarCursoController {
         model.addAttribute("recursos", recursos);
         return "acesso_curso";
     }
-
     @GetMapping("/acessoCurso/{idCurso}/acessoVideo/{idVideo}")
-    public String acessarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo, Model model) {
+    public String acessarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo,
+            @AuthenticationPrincipal Usuario usuarioLogado, Model model) {
 
         Video video = videoService.buscar(idVideo);
 
@@ -79,6 +79,7 @@ public class AcessarCursoController {
         }
 
         model.addAttribute("video", video);
+        model.addAttribute("idUsuario", usuarioLogado.getId());
         model.addAttribute("cursoId", idCurso);
         model.addAttribute("roleAcess", "view");
 
