@@ -5,7 +5,8 @@
     <title>Dolphub</title>
     <link th:href="@{/styles/pattern.css}" rel="stylesheet">
     <link th:href="@{/styles/midia.css}" rel="stylesheet">
-
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 
 <body>
@@ -43,8 +44,7 @@
                     <div id="lateral-video">
                         <div id="controle-lateral-video">
                             <div id="title-notas">Anotações do professor</div>
-                            <a class="info-element" th:href="|http://youtube.com/${cursoId}/${video.id}/${idUsuario}|"
-                                data-info="Marcar como visualizado">
+                            <a id="marcar-video-btn" class="info-element" th:data-link="@{/acessoCurso/marcar-video/{idVideo}/(idVideo=${video.id})}" data-info="Marcar como visualizado" th:data-id="${idVideo}">
                                 <i class="fa-regular fa-square"></i>
                             </a>
 
@@ -74,5 +74,41 @@
     </div>
 </body>
 <script th:src="@{/javascript/pattern.js}"></script>
+<script>
+    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+    document.addEventListener("DOMContentLoaded", function () {
+    const marcarVideoBtn = document.getElementById("marcar-video-btn");
 
-</html>
+    if (marcarVideoBtn) {
+        marcarVideoBtn.addEventListener("click", async function (event) {
+            event.preventDefault();
+            const videoId = marcarVideoBtn.getAttribute("data-id");
+            var url = marcarVideoBtn.dataset.link;
+            console.log(url);
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        [csrfHeader]: csrfToken, // Inclui o token CSRF
+                    },
+                });
+
+                if (response.ok) {
+                    console.log("Vídeo marcado como assistido com sucesso!");
+                    marcarVideoBtn.innerHTML = '<i class="fa-regular fa-square-check"></i>';
+                } else {
+                    console.log("Erro ao marcar o vídeo como assistido.");
+                }
+            } catch (error) {
+                console.error("Erro ao marcar o vídeo:", error);
+                console.log("Erro ao conectar com o servidor.");
+            }
+        });
+    }
+});
+
+</script>
+</html>>
