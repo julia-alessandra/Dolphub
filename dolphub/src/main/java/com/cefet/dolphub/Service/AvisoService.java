@@ -11,19 +11,15 @@ import com.cefet.dolphub.Repositorio.AvisoRepository;
 
 @Service
 public class AvisoService {
-    
+
     @Autowired
     private AvisoRepository avisoRepository;
 
-        public Aviso cadastrar(Aviso aviso) {
-        return avisoRepository.save(aviso);
-    }
-
-    public List<Aviso> findAvisosByCursoId(Long cursoId) {
-        return avisoRepository.findByCursoId(cursoId);
-    }
-
     public List<Aviso> buscarPorCurso(Curso curso) {
-        return avisoRepository.findByCurso(curso);
+        return avisoRepository.findByCursoId(curso.getId());
+    }
+
+    public Aviso cadastrar(Aviso aviso) {
+        return avisoRepository.save(aviso);
     }
 }

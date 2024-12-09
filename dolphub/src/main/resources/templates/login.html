@@ -27,6 +27,7 @@
             </div>
     
             <a href="#" class="forgot-password">Esqueci minha senha</a>
+            <a th:href="@{/cadastro}" class="forgot-password">Ainda não tenho conta</a>
 
             <div th:if="${erro}" class="alert alert-danger">
                 <p th:text="${erro}" style="color: red;"></p>
