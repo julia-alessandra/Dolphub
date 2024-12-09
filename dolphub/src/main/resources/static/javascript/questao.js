@@ -182,3 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+function validarAlternativas() {
+    const alternativas = document.querySelectorAll('input[name="verificacaoAlternativa[]"]:checked');
+    
+    if (alternativas.length === 0) {
+        alert("Por favor, selecione pelo menos uma alternativa.");
+        return false;
+    }
+    
+    return true;
+}

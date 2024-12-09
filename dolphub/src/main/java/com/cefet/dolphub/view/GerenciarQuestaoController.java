@@ -74,7 +74,8 @@ public class GerenciarQuestaoController {
             @RequestParam int dificuldade,
             @RequestParam List<String> descricaoAlternativa,
             @RequestParam(required = false) List<String> verificacaoAlternativa,
-            @RequestParam Long cursoId) {
+            @RequestParam Long cursoId,
+            RedirectAttributes redirectAttributes) {
 
         var curso = cursoService.buscar(cursoId);
         if (curso == null) {
@@ -107,6 +108,8 @@ public class GerenciarQuestaoController {
 
         questaoService.salvarQuestao(questao);
 
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Questão adicionada com sucesso");
         return "redirect:/editarCurso/" + cursoId + "/bancoQuestao";
     }
 
@@ -136,8 +139,8 @@ public class GerenciarQuestaoController {
             RedirectAttributes redirectAttributes) {
         questaoAtualizada = questaoService.atualizarQuestao(id, questaoAtualizada, descricoes, verificacoes);
 
-        redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
-        redirectAttributes.addFlashAttribute("notificacao", "Não é possível editar uma questão já respondida");
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Questão editada com sucesso");
         return "redirect:/editarCurso/" + questaoAtualizada.getCurso().getId() + "/bancoQuestao";
     }
 
