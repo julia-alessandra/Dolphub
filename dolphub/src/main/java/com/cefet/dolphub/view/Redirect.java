@@ -75,9 +75,14 @@ public class Redirect {
         int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
         System.out.println(acertos);
         model.addAttribute("questoesAcertadas", acertos);
-        int porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        int porcentagem;
+        if (quantidadeDeQuestoesRespondidas == 0) {
+            porcentagem = 0;
+        } else {
+            porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        }
         porcentagem *= 100;
-        System.out.println(porcentagem +" %");
+        System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagem);
 
         model.addAttribute("usuarioLogado", usuarioLogado);
@@ -96,7 +101,7 @@ public class Redirect {
         model.addAttribute("questoesAcertadas", acertos);
         int porcentagem = acertos / quantidadeDeQuestoesRespondidas;
         porcentagem *= 100;
-        System.out.println(porcentagem +" %");
+        System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagem);
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";
@@ -140,7 +145,7 @@ public class Redirect {
         return "exibir_cursos";
     }
 
-    //atualizar informaçoes do usuario
+    // atualizar informaçoes do usuario
     @GetMapping("/atualizar")
     public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);

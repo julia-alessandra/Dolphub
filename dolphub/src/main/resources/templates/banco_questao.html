@@ -8,6 +8,8 @@
     <link th:href="@{/styles/pattern.css}" rel="stylesheet">
     <link th:href="@{/styles/questao.css}" rel="stylesheet">
 
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 <body>
     <div class="tela-completa">
@@ -73,18 +75,16 @@
                 </section>
 
                 <!-- container para alunos -->
-                <section th:if="${role == 'aluno'}" id="lista-questoes-container">
-                    <form th:each="questao : ${questoes}" class="questao-container">
-
+                <section th:if="${role == 'aluno'}" id="lista-questoes-container" th:data-responder-url="@{/acessarCurso/{cursoId}/responderQuestao(cursoId=${curso.id})}">
+                    <form th:each="questao : ${questoes}" class="questao-container" th:data-id="${questao.id}">
                         <div class="questao-enunciado" th:text="${questao.enunciado}"></div>
-                
                         <div class="alternativas">
                             <div th:each="alternativa : ${questao.alternativas}" class="alternativa">
-                                <input type="radio">
+                                <input type="radio" name="resposta" th:value="${alternativa.id}" />
                                 <span th:text="${alternativa.descricao}"></span>
                             </div>
                         </div>
-                        <button type="submit">Responder</button>
+                        <button type="button" class="responder-btn">Responder</button>
                     </form>
                 </section>
 
@@ -96,4 +96,5 @@
     </div>
     </body>
     <script th:src="@{/javascript/pattern.js}"></script>
+    <script th:src="@{/javascript/questao.js}"></script>
 </html>
