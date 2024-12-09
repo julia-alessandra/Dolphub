@@ -40,4 +40,8 @@ public class QuestaoRespondidaService {
         questaoRespondidaRepository.deleteById(id);
     }
 
+    public boolean isQuestaoRespondida(Long questaoId) {
+        return questaoRespondidaRepository.existsByQuestaoId(questaoId);
+    }
+
 }

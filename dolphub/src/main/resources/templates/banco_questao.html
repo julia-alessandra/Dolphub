@@ -15,7 +15,7 @@
     <div class="tela-completa">
     <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
     <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
-    
+    <div th:replace="componentes/notificacao :: notificacao"></div>
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
@@ -28,28 +28,53 @@
                         <a id="add-questao" th:href="@{/editarCurso/{idCurso}/enviarQuestao(idCurso=${curso.id})}">Criar questão <i class="fa-solid fa-plus"></i></a>
                     </div>
 
-                    <form id="filtro">
+                    <form th:if="${role=='professor'}" id="filtro" method="GET" th:action="@{/editarCurso/{idCurso}/filtrarQuestao(idCurso=${curso.id})}">
                         <h3>Filtro de questões</h3>
-                        
-                        <input id="chave" type="text" placeholder="Palavras-chave">
-                        
+                    
+                        <input id="chave" name="chave" type="text" placeholder="Palavras-chave">
+                    
                         <label class="option-filtro"> Selecionar tags:
                             <select name="tags" multiple size="5">
-                                <option>Alcaneo</option>
-                                <option>Alceno</option>
-                                <option>Butano</option>
+                                <!-- <option value="Alcaneo">Alcaneo</option>
+                                <option value="Alceno">Alceno</option>
+                                <option value="Butano">Butano</option> -->
                             </select>
                         </label>
-                        
+                    
                         <div class="option-filtro">Filtrar por período:
                             <label class="label-periodo">De:
-                                <input type="date">
+                                <input type="date" name="dataInicio">
                             </label>
                             <label class="label-periodo">Até:
-                                <input type="date">
+                                <input type="date" name="dataFim">
                             </label>
                         </div>
+                    
+                        <button type="submit">Pesquisar</button>
+                    </form>
 
+                    <form th:if="${role=='aluno'}" id="filtro" method="GET" th:action="@{/acessoCurso/{idCurso}/filtrarQuestao(idCurso=${curso.id})}">
+                        <h3>Filtro de questões</h3>
+                    
+                        <input id="chave" name="chave" type="text" placeholder="Palavras-chave">
+                    
+                        <label class="option-filtro"> Selecionar tags:
+                            <select name="tags" multiple size="5">
+                                <option value="Alcaneo">Alcaneo</option>
+                                <option value="Alceno">Alceno</option>
+                                <option value="Butano">Butano</option>
+                            </select>
+                        </label>
+                    
+                        <div class="option-filtro">Filtrar por período:
+                            <label class="label-periodo">De:
+                                <input type="date" name="dataInicio">
+                            </label>
+                            <label class="label-periodo">Até:
+                                <input type="date" name="dataFim">
+                            </label>
+                        </div>
+                    
                         <button type="submit">Pesquisar</button>
                     </form>
 
@@ -70,7 +95,7 @@
                                 <span th:text="${alternativa.descricao}"></span>
                             </div>
                         </div>
-                        <button type="submit">Responder</button>
+                        <button class="btn-prof-responder" type="submit" disabled>Responder</button>
                     </form>
                 </section>
 

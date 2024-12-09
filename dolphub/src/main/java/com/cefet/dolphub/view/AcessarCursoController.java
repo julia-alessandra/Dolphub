@@ -1,10 +1,14 @@
 package com.cefet.dolphub.view;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.*;
@@ -66,6 +70,7 @@ public class AcessarCursoController {
         model.addAttribute("recursos", recursos);
         return "acesso_curso";
     }
+
     @GetMapping("/acessoCurso/{idCurso}/acessoVideo/{idVideo}")
     public String acessarVideo(@PathVariable Long idCurso, @PathVariable Long idVideo,
             @AuthenticationPrincipal Usuario usuarioLogado, Model model) {
@@ -91,7 +96,7 @@ public class AcessarCursoController {
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
         Curso curso = cursoService.buscar(idCurso);
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
 
         model.addAttribute("questoes", questoes);
         model.addAttribute("curso", curso);
@@ -127,6 +132,34 @@ public class AcessarCursoController {
         response.put("ver", respostaCorreta ? "true" : "false");
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/acessoCurso/{cursoId}/filtrarQuestao")
+    public String filtrarQuestoes(
+            @PathVariable Long cursoId,
+            @RequestParam(required = false) String chave, // Palavra-chave para filtro
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, // Data
+                                                                                                                 // inicial
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim, // Data
+                                                                                                              // final
+            Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+
+        Date dataInicioDate = (dataInicio != null)
+                ? Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                : null;
+        Date dataFimDate = (dataFim != null) ? Date.from(dataFim.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                : null;
+
+        List<Questao> questoesFiltradas = questaoService.buscarQuestoesFiltradas(cursoId, dataInicioDate, dataFimDate,
+                chave);
+
+        model.addAttribute("curso", cursoService.buscar(cursoId));
+        model.addAttribute("usuarioLogado", usuarioLogado);
+        model.addAttribute("role", "aluno");
+        model.addAttribute("questoes", questoesFiltradas);
+
+        return "banco_questao";
     }
 
 }
