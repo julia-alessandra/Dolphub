@@ -9,9 +9,10 @@
     </div>
 
     <div id="menu-curso">
-        <form>Módulos</form>
+        
+        <a th:href="@{/editarCurso/{id}(id=${curso.id})}">Módulos</a>
         <a th:href="@{/editarCurso/{id}/salvarAviso(id=${curso.id})}">Avisos</a>
-        <form>Questões</form>
+        <a th:href="@{/editarCurso/{idCurso}/bancoQuestao(idCurso=${curso.id})}">Questões</a>
         <form>Fórum</form>
     </div>
 </header>
