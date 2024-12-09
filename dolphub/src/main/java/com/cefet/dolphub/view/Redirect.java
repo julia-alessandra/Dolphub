@@ -176,4 +176,9 @@ public class Redirect {
         return "perfil_usuario";
     }
 
+    @GetMapping("/logout")
+    public String logout(Model model) {
+        return "login";
+    }
+
 }

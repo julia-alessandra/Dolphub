@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cefet.dolphub.Entidades.Comunicacao.Aviso;
@@ -30,67 +29,44 @@ public class AvisoController {
     private CursoService cursoService;
 
     @GetMapping("/editarCurso/{idCurso}/salvarAviso")
-    public String exibirSalvarAviso(@PathVariable Long idCurso, Model model,
-            @AuthenticationPrincipal Usuario usuarioLogado) {
+    public String exibirSalvarAviso(@PathVariable Long idCurso, Model model, 
+                                    @AuthenticationPrincipal Usuario usuarioLogado) {
         Aviso aviso = new Aviso();
         Curso curso = cursoService.buscar(idCurso);
 
         model.addAttribute("aviso", aviso);
         model.addAttribute("curso", curso);
-        model.addAttribute("operation", "enviar");
+        model.addAttribute("avisos", avisoService.buscarPorCurso(curso));
         model.addAttribute("usuarioLogado", usuarioLogado);
 
         return "enviar_avisos";
     }
 
-    public String salvarAvisoPost(@PathVariable Long idCurso, @ModelAttribute Aviso aviso,
-            @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
-
+    @PostMapping("/editarCurso/{idCurso}/salvarAviso")
+    public String salvarAvisoPost(@PathVariable Long idCurso, 
+                                  @ModelAttribute Aviso aviso, 
+                                  @AuthenticationPrincipal Usuario usuarioLogado, 
+                                  RedirectAttributes redirectAttributes) {
         Curso curso = cursoService.buscar(idCurso);
-        aviso.setCurso(curso); // Associar o curso ao aviso
-        aviso.setUsuario(usuarioLogado); // Associar o autor do aviso
+        aviso.setCurso(curso); // Associar o aviso ao curso
+        aviso.setUsuario(usuarioLogado); // Definir o autor do aviso
+        aviso.setData(LocalDate.now()); // Definir a data do aviso
 
-        // Definir a data atual
-        aviso.setData(LocalDate.now());
+        avisoService.cadastrar(aviso); // Salvar o aviso
 
-        System.out.println("Título: " + aviso.getTitulo());
-        System.out.println("Mensagem: " + aviso.getMensagem());
-
-        avisoService.cadastrar(aviso);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Aviso enviado com sucesso!");
         return "redirect:/editarCurso/" + idCurso + "/salvarAviso";
     }
 
-    @PostMapping("/editarCurso/{idCurso}/salvarAviso")
-    @ResponseBody
-    public Aviso salvarAvisoPost(@PathVariable Long idCurso, @ModelAttribute Aviso aviso,
-            @AuthenticationPrincipal Usuario usuarioLogado) {
+    @GetMapping("/acessocurso/{idCurso}/avisos")
+public String exibirAvisosCurso(@PathVariable Long idCurso, Model model) {
+    Curso curso = cursoService.buscar(idCurso); // Buscar o curso pelo ID
+    List<Aviso> avisos = avisoService.buscarPorCurso(curso); // Buscar os avisos do curso
 
-        Curso curso = cursoService.buscar(idCurso);
-        aviso.setCurso(curso);
-        aviso.setUsuario(usuarioLogado);
-        aviso.setData(LocalDate.now());
+    model.addAttribute("curso", curso);
+    model.addAttribute("avisos", avisos);
 
-        Aviso avisoSalvo = avisoService.cadastrar(aviso);
-        return avisoSalvo; // Retorna o aviso como JSON
-    }
-
-    @GetMapping("/acessoCurso/{idCurso}/avisos")
-    public String acessarAvisos(@PathVariable Long idCurso, Model model) {
-        // Buscar curso pelo ID
-        Curso curso = cursoService.buscar(idCurso);
-        if (curso == null) {
-            throw new RuntimeException("Curso não encontrado!"); // Tratamento básico de erro
-        }
-    
-        // Buscar avisos associados ao curso
-        List<Aviso> avisos = avisoService.buscarPorCurso(curso);
-    
-        model.addAttribute("curso", curso);
-        model.addAttribute("avisos", avisos);
-    
-        return "acessar_avisos"; // Nome da página HTML
-    }
-    
+    return "acessar_avisos";
+}
 
 }
