@@ -24,6 +24,7 @@ import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
+import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
@@ -33,6 +34,7 @@ import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ProfessorService;
+import com.cefet.dolphub.Service.QuestaoService;
 import com.cefet.dolphub.Service.RecursoService;
 import com.cefet.dolphub.Service.TopicoService;
 import com.cefet.dolphub.Service.VideoService;
@@ -67,6 +69,8 @@ public class GerenciarRecursoController {
     private ProfessorService professorService;
     @Autowired
     private AtividadeService atividadeService;
+    @Autowired
+    private QuestaoService questaoService;
 
     @GetMapping
     public String editarCurso() {
@@ -466,6 +470,12 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
+
+        List<Questao> questoes = questaoService.listarTodas();
+
+        model.addAttribute("questoes", questoes);
+        model.addAttribute("role", "professor");
+
         return "enviar_atividade";
     }
 
@@ -539,10 +549,48 @@ public class GerenciarRecursoController {
         model.addAttribute("atividade", atv);
         model.addAttribute("idCurso", idCurso);
         model.addAttribute("curso", curso);
-        model.addAttribute("operation", "editar");
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        return "enviar_atividade";
+        List<Questao> questoes = questaoService.listarTodas();
+
+        
+
+        model.addAttribute("questoes", questoes);
+        model.addAttribute("role", "professor");
+
+
+        return "editar_atividade";
+    }
+    @GetMapping("/editarCurso/{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
+    public String adicionarQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,@PathVariable Long idQuestao, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
+        Atividade atv = atividadeService.buscar(idAtividade);
+        Curso curso = cursoService.buscar(idCurso);
+
+        if (atv == null) {
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Atividade não encontrada");
+            return "redirect:/error";
+        }
+
+        model.addAttribute("atividade", atv);
+        model.addAttribute("idCurso", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
+        List<Questao> questoes = questaoService.listarTodas();
+        model.addAttribute("questoes", questoes);
+        model.addAttribute("role", "professor");
+
+
+        
+
+
+        atividadeService.salvarAtividade(atv);
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Atividade atualizada");
+
+        return "editar_atividade";
     }
 
     @PostMapping("/atualizarAtividade")

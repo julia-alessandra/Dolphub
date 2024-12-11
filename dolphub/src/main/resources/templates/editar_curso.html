@@ -196,7 +196,7 @@
                                         <div class="recurso-item-container"
                                             th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
                                             <a
-                                                th:href="@{/editarCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${recurso.id})}"><i
+                                                th:href="@{/editarCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subRecurso.id})}"><i
                                                     class="fa-solid fa-book info-element"
                                                     th:data-info="${subRecurso.descricao}"></i><span
                                                     th:text="${subRecurso.titulo}"></span></a>

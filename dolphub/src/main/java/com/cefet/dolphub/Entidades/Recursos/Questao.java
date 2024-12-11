@@ -6,7 +6,7 @@ import java.util.List;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Tag;
 import com.cefet.dolphub.Entidades.Main.Usuario;
-import com.cefet.dolphub.Entidades.Recursos.Relacionamento.QuestaoAtividade;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 
 import jakarta.persistence.*;
 import lombok.*;
