@@ -1,5 +1,6 @@
 package com.cefet.dolphub.Entidades.Recursos;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,13 @@ public class Questao {
 
     @Column(name = "dificuldade_questao")
     private Dificuldade dificuldade;
+
+    @Column(name = "data_questao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataCriacao;
+
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestaoAtividade> questaoAtividades = new ArrayList<>();

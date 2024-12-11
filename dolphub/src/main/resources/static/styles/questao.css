@@ -394,3 +394,7 @@ button[type="submit"] {
     flex-direction: row;
     gap: 30px;
 }
+
+
+.btn-prof-responder:hover {
+}

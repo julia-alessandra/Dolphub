@@ -12,4 +12,6 @@ import com.cefet.dolphub.Entidades.Main.Professor;
 @Repository
 public interface QuestaoRespondidaRepository extends JpaRepository<QuestaoRespondida, Long> {
     List<QuestaoRespondida> findByUsuarioId(Long usuarioId);
+
+    boolean existsByQuestaoId(Long questaoId);
 }

@@ -3,13 +3,14 @@ package com.cefet.dolphub.Service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 import com.cefet.dolphub.Repositorio.*;
 
 import java.util.List;
 
+@Service
 public class QuestaoRespondidaService {
 
     @Autowired
@@ -25,6 +26,7 @@ public class QuestaoRespondidaService {
     public List<QuestaoRespondida> buscarPorUsuario(Long usuarioId) {
         return questaoRespondidaRepository.findByUsuarioId(usuarioId);
     }
+
     public Alternativa buscarAlternativa(Long id) {
         Optional<Alternativa> alternativa = alternativaRepository.findById(id);
         return alternativa.orElseThrow(() -> new RuntimeException("Questão não encontrado!"));
@@ -36,6 +38,10 @@ public class QuestaoRespondidaService {
 
     public void deletar(Long id) {
         questaoRespondidaRepository.deleteById(id);
+    }
+
+    public boolean isQuestaoRespondida(Long questaoId) {
+        return questaoRespondidaRepository.existsByQuestaoId(questaoId);
     }
 
 }
