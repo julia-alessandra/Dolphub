@@ -18,7 +18,7 @@
             <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
             <div id="enviar-questao" class="container-questao">
 
-                <form class="form-questao" th:if="${operation == 'enviar'}" th:action="@{/editarCurso/salvarQuestao}" method="POST">
+                <form class="form-questao" th:if="${operation == 'enviar'}" th:action="@{/editarCurso/salvarQuestao}" method="POST" onsubmit="return validarAlternativas()">
                     <input type="hidden" name="cursoId" th:value="${curso.id}" />
                     
                     <div class="nobtn">

@@ -1,6 +1,7 @@
 package com.cefet.dolphub.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,6 +13,8 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Repositorio.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -76,7 +79,7 @@ public class QuestaoService {
     public Alternativa alternativaCorreta(Long id) {
         Questao questao = this.buscar(id);
         for (Alternativa alternativa : questao.getAlternativas()) {
-            if (alternativa.getVerificacao() != null)
+            if (alternativa.getVerificacao())
                 return alternativa;
         }
         throw new RuntimeException("Nenhuma alternativa correta encontrada para a questão com ID: " + id);
@@ -84,6 +87,10 @@ public class QuestaoService {
 
     public Boolean verificarAlternativa(Long idQuestao, Long idAlternativa) {
         Alternativa alternativaCorreta = this.alternativaCorreta(idQuestao);
+
+        System.out.println("Teste printar alt");
+        System.out.println(alternativaCorreta.getId());
+        System.out.println(idAlternativa);
         if (alternativaCorreta.getId() == idAlternativa)
             return true;
         return false;
@@ -107,12 +114,12 @@ public class QuestaoService {
         questaoRepository.deleteById(id);
     }
 
-    public List<Questao> listaQuestoes() {
-        return questaoRepository.findAll();
+    public List<Questao> listarTodas() {
+        return questaoRepository.findByStatus("ativo");
     }
 
-    public List<Questao> listarTodas() {
-        return questaoRepository.findAll();
+    public List<Questao> listarTodasPorCurso(Long id) {
+        return questaoRepository.findByCursoIdAndStatus(id, "ativo");
     }
 
     public List<QuestaoRespondida> listaQuestoesRepondidas(Long id) {
@@ -129,4 +136,29 @@ public class QuestaoService {
             System.out.println(item);
         }
     }
+
+    public void desativarQuestao(Long questaoId) {
+        Questao questao = questaoRepository.findById(questaoId)
+                .orElseThrow(() -> new IllegalArgumentException("Questão não encontrada com o ID: " + questaoId));
+
+        questao.setStatus("inativo");
+
+        questaoRepository.save(questao);
+    }
+
+    public List<Questao> buscarQuestoesFiltradas(Long cursoId, Date inicio, Date fim, String palavraChave) {
+        List<Questao> questoesAtivas = questaoRepository.findByCursoIdAndStatus(cursoId, "ativo");
+
+        System.out.println("Datas:");
+        System.out.println(inicio);
+        System.out.println(fim);
+
+        return questoesAtivas.stream()
+                .filter(questao -> (inicio == null || !questao.getDataCriacao().before(inicio)))
+                .filter(questao -> (fim == null || !questao.getDataCriacao().after(fim)))
+                .filter(questao -> (palavraChave == null
+                        || questao.getEnunciado().toLowerCase().contains(palavraChave.toLowerCase())))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.cefet.dolphub.view;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,13 +83,12 @@ public class Redirect {
         int acertos = questaoService.quantidadeDeAcertos(usuarioLogado.getId());
         System.out.println(acertos);
         model.addAttribute("questoesAcertadas", acertos);
-        Double porcentagem;
-        if (quantidadeDeQuestoesRespondidas == 0)
-            porcentagem = 0.0;
-        else
-            porcentagem = (double) acertos / quantidadeDeQuestoesRespondidas;
-        System.out.println(acertos + " / " + quantidadeDeQuestoesRespondidas);
-        System.out.println(porcentagem + " %");
+        int porcentagem;
+        if (quantidadeDeQuestoesRespondidas == 0) {
+            porcentagem = 0;
+        } else {
+            porcentagem = acertos / quantidadeDeQuestoesRespondidas;
+        }
         porcentagem *= 100;
         System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagem);
@@ -120,8 +120,12 @@ public class Redirect {
         System.out.println(acertos + " / " + quantidadeDeQuestoesRespondidas);
         System.out.println(porcentagem + " %");
         porcentagem *= 100;
+        DecimalFormat df = new DecimalFormat("#.00");
+        String porcentagemFormatada = df.format(porcentagem);
+        System.out.println(porcentagemFormatada + " %");
+
         System.out.println(porcentagem + " %");
-        model.addAttribute("porcentagemAcertos", porcentagem);
+        model.addAttribute("porcentagemAcertos", porcentagemFormatada);
 
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";
@@ -165,7 +169,7 @@ public class Redirect {
         return "exibir_cursos";
     }
 
-    //atualizar informaçoes do usuario
+    // atualizar informaçoes do usuario
     @GetMapping("/atualizar")
     public String exibirPerfil(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         model.addAttribute("usuarioLogado", usuarioLogado);
