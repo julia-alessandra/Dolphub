@@ -1,5 +1,6 @@
 package com.cefet.dolphub.view;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -119,8 +120,12 @@ public class Redirect {
         System.out.println(acertos + " / " + quantidadeDeQuestoesRespondidas);
         System.out.println(porcentagem + " %");
         porcentagem *= 100;
+        DecimalFormat df = new DecimalFormat("#.00");
+        String porcentagemFormatada = df.format(porcentagem);
+        System.out.println(porcentagemFormatada + " %");
+
         System.out.println(porcentagem + " %");
-        model.addAttribute("porcentagemAcertos", porcentagem);
+        model.addAttribute("porcentagemAcertos", porcentagemFormatada);
 
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";

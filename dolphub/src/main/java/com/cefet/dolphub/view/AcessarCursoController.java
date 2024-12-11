@@ -84,6 +84,7 @@ public class AcessarCursoController {
         }
 
         model.addAttribute("video", video);
+        model.addAttribute("idVideo", video.getId());
         model.addAttribute("idUsuario", usuarioLogado.getId());
         model.addAttribute("cursoId", idCurso);
         model.addAttribute("roleAcess", "view");

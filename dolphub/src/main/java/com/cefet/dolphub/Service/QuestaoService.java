@@ -79,7 +79,7 @@ public class QuestaoService {
     public Alternativa alternativaCorreta(Long id) {
         Questao questao = this.buscar(id);
         for (Alternativa alternativa : questao.getAlternativas()) {
-            if (alternativa.getVerificacao() != null)
+            if (alternativa.getVerificacao())
                 return alternativa;
         }
         throw new RuntimeException("Nenhuma alternativa correta encontrada para a questão com ID: " + id);
@@ -87,6 +87,10 @@ public class QuestaoService {
 
     public Boolean verificarAlternativa(Long idQuestao, Long idAlternativa) {
         Alternativa alternativaCorreta = this.alternativaCorreta(idQuestao);
+
+        System.out.println("Teste printar alt");
+        System.out.println(alternativaCorreta.getId());
+        System.out.println(idAlternativa);
         if (alternativaCorreta.getId() == idAlternativa)
             return true;
         return false;

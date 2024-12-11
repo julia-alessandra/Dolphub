@@ -29,13 +29,14 @@ public class SecurityConfig {
                                                 .logoutSuccessUrl("/login")
                                                 .permitAll())
                                 .csrf(csrf -> csrf
-                                                .ignoringRequestMatchers("/acessarCurso/*/responderQuestao") // Ignorar
-                                                                                                             // CSRF
-                                                                                                             // para
-                                                                                                             // requisições
-                                                                                                             // específicas,
-                                                                                                             // se
-                                                                                                             // necessário
+                                                .ignoringRequestMatchers("/acessarCurso/*/responderQuestao",
+                                                                "/acessoCurso/marcar-video/*") // Ignorar
+                                // CSRF
+                                // para
+                                // requisições
+                                // específicas,
+                                // se
+                                // necessário
                                 );
 
                 return http.build();
