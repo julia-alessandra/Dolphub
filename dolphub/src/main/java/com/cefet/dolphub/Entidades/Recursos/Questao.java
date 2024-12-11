@@ -3,12 +3,16 @@ package com.cefet.dolphub.Entidades.Recursos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Tag;
+import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Relacionamento.QuestaoAtividade;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
+@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +42,11 @@ public class Questao {
     @JoinTable(name = "questao_tag", schema = "public", joinColumns = @JoinColumn(name = "id_questao"), inverseJoinColumns = @JoinColumn(name = "id_tag"))
     private List<Tag> tags = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;
+
+    public void setDificuldade(int dificuldadeValor) {
+        this.dificuldade = Dificuldade.fromInt(dificuldadeValor);
+    }
 }

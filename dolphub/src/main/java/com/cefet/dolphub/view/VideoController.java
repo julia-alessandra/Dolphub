@@ -3,6 +3,7 @@ package com.cefet.dolphub.view;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
+import com.cefet.dolphub.Entidades.Recursos.AulaAssistida;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
@@ -44,6 +46,12 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private CursoService cursoService;
+
+    @Autowired
+    private AulaAssistidaRepository aulaAssistidaRepository;
+
     @GetMapping("/videos/{id}")
     public ResponseEntity<byte[]> acessarVideo(@PathVariable Long id) {
         Video video = videoService.buscar(id);
@@ -57,6 +65,18 @@ public class VideoController {
         headers.setContentLength(video.getConteudo().length);
 
         return new ResponseEntity<>(video.getConteudo(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/marcar-video/{idVideo}/")
+    public String adicionarVideo(@PathVariable("idVideo") Long idVideo, @PathVariable("idCurso") Long idCurso,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+        Video video = videoService.buscar(idVideo);
+        Curso curso = cursoService.buscarPorId(idCurso);
+        AulaAssistida aulaAssistida = new AulaAssistida();
+        aulaAssistida.setUsuario(usuarioLogado);
+        aulaAssistida.setVideo(video);
+        aulaAssistidaRepository.save(aulaAssistida);
+        return "redirect:/videos/{idVideo}";
     }
 
 }

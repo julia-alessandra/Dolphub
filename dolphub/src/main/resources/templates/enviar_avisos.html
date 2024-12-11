@@ -1,0 +1,51 @@
+<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/aviso.css}" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <div class="tela-completa">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div class="container-principal">
+                <form th:action="@{/editarCurso/{idCurso}/salvarAviso(idCurso=${curso.id})}" th:object="${aviso}"
+                    method="post" id="avisoForm">
+                    <h3>Novo Aviso</h3> <label for="titulo_aviso">Título do Aviso:</label>
+                    <input type="text" id="titulo_aviso" th:field="*{titulo}" required>
+                    <label for="mensagem_aviso">Mensagem do Aviso:</label>
+                    <textarea id="mensagem_aviso" th:field="*{mensagem}" required></textarea>
+                    <button type="submit">Enviar</button>
+                </form>
+
+                <!-- Exibe os avisos do curso -->
+                <div id="avisos">
+                    <h3>Avisos</h3>
+                    <div th:each="aviso : ${avisos}" class="aviso-card">
+                        <div class="aviso-titulo" th:text="${aviso.titulo}"></div>
+                        <div class="aviso-mensagem" th:text="${aviso.mensagem}"></div>
+                        <div class="aviso-detalhes"> Por <span th:text="${aviso.usuario.nome}"></span>, em <span
+                                th:text="${aviso.data}"></span> </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    </main>
+
+    </div>
+</body>
+<script th:src="@{/javascript/pattern.js}"></script>
+
+</html>

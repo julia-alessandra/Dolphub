@@ -76,11 +76,8 @@ public class GerenciarRecursoController {
     @GetMapping("{idCurso}")
     public String acessarGerenciarCurso(@PathVariable Long idCurso, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
-        System.out.println("hfsuhfusdhfausahfas11111");
         Curso curso = cursoService.buscar(idCurso);
-        System.out.println("hfsuhfusdhfausahfa2222222");
         List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(idCurso);
-        System.out.println("hfsuhfusdhfausahfas3333333");
 
         if (!cursoService.getEditAcess(curso, usuarioLogado)) {
             Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
@@ -132,7 +129,6 @@ public class GerenciarRecursoController {
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        System.out.println("Chegou aqui");
         return "enviar_arquivo";
     }
 
