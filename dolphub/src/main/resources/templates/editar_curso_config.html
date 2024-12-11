@@ -11,7 +11,7 @@
     <div th:replace="componentes/notificacao :: notificacao"></div>
 
     <div class="tela-completa">
-    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
 
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
@@ -22,7 +22,8 @@
                     </div>
 
 
-                    <form th:action="@{/editarCurso/{idCurso}/config/atualizar-curso(idCurso=${curso.id})}" th:object="${cursoAtualizado}" method="post">
+                    <form th:action="@{/editarCurso/{idCurso}/config/atualizar-curso(idCurso=${curso.id})}"
+                        th:object="${cursoAtualizado}" method="post">
                         <div class="user-info">
                             <div class="input-group">
                                 <label for="nome">Nome</label>
@@ -31,8 +32,7 @@
 
                             <div class="input-group">
                                 <label for="descricao">Descrição</label>
-                                <input type="text" id="descricao" name="descricao"
-                                    th:value="${curso.descricao}">
+                                <input type="text" id="descricao" name="descricao" th:value="${curso.descricao}">
                             </div>
 
                             <div class="input-group">
@@ -46,7 +46,9 @@
 
                     <button id="btn-deletar-conta" class="button" style="background-color: red;">Deletar Curso</button>
 
-                    <form id="form-deletar-conta" th:action="@{/editarCurso/{idCurso}/config/deletar-curso(idCurso=${curso.id})}" method="post" style="display: none; margin-top: 10px;">
+                    <form id="form-deletar-conta"
+                        th:action="@{/editarCurso/{idCurso}/config/deletar-curso(idCurso=${curso.id})}" method="post"
+                        style="display: none; margin-top: 10px;">
                         <div class="input-group">
                             <label for="senhaConfirmacao">Digite sua senha para confirmar:</label>
                             <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" required>
