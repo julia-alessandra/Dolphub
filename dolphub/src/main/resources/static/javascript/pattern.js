@@ -132,3 +132,55 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
+
+  //confirmação janela
+  function attachConfirmation(formId) {
+    const form = document.getElementById(formId);
+    const modal = document.getElementById('confirmation-modal');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        modal.style.display = 'flex';
+
+        confirmBtn.onclick = function () {
+            modal.style.display = 'none';
+            form.submit();
+        };
+
+        cancelBtn.onclick = function () {
+            modal.style.display = 'none';
+        };
+    });
+}
+
+// para links
+function attachLinkConfirmation(linkClass) {
+    const links = document.querySelectorAll(`.${linkClass}`);
+    const modal = document.getElementById('confirmation-modal');
+    if(modal == null) {
+        console.log('está sem janela');
+        return;
+    }
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    links.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const href = this.href;
+            modal.style.display = 'flex';
+
+            confirmBtn.onclick = function () {
+                modal.style.display = 'none';
+                window.location.href = href;
+            };
+
+            cancelBtn.onclick = function () {
+                modal.style.display = 'none';
+            };
+        });
+    });
+}
+
