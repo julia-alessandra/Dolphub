@@ -1,5 +1,6 @@
 package com.cefet.dolphub.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
+import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Repositorio.AtividadeRepository;
@@ -22,8 +24,8 @@ public class QuestaoAtividadeService {
     @Autowired
     private AtividadeRepository atividadeRepository;
 
-    public List<QuestaoAtividade> listarQuestoesPorAtividade(Atividade atv) {
-        return questaoAtividadeRepository.findByAtividadeId(atv.getId());
+    public List<QuestaoAtividade> listarQuestoesPorAtividade(Long idAtividade) {
+        return questaoAtividadeRepository.findByAtividadeId(idAtividade);
     }
 
     public QuestaoAtividade salvarQuestaoAtividade(QuestaoAtividade q) {
@@ -35,13 +37,20 @@ public class QuestaoAtividadeService {
 
 
     public QuestaoAtividade buscarPorQuestaoAtividadeEmAtividade(Long idAtividade, Long idQuestao) {
-        Optional<Atividade> atividade = atividadeRepository.findById(idAtividade);
-        List<QuestaoAtividade> questoes = listarQuestoesPorAtividade(atividade.get());
+        List<QuestaoAtividade> questoes = listarQuestoesPorAtividade(idAtividade);
         for( QuestaoAtividade questao : questoes){
             if(questao.getQuestao().getId().equals(idQuestao)){
                 return questao;
             }
         }
         return null;
+    }
+
+    public List<Questao> toQuestao(List<QuestaoAtividade> listaQa){
+        List<Questao> listaQ = new ArrayList<>();
+        for(QuestaoAtividade qa : listaQa){
+            listaQ.add(qa.getQuestao());
+        }
+        return listaQ;
     }
 }

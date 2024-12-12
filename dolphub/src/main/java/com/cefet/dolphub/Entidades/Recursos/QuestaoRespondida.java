@@ -16,9 +16,9 @@ import lombok.*;
 @Table(name = "questao_respondida", schema = "public")
 public class QuestaoRespondida {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matricula_sq")
-    @SequenceGenerator(schema = "public", name = "matricula_sq", sequenceName = "matricula_sq", initialValue = 1, allocationSize = 1)
-    @Column(name = "id_matricula")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_respondida_sq")
+    @SequenceGenerator(schema = "public", name = "questao_respondida_sq", sequenceName = "questao_respondida_sq", initialValue = 1, allocationSize = 1)
+    @Column(name = "id_questao_respondida")
     private Long id;
 
     @ManyToOne
@@ -28,6 +28,10 @@ public class QuestaoRespondida {
     @ManyToOne
     @JoinColumn(name = "id_questao")
     private Questao questao;
+
+    @ManyToOne
+    @JoinColumn(name = "atividade_respondida_id")
+    private AtividadeRespondida atividadeRespondida;
 
     @ManyToOne
     @JoinColumn(name = "id_alternativa")

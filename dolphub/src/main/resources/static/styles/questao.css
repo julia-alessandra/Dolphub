@@ -405,3 +405,16 @@ button[type="submit"] {
 
 
 .btn-prof-responder:hover {}
+
+#formConfig{
+    z-index: 100000;
+    position: absolute;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

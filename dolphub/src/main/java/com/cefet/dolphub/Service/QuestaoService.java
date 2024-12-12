@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
+import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 
 import com.cefet.dolphub.Entidades.Recursos.Topico;
@@ -29,6 +31,12 @@ public class QuestaoService {
     private QuestaoRepository questaoRepository;
     @Autowired
     private AlternativaRepository alternativaRepository;
+
+    @Autowired
+    private QuestaoAtividadeRepository questaoAtividadeRepository;
+
+    @Autowired
+    private AtividadeRepository atividadeRepository;
 
     public Questao buscar(Long id) {
         Optional<Questao> questao = questaoRepository.findById(id);
@@ -159,6 +167,18 @@ public class QuestaoService {
                 .filter(questao -> (palavraChave == null
                         || questao.getEnunciado().toLowerCase().contains(palavraChave.toLowerCase())))
                 .collect(Collectors.toList());
+    }
+
+    public QuestaoAtividade createQuestaoAtividade(Long idQuestao, Long idAtividade ){
+        QuestaoAtividade qa = new QuestaoAtividade();
+        Atividade atv = atividadeRepository.findById(idAtividade).get();
+        Questao q = questaoRepository.findById(idQuestao).get();
+
+        qa.setAtividade(atv);
+        qa.setQuestao(q);
+        questaoAtividadeRepository.save(qa);
+
+        return qa;
     }
 
 }

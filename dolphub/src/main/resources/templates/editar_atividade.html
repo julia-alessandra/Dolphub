@@ -21,13 +21,13 @@
                     <a th:href="@{/editarCurso/{id}(id=${idCurso})}"><i class="fa-solid fa-arrow-left info-element"
                             data-info="Voltar"></i></a>
                     <div id="divTitulo" style="display:flex; align-items: center;">
-                        <h3>Editar Atividade</h3>
-                        <a class="info-element" data-info="Configurações"
+                        <h3 th:text="${atividade.titulo}"></h3>
+                        <a id="botaoConfigAtv" class="info-element" data-info="Configurações"
                             style="margin-left: 5px; color: #000000;text-decoration: none;">
-                            <i id="botaoConfigAtv" class="fa-solid fa-gear" aria-hidden="true"></i></a>
+                            <i class="fa-solid fa-gear" aria-hidden="true"></i></a>
                     </div>
                 </div>
-                <div id="formConfig" class="container-form-video">
+                <div id="formConfig" style="display:none;"class="container-form-video">
                     <form th:action="@{/editarCurso/atualizarAtividade}" method="post">
                         <div class="form-esq">
                             <label class="vnome">Nome:
@@ -54,6 +54,7 @@
                         <input type="hidden" name="idAtividade" th:value="${atividade.id}">
 
                         <button class="btn-salvar" type="submit">Salvar</button>
+                        <a id="cancelar"><i class="fa-regular fa-circle-xmark info-element"></i></a>
                     </form>
                 </div>
 
@@ -109,10 +110,12 @@
                 <section class="lista-questoes-atividade-container">
                     <form th:each="questaoAtv : ${questoesAtv}" class="questao-container">
                         <div class="acoes">
-                            <a th:href="@{'/editarCurso/' + ${curso.id} + '/editarAtividade/' + ${atividade.id} + '/removerQuestao/' + ${questaoAtv.id}}"><i class="fa-regular fa-trash-can"></i>Remover questão</a>
+                            <a
+                                th:href="@{'/editarCurso/' + ${curso.id} + '/editarAtividade/' + ${atividade.id} + '/removerQuestao/' + ${questaoAtv.id}}"><i
+                                    class="fa-regular fa-trash-can"></i>Remover questão</a>
                         </div>
                         <div class="questao-enunciado" th:text="${questaoAtv.enunciado}"></div>
-                
+
                         <div class="alternativas">
                             <div th:each="alternativa : ${questaoAtv.alternativas}" class="alternativa">
                                 <input type="radio" disabled th:checked="${alternativa.verificacao}">
@@ -120,14 +123,31 @@
                             </div>
                         </div>
                     </form>
-                </section>                
+                </section>
             </div>
         </main>
 
     </div>
 </body>
 <script th:src="@{/javascript/pattern.js}"></script>
-<script th:src="@{/javascript/atividade.js}"></script>
+<script>
+    function invisible(){
+        if(formConfig.style.display == "none"){
+            formConfig.style.display = "flex";
+        }
+        else if (formConfig.style.display == "flex"){
+            formConfig.style.display = "none";
+        }
+    }
+    let formConfig = document.getElementById("formConfig");
+    let botaoConfigAtv = document.getElementById("botaoConfigAtv");
+    let botaocancela = document.getElementById("cancelar");
+    botaoConfigAtv.addEventListener('click', invisible);
+    botaocancela.addEventListener('click', invisible);
+
+
+    
+</script>
 
 
 </html>

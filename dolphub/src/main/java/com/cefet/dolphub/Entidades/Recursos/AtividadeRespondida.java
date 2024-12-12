@@ -11,17 +11,18 @@ import java.util.List;
 
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "atividade_respondida")
+@Table(name = "atividade_respondida", schema = "public")
 public class AtividadeRespondida {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matricula_sq")
-    @SequenceGenerator(schema = "public", name = "matricula_sq", sequenceName = "matricula_sq", initialValue = 1, allocationSize = 1)
-    @Column(name = "id_matricula")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_respondida_sq")
+    @SequenceGenerator(schema = "public", name = "atividade_respondida_sq", sequenceName = "atividade_respondida_sq", initialValue = 1, allocationSize = 1)
+    @Column(name = "id_atividade_respondida")
     private Long id;
 
     @ManyToOne
@@ -31,4 +32,7 @@ public class AtividadeRespondida {
     @ManyToOne
     @JoinColumn(name = "id_atividade")
     private Atividade atividade;
+
+    @OneToMany(mappedBy = "atividadeRespondida", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuestaoRespondida> questaoRespondida = new ArrayList<>();
 }

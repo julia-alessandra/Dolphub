@@ -516,27 +516,6 @@ public class GerenciarRecursoController {
 
         return "redirect:/editarCurso/" + cursoId;
     }
-    @GetMapping("{idCurso}/acessoAtividade/{idAtividade}")
-    public String acessoAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
-            @AuthenticationPrincipal Usuario usuarioLogado) {
-
-        Atividade novo = atividadeService.buscar(idAtividade);
-        Curso curso = cursoService.buscar(idCurso);
-
-        if (novo == null) {
-            model.addAttribute("tipoNotificacao", "error");
-            model.addAttribute("notificacao", "Vídeo não encontrado");
-            return "redirect:/acessoCurso/" + idCurso;
-        }
-
-        model.addAttribute("atividade", novo);
-        model.addAttribute("cursoId", idCurso);
-        model.addAttribute("curso", curso);
-        model.addAttribute("roleAcess", "edit");
-        model.addAttribute("usuarioLogado", usuarioLogado);
-
-        return "acesso_atividade";
-    }
 
     @GetMapping("{idCurso}/editarAtividade/{idAtividade}")
     public String editarAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
