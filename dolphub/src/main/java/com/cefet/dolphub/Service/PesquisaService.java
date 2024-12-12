@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Usuario;
-import com.cefet.dolphub.Entidades.Navegacao.ResultadosPesquisa;
+//import com.cefet.dolphub.Entidades.Navegacao.ResultadosPesquisa;
 import com.cefet.dolphub.Repositorio.*;
 
 @Service

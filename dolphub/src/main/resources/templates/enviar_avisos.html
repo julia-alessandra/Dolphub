@@ -20,6 +20,7 @@
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
             <div class="container-principal">
+                <div th:replace="componentes/cabecalho_curso_prof :: cabecalho_curso_prof"></div>
                 <form th:action="@{/editarCurso/{idCurso}/salvarAviso(idCurso=${curso.id})}" th:object="${aviso}"
                     method="post" id="avisoForm">
                     <h3>Novo Aviso</h3> <label for="titulo_aviso">Título do Aviso:</label>
