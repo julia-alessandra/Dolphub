@@ -5,7 +5,7 @@ function toggleForm(icon) {
             const form = container.querySelector('.formTitulo');
             if (form) {
                 if (form.style.display === 'none') {
-                    form.style.display = 'block';
+                    form.style.display = 'flex';
                     icon.classList.remove('fa-folder-plus');
                     icon.classList.add('fa-circle-xmark');
                 } else {
