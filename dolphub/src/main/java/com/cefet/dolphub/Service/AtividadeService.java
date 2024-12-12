@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
+import com.cefet.dolphub.Entidades.Recursos.Questao;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 import com.cefet.dolphub.Repositorio.AtividadeRepository;
 import com.cefet.dolphub.Repositorio.VideoRepository;
 

@@ -25,6 +25,7 @@ import com.cefet.dolphub.Entidades.Recursos.Arquivo;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
@@ -537,6 +538,7 @@ public class GerenciarRecursoController {
     @GetMapping("{idCurso}/editarAtividade/{idAtividade}")
     public String editarAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
+        System.out.println("Funcionaaaaaaaaa");
         Atividade atv = atividadeService.buscar(idAtividade);
         Curso curso = cursoService.buscar(idCurso);
 
@@ -553,6 +555,14 @@ public class GerenciarRecursoController {
 
         List<Questao> questoes = questaoService.listarTodas();
 
+        List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+        List<Questao> questoesAtv = new ArrayList<>();
+        for(QuestaoAtividade q : listaQuestaoAtv){
+            System.out.println("Id da questao da atividade"+q.getId());
+            questoesAtv.add(q.getQuestao());
+        }
+        System.out.println(questoesAtv.get(1).getEnunciado());
+        model.addAttribute("questoesAtv", questoesAtv);
         
 
         model.addAttribute("questoes", questoes);
@@ -561,9 +571,10 @@ public class GerenciarRecursoController {
 
         return "editar_atividade";
     }
-    @GetMapping("/editarCurso/{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
+    @GetMapping("{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
     public String adicionarQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,@PathVariable Long idQuestao, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
+        System.out.println("Teste no adicionar questão");
         Atividade atv = atividadeService.buscar(idAtividade);
         Curso curso = cursoService.buscar(idCurso);
 
@@ -572,6 +583,27 @@ public class GerenciarRecursoController {
             model.addAttribute("notificacao", "Atividade não encontrada");
             return "redirect:/error";
         }
+
+        Questao novaQuestao = questaoService.buscar(idQuestao);
+        QuestaoAtividade novaQuestaoAtividade = new QuestaoAtividade();
+        novaQuestaoAtividade.setQuestao(novaQuestao);
+        novaQuestaoAtividade.setAtividade(atv);
+
+
+        List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+        listaQuestaoAtv.add(novaQuestaoAtividade);
+        atv.setQuestaoAtividades(listaQuestaoAtv);
+
+        atividadeService.salvarAtividade(atv);
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Atividade atualizada");
+
+
+        List<Questao> questoesAtv = new ArrayList<>();
+        for(QuestaoAtividade q : listaQuestaoAtv){
+            questoesAtv.add(q.getQuestao());
+        }
+        model.addAttribute("questoesAtv", questoesAtv);
 
         model.addAttribute("atividade", atv);
         model.addAttribute("idCurso", idCurso);
@@ -582,13 +614,7 @@ public class GerenciarRecursoController {
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
 
-
         
-
-
-        atividadeService.salvarAtividade(atv);
-        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
-        redirectAttributes.addFlashAttribute("notificacao", "Atividade atualizada");
 
         return "editar_atividade";
     }

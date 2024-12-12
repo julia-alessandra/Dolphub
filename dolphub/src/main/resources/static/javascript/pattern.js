@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
 //         });
 //     }
 // });
+/*
 document.addEventListener("DOMContentLoaded", function () {
     const infoElements = document.querySelectorAll('.info-element');
     const tooltip = document.getElementById('info-tooltip');
@@ -112,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+*/
 
     // Alterna a visibilidade do menu ao clicar no ícone de perfil
 
