@@ -242,6 +242,8 @@ body {
     color: #333;
     padding-left: 20px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar a {
@@ -334,7 +336,6 @@ body {
 
 /* Espaçamento entre os itens principais */
 .item-menu-final {
-    margin-top: 150%;
 }
 
 
@@ -565,4 +566,9 @@ li:not(:has(ul)):hover {
     justify-content: flex-start;
     border-width: 20px;
     margin: 10px;
+}
+
+#btn-search-cab {
+    background-color: inherit;
+    border: none;
 }

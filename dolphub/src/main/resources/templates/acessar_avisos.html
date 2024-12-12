@@ -17,6 +17,7 @@
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
 
             <div class="container-principal">
+                <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
                 <h1 th:text="'Avisos do Curso: ' + ${curso.nome}"></h1>
 
                 <div th:if="${avisos.isEmpty()}">

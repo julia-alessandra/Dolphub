@@ -1,4 +1,3 @@
-<!-- template para todas as páginas em que alguém está logado (ou seja exceto login) -->
 
 
 <!DOCTYPE html>
@@ -6,6 +5,7 @@
 <head>
     <title>Dolphub</title>
     <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/search.css}" rel="stylesheet">
 
 </head>
 <body>
@@ -17,21 +17,33 @@
     <main>
         <div th:replace="componentes/menu_superior :: menu_superior"></div>
         <div class="container-principal">
-            <div th:if="${cursos != null or usuarios != null}">
-                <h2>Resultados da Pesquisa:</h2>
-                
-                <div th:if="${#lists.isEmpty(cursos)}">
-                    <p>Nenhum curso encontrado.</p>
+            <div id="search-results" th:if="${cursos != null or usuarios != null}">
+                <h2 class="title">Resultados da Pesquisa:</h2>
+            
+                <div class="section" id="courses-section">
+                    <div class="empty-message" th:if="${#lists.isEmpty(cursos)}">
+                        <p>Nenhum curso encontrado.</p>
+                    </div>
+                    <div class="item" th:each="curso : ${cursos}">
+                        <div class="card-curso">
+                            <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                            <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do Professor
+                            </p>
+                        </div>
+                        
+                    </div>
                 </div>
-                <div th:each="curso : ${cursos}">
-                    <p th:text="'Curso: ' + ${curso.nome} + ' - Descrição: ' + ${curso.descricao}"></p>
-                </div>
-        
-                <div th:if="${#lists.isEmpty(usuarios)}">
-                    <p>Nenhum usuário encontrado.</p>
-                </div>
-                <div th:each="usuario : ${usuarios}">
-                    <p th:text="'Usuário: ' + ${usuario.nome} + ' ' + ${usuario.sobrenome} + ' - Email: ' + ${usuario.email}"></p>
+            
+                <div class="section" id="users-section">
+                    <div class="empty-message" th:if="${#lists.isEmpty(usuarios)}">
+                        <p>Nenhum usuário encontrado.</p>
+                    </div>
+                    <div class="item" th:each="usuario : ${usuarios}">
+                        <div class="card-curso">
+                            <h2 class="titulo-curso" th:text="${usuario.nome}">Nome do Usuário</h2>
+                            <p class="prof-curso" th:text="${usuario.email}">Email do usuário</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
