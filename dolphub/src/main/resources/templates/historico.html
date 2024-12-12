@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Histórico</title>
+</head>
+<body>
+    <h1>Histórico de Vídeos Assistidos</h1>
+    <ul>
+        <li th:each="video : ${listaAulaAssistida}">
+            <span th:text="${video.titulo}"></span> - 
+        </li>
+    </ul>
+</body>
+</html>
