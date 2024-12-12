@@ -35,6 +35,7 @@ import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ProfessorService;
+import com.cefet.dolphub.Service.QuestaoAtividadeService;
 import com.cefet.dolphub.Service.QuestaoService;
 import com.cefet.dolphub.Service.RecursoService;
 import com.cefet.dolphub.Service.TopicoService;
@@ -72,6 +73,8 @@ public class GerenciarRecursoController {
     private AtividadeService atividadeService;
     @Autowired
     private QuestaoService questaoService;
+    @Autowired
+    private QuestaoAtividadeService questaoAtividadeService;
 
     @GetMapping
     public String editarCurso() {
@@ -538,7 +541,6 @@ public class GerenciarRecursoController {
     @GetMapping("{idCurso}/editarAtividade/{idAtividade}")
     public String editarAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
-        System.out.println("Funcionaaaaaaaaa");
         Atividade atv = atividadeService.buscar(idAtividade);
         Curso curso = cursoService.buscar(idCurso);
 
@@ -561,7 +563,6 @@ public class GerenciarRecursoController {
             System.out.println("Id da questao da atividade"+q.getId());
             questoesAtv.add(q.getQuestao());
         }
-        System.out.println(questoesAtv.get(1).getEnunciado());
         model.addAttribute("questoesAtv", questoesAtv);
         
 
@@ -574,10 +575,14 @@ public class GerenciarRecursoController {
     @GetMapping("{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
     public String adicionarQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,@PathVariable Long idQuestao, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
-        System.out.println("Teste no adicionar questão");
         Atividade atv = atividadeService.buscar(idAtividade);
         Curso curso = cursoService.buscar(idCurso);
 
+        if(questaoAtividadeService.buscarPorQuestaoAtividadeEmAtividade(idAtividade, idQuestao) != null){
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Essa questão já foi adicionada");
+            return "redirect:/error";
+        }
         if (atv == null) {
             model.addAttribute("tipoNotificacao", "error");
             model.addAttribute("notificacao", "Atividade não encontrada");
@@ -616,6 +621,44 @@ public class GerenciarRecursoController {
 
         
 
+        return "editar_atividade";
+    }
+
+    @GetMapping("{idCurso}/editarAtividade/{idAtividade}/removerQuestao/{idQuestao}")
+    public String removerQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,@PathVariable Long idQuestao, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
+                Atividade atv = atividadeService.buscar(idAtividade);
+                Curso curso = cursoService.buscar(idCurso);
+        
+                if (atv == null) {
+                    model.addAttribute("tipoNotificacao", "error");
+                    model.addAttribute("notificacao", "Atividade não encontrada");
+                    return "redirect:/error";
+                }
+        
+                List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+                QuestaoAtividade questaoDelete = questaoAtividadeService.buscarPorQuestaoAtividadeEmAtividade(idAtividade, idQuestao);
+                questaoAtividadeService.deletar(questaoDelete.getId());
+        
+                
+                redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+                redirectAttributes.addFlashAttribute("notificacao", "Atividade atualizada");
+        
+        
+                List<Questao> questoesAtv = new ArrayList<>();
+                for(QuestaoAtividade q : listaQuestaoAtv){
+                    questoesAtv.add(q.getQuestao());
+                }
+                model.addAttribute("questoesAtv", questoesAtv);
+        
+                model.addAttribute("atividade", atv);
+                model.addAttribute("idCurso", idCurso);
+                model.addAttribute("curso", curso);
+                model.addAttribute("usuarioLogado", usuarioLogado);
+        
+                List<Questao> questoes = questaoService.listarTodas();
+                model.addAttribute("questoes", questoes);
+                model.addAttribute("role", "professor");
         return "editar_atividade";
     }
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 
 @Repository
-public interface QuestaoAtividadeRepository {
+public interface QuestaoAtividadeRepository extends JpaRepository<QuestaoAtividade, Long> {
     List<QuestaoAtividade> findByAtividadeId(Long atividadeId);
     boolean existsByQuestaoId(Long questaoId);
 }

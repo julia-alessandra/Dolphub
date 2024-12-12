@@ -109,7 +109,7 @@
                 <section class="lista-questoes-atividade-container">
                     <form th:each="questaoAtv : ${questoesAtv}" class="questao-container">
                         <div class="acoes">
-                            <a><i class="fa-regular fa-trash-can"></i>Remover questão</a>
+                            <a th:href="@{'/editarCurso/' + ${curso.id} + '/editarAtividade/' + ${atividade.id} + '/removerQuestao/' + ${questaoAtv.id}}"><i class="fa-regular fa-trash-can"></i>Remover questão</a>
                         </div>
                         <div class="questao-enunciado" th:text="${questaoAtv.enunciado}"></div>
                 
