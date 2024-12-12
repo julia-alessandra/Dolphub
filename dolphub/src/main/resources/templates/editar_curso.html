@@ -30,7 +30,19 @@
                         Não há nenhum recurso nesse curso
                     </div> -->
                     <ul id="lista-principal">
-                        
+                        <li class="criarTopicoRaizLi">
+                            <form class="formTitulo" style="display:none;"
+                                th:action="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}" method="GET">
+                                <input class="inputTitulo" type="text" name="titulo"
+                                    placeholder="Digite o título do tópico" required />
+                                <button type="submit" class="btn-adicionar-topico" data-id="${recurso.id}">
+                                    <a class="info-element" data-info="Novo tópico"><i
+                                            class="fa-solid fa-circle-plus"></i></a>
+                                </button>
+                            </form>
+                            <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico"
+                                onclick="toggleForm(this)"></i>
+                        </li>
                         <li class="topico-original" th:each="recurso : ${recursos}"
                             th:if="${recurso.topicoPai == null}">
                             <div>
@@ -49,13 +61,17 @@
                                                         class="fa-solid fa-circle-plus"></i></a>
                                             </button>
                                         </form>
-                                        <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico" onclick="toggleForm(this)"></i>
+                                        <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico"
+                                            onclick="toggleForm(this)"></i>
                                         <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
                                             class="info-element" data-info="Novo arquivo"><i
                                                 class="fa-solid fa-file-circle-plus"></i></a>
                                         <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
                                             class="info-element" data-info="Novo vídeo"><i
                                                 class="fa-solid fa-video"></i></a>
+                                        <a th:href="@{/editarCurso/{idCurso}/enviarAtividade/{idPai}(idCurso=${curso.id}, idPai=${recurso.id})}"
+                                            class="info-element" data-info="Nova Atividade"><i
+                                                class="fa-solid fa-book"></i></a>
                                     </div>
                                 </div>
                                 <div class="recurso-item-container"
@@ -79,7 +95,7 @@
                                     <a
                                         th:href="@{/editarCurso/{idCurso}/acessoVideo/{id}(idCurso=${curso.id}, id=${recurso.id})}"><i
                                             class="fa-solid fa-file-video info-element"
-                                            th:data-info="${subRecurso.descricao}"></i><span
+                                            th:data-info="${recurso.descricao}"></i><span
                                             th:text="${recurso.titulo}"></span></a>
                                     <div class="recurso-container-edicao">
                                         <a
@@ -92,10 +108,19 @@
                                 </div>
                                 <div class="recurso-item-container"
                                     th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
-                                    <a><i class="fa-solid fa-square-pen info-element"
+                                    <a
+                                        th:href="@{/editarCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${recurso.id})}"><i
+                                            class="fa-solid fa-book info-element"
                                             th:data-info="${recurso.descricao}"></i><span
                                             th:text="${recurso.titulo}"></span></a>
-                                    <div class="recurso-container-edicao"></div>
+                                    <div class="recurso-container-edicao">
+                                        <a
+                                            th:href="@{/editarCurso/{idCurso}/editarAtividade/{idAtividade}(idCurso=${curso.id}, idAtividade=${recurso.id})}"><i
+                                                class="fa-solid fa-pencil info-element" data-info="Editar"></i></a>
+                                        <a
+                                            th:href="@{/editarCurso/{idCurso}/apagarAtividade/{idAtividade}(idCurso=${curso.id}, idAtividade=${recurso.id})}"><i
+                                                class="fa-solid fa-trash-can info-element" data-info="Apagar"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -119,14 +144,17 @@
                                                                 class="fa-solid fa-circle-plus"></i></a>
                                                     </button>
                                                 </form>
-                                                <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico"
-                                                    onclick="toggleForm(this)"></i>
+                                                <i class="btnOpen fa-solid fa-folder-plus info-element"
+                                                    data-info="Novo tópico" onclick="toggleForm(this)"></i>
                                                 <a th:href="@{/editarCurso/{idCurso}/enviarArquivo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                     class="info-element" data-info="Novo arquivo"><i
                                                         class="fa-solid fa-file-circle-plus"></i></a>
                                                 <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
                                                     class="info-element" data-info="Novo vídeo"><i
                                                         class="fa-solid fa-video"></i></a>
+                                                <a th:href="@{/editarCurso/{idCurso}/enviarAtividade/{idPai}(idCurso=${curso.id}, idPai=${subRecurso.id})}"
+                                                    class="info-element" data-info="Nova Atividade"><i
+                                                        class="fa-solid fa-book"></i></a>
                                             </div>
                                         </div>
                                         <div class="recurso-item-container"
@@ -167,10 +195,21 @@
                                         </div>
                                         <div class="recurso-item-container"
                                             th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
-                                            <a><i class="fa-solid fa-square-pen info-element"
+                                            <a
+                                                th:href="@{/editarCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subRecurso.id})}"><i
+                                                    class="fa-solid fa-book info-element"
                                                     th:data-info="${subRecurso.descricao}"></i><span
                                                     th:text="${subRecurso.titulo}"></span></a>
-                                            <div class="recurso-container-edicao"></div>
+                                            <div class="recurso-container-edicao">
+                                                <a
+                                                    th:href="@{/editarCurso/{idCurso}/editarAtividade/{idAtividade}(idCurso=${curso.id}, idAtividade=${subRecurso.id})}"><i
+                                                        class="fa-solid fa-pencil info-element"
+                                                        data-info="Editar"></i></a>
+                                                <a
+                                                    th:href="@{/editarCurso/{idCurso}/apagarAtividade/{idAtividade}(idCurso=${curso.id}, idAtividade=${subRecurso.id})}"><i
+                                                        class="fa-solid fa-trash-can info-element"
+                                                        data-info="Apagar"></i></a>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -190,6 +229,9 @@
                                                         <a th:href="@{/editarCurso/{idCurso}/enviarVideo/{idPai}(idCurso=${curso.id}, idPai=${subSubRecurso.id})}"
                                                             class="info-element" data-info="Novo vídeo"><i
                                                                 class="fa-solid fa-video"></i></a>
+                                                        <a th:href="@{/editarCurso/{idCurso}/enviarAtividade/{idPai}(idCurso=${curso.id}, idPai=${subSubRecurso.id})}"
+                                                            class="info-element" data-info="Nova Atividade"><i
+                                                                class="fa-solid fa-book"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="recurso-item-container"
@@ -230,29 +272,27 @@
                                                 </div>
                                                 <div class="recurso-item-container"
                                                     th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
-                                                    <a><i class="fa-solid fa-square-pen info-element"
+                                                    <a
+                                                        th:href="@{/editarCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}"><i
+                                                            class="fa-solid fa-book info-element"
                                                             th:data-info="${subSubRecurso.descricao}"></i><span
                                                             th:text="${subSubRecurso.titulo}"></span></a>
-                                                    <div class="recurso-container-edicao"></div>
+                                                    <div class="recurso-container-edicao">
+                                                        <a
+                                                            th:href="@{/editarCurso/{idCurso}/editarAtividade/{idAtividade}(idCurso=${curso.id}, idAtividade=${subSubRecurso.id})}"><i
+                                                                class="fa-solid fa-pencil info-element"
+                                                                data-info="Editar"></i></a>
+                                                        <a
+                                                            th:href="@{/editarCurso/{idCurso}/apagarAtividade/{idAtividade}(idCurso=${curso.id}, idAtividade=${subSubRecurso.id})}"><i
+                                                                class="fa-solid fa-trash-can info-element"
+                                                                data-info="Apagar"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
-
-                        <li>
-                            <form class="formTitulo" style="display:none;"
-                                th:action="@{/editarCurso/{idCurso}/gerarTopico(idCurso=${curso.id})}" method="GET">
-                                <input class="inputTitulo" type="text" name="titulo"
-                                    placeholder="Digite o título do tópico" required />
-                                <button type="submit" class="btn-adicionar-topico" data-id="${recurso.id}">
-                                    <a class="info-element" data-info="Novo tópico"><i
-                                            class="fa-solid fa-circle-plus"></i></a>
-                                </button>
-                            </form>
-                            <i class="btnOpen fa-solid fa-folder-plus info-element" data-info="Novo tópico" onclick="toggleForm(this)"></i>
                         </li>
                     </ul>
                 </div>

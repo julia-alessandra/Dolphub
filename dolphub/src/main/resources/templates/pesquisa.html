@@ -1,0 +1,56 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/search.css}" rel="stylesheet">
+
+</head>
+<body>
+    <div class="tela-completa">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <div th:replace="componentes/notificacao :: notificacao"></div>
+    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+    
+    <main>
+        <div th:replace="componentes/menu_superior :: menu_superior"></div>
+        <div class="container-principal">
+            <div id="search-results" th:if="${cursos != null or usuarios != null}">
+                <h2 class="title">Resultados da Pesquisa:</h2>
+            
+                <div class="section" id="courses-section">
+                    <div class="empty-message" th:if="${#lists.isEmpty(cursos)}">
+                        <p>Nenhum curso encontrado.</p>
+                    </div>
+                    <div class="item" th:each="curso : ${cursos}">
+                        <div class="card-curso">
+                            <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                            <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">Nome do Professor
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+            
+                <div class="section" id="users-section">
+                    <div class="empty-message" th:if="${#lists.isEmpty(usuarios)}">
+                        <p>Nenhum usuário encontrado.</p>
+                    </div>
+                    <div class="item" th:each="usuario : ${usuarios}">
+                        <div class="card-curso">
+                            <h2 class="titulo-curso" th:text="${usuario.nome}">Nome do Usuário</h2>
+                            <p class="prof-curso" th:text="${usuario.email}">Email do usuário</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    </div>
+    </body>
+    <script th:src="@{/javascript/pattern.js}"></script>
+</html>

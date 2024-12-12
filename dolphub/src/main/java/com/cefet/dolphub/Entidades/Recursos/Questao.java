@@ -1,12 +1,13 @@
 package com.cefet.dolphub.Entidades.Recursos;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Tag;
 import com.cefet.dolphub.Entidades.Main.Usuario;
-import com.cefet.dolphub.Entidades.Recursos.Relacionamento.QuestaoAtividade;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,13 @@ public class Questao {
 
     @Column(name = "dificuldade_questao")
     private Dificuldade dificuldade;
+
+    @Column(name = "data_questao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataCriacao;
+
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestaoAtividade> questaoAtividades = new ArrayList<>();

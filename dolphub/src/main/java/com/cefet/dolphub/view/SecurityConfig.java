@@ -7,33 +7,43 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/cadastro", "/salvarUsuario", "/login", "/confirmacao", "/styles/**").permitAll()//Caminhos permitidos pro usuario seguir sem login
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .usernameParameter("cpf")
-                        .passwordParameter("senha")
-                        .defaultSuccessUrl("/cursosAdquiridos", true)
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .permitAll());
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/", "/cadastro", "/salvarUsuario", "/login",
+                                                                "/confirmacao", "/styles/**")
+                                                .permitAll() // Caminhos permitidos sem login
+                                                .anyRequest().authenticated())
+                                .formLogin(form -> form
+                                                .loginPage("/login")
+                                                .usernameParameter("cpf")
+                                                .passwordParameter("senha")
+                                                .defaultSuccessUrl("/cursosAdquiridos", true)
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout")
+                                                .logoutSuccessUrl("/login")
+                                                .permitAll())
+                                .csrf(csrf -> csrf
+                                                .ignoringRequestMatchers("/acessarCurso/*/responderQuestao",
+                                                                "/acessoCurso/marcar-video/*") // Ignorar
+                                // CSRF
+                                // para
+                                // requisições
+                                // específicas,
+                                // se
+                                // necessário
+                                );
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 }

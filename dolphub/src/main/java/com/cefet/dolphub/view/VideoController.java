@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -67,16 +68,27 @@ public class VideoController {
         return new ResponseEntity<>(video.getConteudo(), headers, HttpStatus.OK);
     }
 
-    @GetMapping("/marcar-video/{idVideo}/")
-    public String adicionarVideo(@PathVariable("idVideo") Long idVideo, @PathVariable("idCurso") Long idCurso,
+    @PostMapping("/acessoCurso/marcar-video/{idVideo}/")
+    @ResponseBody
+    public ResponseEntity<?> adicionarVideo(@PathVariable("idVideo") Long idVideo,
             @AuthenticationPrincipal Usuario usuarioLogado) {
-        Video video = videoService.buscar(idVideo);
-        Curso curso = cursoService.buscarPorId(idCurso);
-        AulaAssistida aulaAssistida = new AulaAssistida();
-        aulaAssistida.setUsuario(usuarioLogado);
-        aulaAssistida.setVideo(video);
-        aulaAssistidaRepository.save(aulaAssistida);
-        return "redirect:/videos/{idVideo}";
+        try {
+            Video video = videoService.buscar(idVideo);
+
+            if (video == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vídeo não encontrado.");
+            }
+
+            AulaAssistida aulaAssistida = new AulaAssistida();
+            aulaAssistida.setUsuario(usuarioLogado);
+            aulaAssistida.setVideo(video);
+            aulaAssistidaRepository.save(aulaAssistida);
+
+            return ResponseEntity.ok("Vídeo marcado como assistido com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao marcar o vídeo como assistido.");
+        }
     }
 
 }
