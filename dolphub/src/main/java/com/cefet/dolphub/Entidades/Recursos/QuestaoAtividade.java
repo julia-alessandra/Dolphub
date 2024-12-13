@@ -18,13 +18,13 @@ import lombok.*;
 public class QuestaoAtividade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_sq")
-    @SequenceGenerator(schema = "public", name = "questao_sq", sequenceName = "questao_sq", initialValue = 1, allocationSize = 1)
-    @Column(name = "id_questao")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_atividade_sq")
+    @SequenceGenerator(schema = "public", name = "questao_atividade_sq", sequenceName = "questao_atividade_sq", initialValue = 1, allocationSize = 1)
+    @Column(name = "id_questao_atividade")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "atividade_id", nullable = false)
+    
+    @ManyToOne
+    @JoinColumn(name = "id_atividade")
     private Atividade atividade;
 
     @ManyToOne(fetch = FetchType.LAZY)
