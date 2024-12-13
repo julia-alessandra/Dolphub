@@ -51,78 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
         closeBtn.addEventListener('click', closeNotification);
     }
 });
-
-
-// info texto mouse evt
-// document.addEventListener("DOMContentLoaded", function () {
-//     const infoElements = document.querySelectorAll('.info-element');
-//     const tooltip = document.getElementById('info-tooltip');
-//     if(tooltip) {
-
-//         infoElements.forEach(element => {
-//             element.addEventListener('mouseenter', function (event) {
-//                 tooltip.innerText = this.getAttribute('data-info');
-//                 tooltip.style.display = 'block';
-//                 tooltip.style.left = `${event.pageX + 10}px`;
-//                 tooltip.style.top = `${event.pageY + 10}px`;
-//             });
-
-//             element.addEventListener('mouseleave', function () {
-//                 tooltip.style.display = 'none';
-//             });
-//         });
-//     }
-// });
-/*
-document.addEventListener("DOMContentLoaded", function () {
-    const infoElements = document.querySelectorAll('.info-element');
-    const tooltip = document.getElementById('info-tooltip');
-
-    infoElements.forEach(element => {
-        element.addEventListener('mouseenter', function (event) {
-            tooltip.innerText = this.getAttribute('data-info');
-            tooltip.style.display = 'block';
-
-            // Calcula a posição do elemento
-            const rect = element.getBoundingClientRect();
-            const tooltipWidth = tooltip.offsetWidth;
-            const tooltipHeight = tooltip.offsetHeight;
-
-            // Define a posição do tooltip
-            const left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
-            const top = rect.top - tooltipHeight - 10; // Para que fique acima do elemento
-
-            // Ajusta a posição se o tooltip sair da tela
-            if (left < 0) {
-                tooltip.style.left = '10px'; // Ajuste se estiver muito à esquerda
-            } else if (left + tooltipWidth > window.innerWidth) {
-                tooltip.style.left = `${window.innerWidth - tooltipWidth - 10}px`; // Ajuste se estiver muito à direita
-            } else {
-                tooltip.style.left = `${left}px`;
-            }
-
-            if (top < 0) {
-                tooltip.style.top = `${rect.bottom + 10}px`; // Posiciona abaixo do elemento se sair da tela
-            } else {
-                tooltip.style.top = `${top}px`;
-            }
-        });
-
-        element.addEventListener('mouseleave', function () {
-            tooltip.style.display = 'none';
-        });
-    });
-});
-*/
-
-    // Alterna a visibilidade do menu ao clicar no ícone de perfil
-
 document.addEventListener('DOMContentLoaded', function() {
     const menu = document.getElementById("menu");
     const perfil = document.getElementById("perfil");
   
     perfil.addEventListener("click", function(event) {
-      event.stopPropagation(); // Impede que o clique se propague para o documento
+      event.stopPropagation();
       menu.classList.toggle("hidden");
     });
   
@@ -134,3 +68,54 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
+
+  //confirmação janela
+  function attachConfirmation(formId) {
+    const form = document.getElementById(formId);
+    const modal = document.getElementById('confirmation-modal');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        modal.style.display = 'flex';
+
+        confirmBtn.onclick = function () {
+            modal.style.display = 'none';
+            form.submit();
+        };
+
+        cancelBtn.onclick = function () {
+            modal.style.display = 'none';
+        };
+    });
+}
+
+// para links
+function attachLinkConfirmation(linkClass) {
+    const links = document.querySelectorAll(`.${linkClass}`);
+    const modal = document.getElementById('confirmation-modal');
+    if(modal == null) {
+        return;
+    }
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    links.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const href = this.href;
+            modal.style.display = 'flex';
+
+            confirmBtn.onclick = function () {
+                modal.style.display = 'none';
+                window.location.href = href;
+            };
+
+            cancelBtn.onclick = function () {
+                modal.style.display = 'none';
+            };
+        });
+    });
+}
+

@@ -108,7 +108,9 @@ document.addEventListener('DOMContentLoaded', gerenciarAlternativas);
 // });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    var csrfToken;
+    const csrfTokenO = document.querySelector('meta[name="_csrf"]');
+    if(csrfTokenO == null) return;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
 
     console.log('CSRF Header:', csrfHeader); 

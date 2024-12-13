@@ -26,4 +26,19 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private List<Questao> questoes = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Tag tag = (Tag) o;
+        return nome.equalsIgnoreCase(tag.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.toLowerCase().hashCode();
+    }
 }
