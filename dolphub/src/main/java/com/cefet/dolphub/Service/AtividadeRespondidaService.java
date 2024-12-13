@@ -34,10 +34,13 @@ public class AtividadeRespondidaService {
         return atividadeRespondidaRepository.findById(id).orElse(null);
     }
 
+    public List<AtividadeRespondida> encontrarAtividadePorUsuarioId(Long id){
+        return atividadeRespondidaRepository.findByUsuarioId(id);
+    }
+
     public void deletar(Long id) {
         atividadeRespondidaRepository.deleteById(id);
     }
-
     public List<Questao> questoesCertas(AtividadeRespondida atv){
         List<QuestaoRespondida> all = atv.getQuestaoRespondida();
         List<Questao> certas = new ArrayList<>();
@@ -50,6 +53,9 @@ public class AtividadeRespondidaService {
         return certas;
     }
 
+    public List<AtividadeRespondida> buscarPorUsuarioEAtividade(Long usuarioId, Long atividadeId) {
+        return atividadeRespondidaRepository.findByUsuarioIdAndAtividadeId(usuarioId, atividadeId);
+    }
     public List<AtividadeRespondida> listarAtividade() {
         return atividadeRespondidaRepository.findAll();
     }

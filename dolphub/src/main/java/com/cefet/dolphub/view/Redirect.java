@@ -18,10 +18,12 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Entidades.Recursos.AtividadeRespondida;
 import com.cefet.dolphub.Entidades.Recursos.AulaAssistida;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.QuestaoService;
+import com.cefet.dolphub.Service.AtividadeRespondidaService;
 import com.cefet.dolphub.Service.AulaAssistidaService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.MatriculaService;
@@ -38,6 +40,9 @@ public class Redirect {
     private QuestaoService questaoService;
     @Autowired
     private AulaAssistidaService aulaAssistidaService;
+
+    @Autowired
+    private AtividadeRespondidaService atividadeRespondidaService;
 
     @Autowired
     private CursoService cursoService;
@@ -126,6 +131,9 @@ public class Redirect {
 
         System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagemFormatada);
+
+        List<AtividadeRespondida> atividadeRespondidas = atividadeRespondidaService.encontrarAtividadePorUsuarioId(usuarioLogado.getId());
+        model.addAttribute("atividadesRespondidas", atividadeRespondidas.size());
 
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";

@@ -30,11 +30,15 @@
                         <p th:text="${dificuldade}"></p>
                         </div>
                     </div>
+                    <div id="menu-curso">
+                        <a th:href="@{/acessoCurso/{cursoId}/acessoAtividade/{atividadeId}(cursoId=${curso.id}, atividadeId=${atividade.id})}">Questões</a>
+                        <a th:href="@{/acessoCurso/{cursoId}/acessoAtividade/{atividadeId}/historico(cursoId=${curso.id}, atividadeId=${atividade.id})}">Últimas tentativas</a>
+                    </div>
                 </header>
 
-                <section th:if="${role == 'aluno'}" id="lista-questoes-container" th:data-responder-url="@{/acessarCurso/{cursoId}/acessoAtividade/{atividadeId}/responderAtividade(cursoId=${curso.id}, atividadeId=${atividade.id})}">
+                <section th:if="${questoes != null}"id="lista-questoes-container" th:data-responder-url="@{/acessarCurso/{cursoId}/acessoAtividade/{atividadeId}/responderAtividade(cursoId=${curso.id}, atividadeId=${atividade.id})}">
                     <form id="form-questoes">
-                        <div th:each="questao : ${questoes}" class="questao-container" th:data-id="${questao.id}">
+                        <div style="margin-top: 20px;" th:each="questao : ${questoes}" class="questao-container" th:data-id="${questao.id}">
                             <div class="questao-enunciado" th:text="${questao.enunciado}"></div>
                             <div class="alternativas">
                                 <div th:each="alternativa : ${questao.alternativas}" class="alternativa">
@@ -43,9 +47,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="enviar-respostas-btn">Enviar Respostas</button>
+                        <button style="margin-top: 20px;"type="button" id="enviar-respostas-btn">Enviar Respostas</button>
                     </form>
                 </section>
+                <h3 th:if="${questoes == null}">Essa atividade não possuí questões</h3>
             </div>
 
         </main>
@@ -54,6 +59,7 @@
 </body>
 <script th:src="@{/javascript/pattern.js}"></script>
 <script th:src="@{/javascript/atividade.js}"></script>
+
 
 
 </html>

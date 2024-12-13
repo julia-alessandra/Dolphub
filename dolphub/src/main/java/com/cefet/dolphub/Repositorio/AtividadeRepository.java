@@ -11,4 +11,7 @@ import com.cefet.dolphub.Entidades.Recursos.*;
 @Repository
 public interface AtividadeRepository extends JpaRepository<Atividade, Long> {
     Optional<Atividade> findById(Long id);
+    List<Atividade> findByCursoId(Long cursoId);
+
+
 }

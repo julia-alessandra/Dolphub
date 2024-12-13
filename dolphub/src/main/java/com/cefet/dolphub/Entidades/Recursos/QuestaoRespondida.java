@@ -30,7 +30,7 @@ public class QuestaoRespondida {
     private Questao questao;
 
     @ManyToOne
-    @JoinColumn(name = "atividade_respondida_id")
+    @JoinColumn(name = "atividade_respondida_id", nullable = true)
     private AtividadeRespondida atividadeRespondida;
 
     @ManyToOne

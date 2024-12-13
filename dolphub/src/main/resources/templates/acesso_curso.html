@@ -79,7 +79,7 @@
                                     th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
                                     <a
                                         th:href="@{/acessoCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${recurso.id})}">
-                                        <i class="fa-solid fa-square-pen info-element"
+                                        <i class="fa-solid fa-book info-element"
                                             th:data-info="${recurso.descricao}"></i>
                                         <span th:text="${recurso.titulo}"></span>
                                     </a>
@@ -139,7 +139,7 @@
                                             th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
                                             <a
                                                 th:href="@{/acessoCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subRecurso.id})}">
-                                                <i class="fa-solid fa-square-pen info-element"
+                                                <i class="fa-solid fa-book info-element"
                                                     th:data-info="${subRecurso.descricao}"></i>
                                                 <span th:text="${subRecurso.titulo}"></span>
                                             </a>
@@ -198,7 +198,7 @@
                                                     th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
                                                     <a
                                                         th:href="@{/acessoCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}">
-                                                        <i class="fa-solid fa-square-pen info-element"
+                                                        <i class="fa-solid fa-book info-element"
                                                             th:data-info="${subSubRecurso.descricao}"></i><span
                                                             th:text="${subSubRecurso.titulo}"></span></a>
                                                     <button class="btn-favoritar" th:data-tipo="arquivo"

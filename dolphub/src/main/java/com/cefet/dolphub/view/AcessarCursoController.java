@@ -3,6 +3,7 @@ package com.cefet.dolphub.view;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -184,7 +185,7 @@ public class AcessarCursoController {
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
         Atividade atv = atividadeService.buscar(idAtividade);
-        
+
         Curso curso = cursoService.buscar(idCurso);
 
         List<Questao> listaQuestoes = questaoAtividadeService
@@ -200,9 +201,12 @@ public class AcessarCursoController {
         model.addAttribute("dificuldade", atv.getDificuldade().getDificuldade());
         model.addAttribute("curso", curso);
         model.addAttribute("role", "aluno");
-        model.addAttribute("questoes", listaQuestoes);
         model.addAttribute("usuarioLogado", usuarioLogado);
-
+        if (listaQuestoes.size() == 0) {
+            model.addAttribute("questoes", null);
+            return "acesso_atividade";
+        }
+        model.addAttribute("questoes", listaQuestoes);
         return "acesso_atividade";
     }
 
@@ -213,53 +217,97 @@ public class AcessarCursoController {
             @PathVariable Long idAtividade,
             @RequestBody Map<String, List<Map<String, Long>>> payload,
             @AuthenticationPrincipal Usuario usuarioLogado) {
-        try{
+        try {
             System.out.println("Dados recebidos: " + payload);
 
-        AtividadeRespondida atividadeRespondida = new AtividadeRespondida();
-        atividadeRespondida.setAtividade(atividadeService.buscar(idAtividade));
-        atividadeRespondida.setUsuario(usuarioLogado);
-        
-        List<QuestaoRespondida> listaQR = new ArrayList<>();
+            AtividadeRespondida atividadeRespondida = new AtividadeRespondida();
+            atividadeRespondida.setAtividade(atividadeService.buscar(idAtividade));
+            atividadeRespondida.setUsuario(usuarioLogado);
+            atividadeRespondidaService.salvarAtividade(atividadeRespondida);
 
-        List<Map<String, Long>> respostas = payload.get("respostas");
-        List<Map<String, Object>> resultados = new ArrayList<>();
-        for (Map<String, Long> resposta : respostas) {
-            Long questaoId = resposta.get("questaoId");
-            Long alternativaId = resposta.get("alternativaId");
+            List<QuestaoRespondida> listaQR = new ArrayList<>();
 
-            boolean respostaCorreta = questaoService.verificarAlternativa(questaoId, alternativaId);
+            List<Map<String, Long>> respostas = payload.get("respostas");
+            List<Map<String, Object>> resultados = new ArrayList<>();
+            for (Map<String, Long> resposta : respostas) {
+                Long questaoId = resposta.get("questaoId");
+                Long alternativaId = resposta.get("alternativaId");
 
-            // Registra a questão respondida no banco de dados.
-            QuestaoRespondida questaoRespondida = new QuestaoRespondida();
-            questaoRespondida.setUsuario(usuarioLogado);
-            questaoRespondida.setQuestao(questaoService.buscar(questaoId));
-            questaoRespondida.setAlternativa(alternativaService.buscar(alternativaId));
-            questaoRespondidaService.salvarQuestao(questaoRespondida);
+                boolean respostaCorreta = questaoService.verificarAlternativa(questaoId, alternativaId);
 
-            listaQR.add(questaoRespondida);
+                // Registra a questão respondida no banco de dados.
+                QuestaoRespondida questaoRespondida = new QuestaoRespondida();
+                questaoRespondida.setUsuario(usuarioLogado);
+                questaoRespondida.setQuestao(questaoService.buscar(questaoId));
+                questaoRespondida.setAlternativa(alternativaService.buscar(alternativaId));
+                questaoRespondida.setAtividadeRespondida(atividadeRespondida);
+                questaoRespondidaService.salvarQuestao(questaoRespondida);
 
-            // Adiciona o resultado da questão ao array de resultados.
-            Map<String, Object> resultado = new HashMap<>();
-            resultado.put("questaoId", questaoId);
-            resultado.put("ver", respostaCorreta ? "true" : "false");
-            resultado.put("mensagem", respostaCorreta ? "Resposta correta!" : "Resposta incorreta!");
-            resultados.add(resultado);
-        }
+                listaQR.add(questaoRespondida);
 
-        atividadeRespondida.setQuestaoRespondida(listaQR);
+                // Adiciona o resultado da questão ao array de resultados.
+                Map<String, Object> resultado = new HashMap<>();
+                resultado.put("questaoId", questaoId);
+                resultado.put("ver", respostaCorreta ? "true" : "false");
+                resultado.put("mensagem", respostaCorreta ? "Resposta correta!" : "Resposta incorreta!");
+                resultados.add(resultado);
+            }
 
-        // Retorna o array de resultados.
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("resultados", resultados);
+            Integer acertos = 0;
+            for (Map<String, Object> resultado : resultados) {
+                if ("true".equals(resultado.get("ver"))) {
+                    acertos++;
+                }
+            }
+            Double porcentagem = (acertos / (double) listaQR.size()) * 100;
+            Integer porcentagemFinal = (int) Math.round(porcentagem);
+            java.util.Date data = new java.util.Date();
+            atividadeRespondida.setDataTentativa(new java.sql.Date(data.getTime()));
 
-        return ResponseEntity.ok(response);
+            atividadeRespondida.setAcertos(porcentagemFinal);
+            atividadeRespondida.getQuestaoRespondida().clear();
+            atividadeRespondida.getQuestaoRespondida().addAll(listaQR);
+            atividadeRespondidaService.salvarAtividade(atividadeRespondida);
+
+            // Retorna o array de resultados.
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("resultados", resultados);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-        e.printStackTrace(); // Log da exceção
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Erro interno ao processar as respostas. Tente novamente mais tarde.");
+            e.printStackTrace(); // Log da exceção
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno ao processar as respostas. Tente novamente mais tarde.");
         }
+    }
+
+    @GetMapping("/acessoCurso/{idCurso}/acessoAtividade/{idAtividade}/historico")
+    public String historicoAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+
+        Atividade atv = atividadeService.buscar(idAtividade);
+
+        Curso curso = cursoService.buscar(idCurso);
+
+        List<AtividadeRespondida> atividadesRespondidas = atividadeRespondidaService
+                .buscarPorUsuarioEAtividade(usuarioLogado.getId(), idAtividade);
+
+        Collections.reverse(atividadesRespondidas);
+
+        if (atv == null) {
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Vídeo não encontrado");
+            return "redirect:/acessoCurso/" + idCurso;
+        }
+
+        model.addAttribute("atividade", atv);
+        model.addAttribute("dificuldade", atv.getDificuldade().getDificuldade());
+        model.addAttribute("curso", curso);
+        model.addAttribute("atividadesRespondidas", atividadesRespondidas);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
+        return "atividade_historico";
     }
 
 }

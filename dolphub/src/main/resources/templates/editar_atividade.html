@@ -25,9 +25,10 @@
                         <a id="botaoConfigAtv" class="info-element" data-info="Configurações"
                             style="margin-left: 5px; color: #000000;text-decoration: none;">
                             <i class="fa-solid fa-gear" aria-hidden="true"></i></a>
+                        <button style="margin-left: 20px;" id="adicionarQuestao">Adicionar questões</button>
                     </div>
                 </div>
-                <div id="formConfig" style="display:none;"class="container-form-video">
+                <div id="formConfig" style="display:none;" class="container-form-video">
                     <form th:action="@{/editarCurso/atualizarAtividade}" method="post">
                         <div class="form-esq">
                             <label class="vnome">Nome:
@@ -46,10 +47,6 @@
                             </label>
                         </div>
 
-                        <label class="vnotas">Anotações:
-                            <textarea name="anotacao" th:text="${atividade.anotacao}" required></textarea>
-                        </label>
-
                         <input type="hidden" name="cursoId" th:value="${curso.id}">
                         <input type="hidden" name="idAtividade" th:value="${atividade.id}">
 
@@ -59,36 +56,36 @@
                 </div>
 
 
-                <div id="container-questao">
+                <div style="display: none;" id="container-questao">
+                    <p id="filtrando" style="display: none;" th:text="${filtro}"></p>
                     <section id="banco-questao-menu">
-                        <form id="filtro">
+                        <form id="filtro" method="GET"
+                            th:action="@{/editarCurso/{idCurso}/editarAtividade/{idAtividade}/filtrarQuestao(idCurso=${curso.id}, idAtividade=${atividade.id})}">
                             <h3>Filtro de questões</h3>
 
-                            <input id="chave" type="text" placeholder="Palavras-chave">
+                            <input id="chave" name="chave" type="text" placeholder="Palavras-chave">
 
                             <label class="option-filtro"> Selecionar tags:
                                 <select name="tags" multiple size="5">
-                                    <option>Alcaneo</option>
-                                    <option>Alceno</option>
-                                    <option>Butano</option>
+                                    <option value="Alcaneo">Alcaneo</option>
+                                    <option value="Alceno">Alceno</option>
+                                    <option value="Butano">Butano</option>
                                 </select>
                             </label>
 
                             <div class="option-filtro">Filtrar por período:
                                 <label class="label-periodo">De:
-                                    <input type="date">
+                                    <input type="date" name="dataInicio">
                                 </label>
                                 <label class="label-periodo">Até:
-                                    <input type="date">
+                                    <input type="date" name="dataFim">
                                 </label>
                             </div>
 
                             <button type="submit">Pesquisar</button>
                         </form>
-
                     </section>
 
-                    <!-- container para prof -->
                     <section class="lista-questoes-container">
                         <form th:each="questao : ${questoes}" class="questao-container">
                             <div class="acoes">
@@ -107,7 +104,7 @@
                         </form>
                     </section>
                 </div>
-                <section class="lista-questoes-atividade-container">
+                <section style="display:block;" id="sectionQuestoes" class="lista-questoes-atividade-container">
                     <form th:each="questaoAtv : ${questoesAtv}" class="questao-container">
                         <div class="acoes">
                             <a
@@ -131,11 +128,11 @@
 </body>
 <script th:src="@{/javascript/pattern.js}"></script>
 <script>
-    function invisible(){
-        if(formConfig.style.display == "none"){
+    function invisible() {
+        if (formConfig.style.display == "none") {
             formConfig.style.display = "flex";
         }
-        else if (formConfig.style.display == "flex"){
+        else if (formConfig.style.display == "flex") {
             formConfig.style.display = "none";
         }
     }
@@ -145,8 +142,31 @@
     botaoConfigAtv.addEventListener('click', invisible);
     botaocancela.addEventListener('click', invisible);
 
+    let botaoAdicionar = document.getElementById("adicionarQuestao");
+    let containerFiltro = document.getElementById("container-questao");
+    let sectionQuestoes = document.getElementById("sectionQuestoes");
+    let filtrando = document.getElementById("filtrando");
 
-    
+
+    function adicionarQuestao() {
+        if (containerFiltro.style.display == "flex") {
+            containerFiltro.style.display = "none";
+            sectionQuestoes.style.display = "block";
+            botaoAdicionar.innerHTML = "Adicionar questões";
+        }
+        else if (containerFiltro.style.display == "none") {
+            containerFiltro.style.display = "flex";
+            sectionQuestoes.style.display = "none";
+            botaoAdicionar.innerHTML = "Cancelar";
+        }
+    }
+    botaoAdicionar.addEventListener('click', adicionarQuestao);
+    if (filtrando.innerHTML == "true") {
+        containerFiltro.style.display = "flex";
+        sectionQuestoes.style.display = "none";
+        botaoAdicionar.innerHTML = "Cancelar";
+    }
+
 </script>
 
 

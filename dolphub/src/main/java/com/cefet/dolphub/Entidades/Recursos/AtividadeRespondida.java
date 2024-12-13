@@ -6,8 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
@@ -30,9 +34,15 @@ public class AtividadeRespondida {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_atividade")
+    @JoinColumn(name = "id_atividade", nullable = true)
     private Atividade atividade;
 
-    @OneToMany(mappedBy = "atividadeRespondida", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(name = "acertos")
+    private Integer acertos;
+
+    @Column(name = "data_tentativa")
+    private Date dataTentativa;
+
+    @OneToMany(mappedBy = "atividadeRespondida")
     private List<QuestaoRespondida> questaoRespondida = new ArrayList<>();
 }
