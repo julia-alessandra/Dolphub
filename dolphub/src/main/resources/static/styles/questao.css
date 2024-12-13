@@ -21,6 +21,7 @@
 #banco-questao-menu {
     position: sticky;
     margin: 20px;
+    height: fit-content;
 }
 
 form#filtro {
@@ -44,25 +45,29 @@ form#filtro {
     text-align: center;
 }
 
-#chave {
-    background-color: #F4F4F4;
-    color: var(--cor-pri-tom3);
-    border: 1px solid var(--cor-pri-tom3);
-    border-radius: 20px;
-    padding: 10px 16px;
+.input-chave {
+    width: 300px;
+    height: 35px;
+    font-family: Arial, sans-serif;
     font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-#chave::placeholder {
-    color: #999;
-    font-style: italic;
-}
-
-#chave:focus {
-    border-color: #303030;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     outline: none;
-    box-shadow: 0 0 5px rgba(39, 39, 39, 0.2);
+    box-sizing: border-box;
+}
+
+.input-chave:focus {
+    border-color: #888;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-chave::placeholder {
+    color: #aaa;
+    font-style: italic;
 }
 
 .option-filtro {
@@ -123,9 +128,13 @@ form#filtro {
 .label-periodo {
     display: flex;
     flex-direction: row;
+} 
+
+form#filtro button.responder-btn {
+    align-self: center !important;
 }
 
-form#filtro button {
+/* form#filtro button {
     background-color: #3A6EA5;
     color: #f4f4f4;
     border: none;
@@ -136,7 +145,7 @@ form#filtro button {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-}
+} */
 
 form#filtro button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -424,4 +433,33 @@ button[type="submit"] {
     display: flex;
     flex-direction: row;
     gap: 10px;
+
     justify-content: space-between;
+}
+/* seleção da opção */
+.selecao-opcao {
+    width: 100%;
+    height: 35px;
+    font-family: Arial, sans-serif; 
+    font-size: 14px;
+    color: #000; 
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+    appearance: auto; 
+}
+.selecao-opcao:hover {
+    border-color: #888; 
+}
+.selecao-opcao option {
+    padding: 8px; 
+    font-size: 14px;
+    color: #000;
+    background-color: #fff;
+}
+.selecao-opcao option:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
