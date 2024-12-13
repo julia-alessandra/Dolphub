@@ -28,6 +28,7 @@ import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.MatriculaService;
 import com.cefet.dolphub.Service.QuestaoRespondidaService;
 import com.cefet.dolphub.Service.QuestaoService;
+import com.cefet.dolphub.Service.TagService;
 import com.cefet.dolphub.Service.VideoService;
 import com.cefet.dolphub.view.MatriculaController;
 
@@ -55,6 +56,9 @@ public class AcessarCursoController {
 
     @Autowired
     private QuestaoRespondidaService questaoRespondidaService;
+
+    @Autowired
+    private TagService tagService;
 
     // @Autowired
     // private QuestaoRespondidaService questaoRespondidaService;
@@ -107,6 +111,7 @@ public class AcessarCursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
         model.addAttribute("role", "aluno");
+        model.addAttribute("tags", tagService.findAllTags());
 
         return "banco_questao";
     }
@@ -143,10 +148,10 @@ public class AcessarCursoController {
     public String filtrarQuestoes(
             @PathVariable Long cursoId,
             @RequestParam(required = false) String chave, // Palavra-chave para filtro
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, // Data
-                                                                                                                 // inicial
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim, // Data
-                                                                                                              // final
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) String opcao,
             Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
@@ -157,7 +162,7 @@ public class AcessarCursoController {
                 : null;
 
         List<Questao> questoesFiltradas = questaoService.buscarQuestoesFiltradas(cursoId, dataInicioDate, dataFimDate,
-                chave);
+                chave, tags, opcao);
 
         model.addAttribute("curso", cursoService.buscar(cursoId));
         model.addAttribute("usuarioLogado", usuarioLogado);

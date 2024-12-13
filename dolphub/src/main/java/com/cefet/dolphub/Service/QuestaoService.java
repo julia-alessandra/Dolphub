@@ -33,6 +33,8 @@ public class QuestaoService {
     private AlternativaRepository alternativaRepository;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private QuestaoRespondidaService questaoRespondidaService;
 
     public Questao buscar(Long id) {
         Optional<Questao> questao = questaoRepository.findById(id);
@@ -168,18 +170,25 @@ public class QuestaoService {
         questaoRepository.save(questao);
     }
 
-    public List<Questao> buscarQuestoesFiltradas(Long cursoId, Date inicio, Date fim, String palavraChave) {
+    public List<Questao> buscarQuestoesFiltradas(Long cursoId, Date inicio, Date fim, String palavraChave,
+            List<String> tags, String opcao) {
         List<Questao> questoesAtivas = questaoRepository.findByCursoIdAndStatus(cursoId, "ativo");
-
-        System.out.println("Datas:");
-        System.out.println(inicio);
-        System.out.println(fim);
 
         return questoesAtivas.stream()
                 .filter(questao -> (inicio == null || !questao.getDataCriacao().before(inicio)))
                 .filter(questao -> (fim == null || !questao.getDataCriacao().after(fim)))
                 .filter(questao -> (palavraChave == null
                         || questao.getEnunciado().toLowerCase().contains(palavraChave.toLowerCase())))
+                .filter(questao -> (tags == null || tags.isEmpty() || questao.getTags().stream()
+                        .anyMatch(tag -> tags.contains(tag.getNome()))))
+                .filter(questao -> {
+                    if ("feitas".equals(opcao)) {
+                        return questaoRespondidaService.isQuestaoRespondida(questao.getId());
+                    } else if ("naofeitas".equals(opcao)) {
+                        return !questaoRespondidaService.isQuestaoRespondida(questao.getId());
+                    }
+                    return true;
+                })
                 .collect(Collectors.toList());
     }
 

@@ -8,6 +8,11 @@
     <link th:href="@{/styles/pattern.css}" rel="stylesheet">
     <link th:href="@{/styles/questao.css}" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script th:src="@{/javascript/tag.js}"></script>
+
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
@@ -32,16 +37,23 @@
                     <form th:if="${role=='professor'}" id="filtro" method="GET" th:action="@{/editarCurso/{idCurso}/filtrarQuestao(idCurso=${curso.id})}">
                         <h3>Filtro de questões</h3>
                     
-                        <input id="chave" name="chave" type="text" placeholder="Palavras-chave">
+                        <input id="chave" class="input-chave" name="chave" type="text" placeholder="Palavras-chave">
                     
-                        <label class="option-filtro"> Selecionar tags:
-                            <select name="tags" multiple size="5">
-                                <!-- <option value="Alcaneo">Alcaneo</option>
-                                <option value="Alceno">Alceno</option>
-                                <option value="Butano">Butano</option> -->
+                        <div>
+                            <select id="opcao-feito" name="opcao" class="selecao-opcao">
+                                <option value="todas">Todas as questões</option>
+                                <option value="naofeitas">Questões não feitas ainda</option>
+                                <option value="feitas">Questões já feitas</option>
                             </select>
-                        </label>
-                    
+                        </div>
+
+                        <div>
+                            <label for="tags">Assunto:</label>
+                            <select id="tags" name="tags" multiple style="width: 100%;">
+                                <option th:each="tag : ${tags}" th:value="${tag.nome}" th:text="${tag.nome}"></option>
+                            </select>
+                        </div>
+
                         <div class="option-filtro">Filtrar por período:
                             <label class="label-periodo">De:
                                 <input type="date" name="dataInicio">
@@ -57,15 +69,22 @@
                     <form th:if="${role=='aluno'}" id="filtro" method="GET" th:action="@{/acessoCurso/{idCurso}/filtrarQuestao(idCurso=${curso.id})}">
                         <h3>Filtro de questões</h3>
                     
-                        <input id="chave" name="chave" type="text" placeholder="Palavras-chave">
-                    
-                        <label class="option-filtro"> Selecionar tags:
-                            <select name="tags" multiple size="5">
-                                <option value="Alcaneo">Alcaneo</option>
-                                <option value="Alceno">Alceno</option>
-                                <option value="Butano">Butano</option>
+                        <input id="chave" name="chave" class="input-chave" type="text" placeholder="Palavras-chave">
+
+                        <div>
+                            <select id="opcao-feito" name="opcao" class="selecao-opcao">
+                                <option value="todas">Todas as questões</option>
+                                <option value="naofeitas">Questões não feitas ainda</option>
+                                <option value="feitas">Questões já feitas</option>
                             </select>
-                        </label>
+                        </div>
+                    
+                        <div>
+                            <label for="tags">Assunto:</label>
+                            <select id="tags" name="tags" multiple style="width: 100%;">
+                                <option th:each="tag : ${tags}" th:value="${tag.nome}" th:text="${tag.nome}"></option>
+                            </select>
+                        </div>
                     
                         <div class="option-filtro">Filtrar por período:
                             <label class="label-periodo">De:
@@ -76,7 +95,7 @@
                             </label>
                         </div>
                     
-                        <button type="submit">Pesquisar</button>
+                        <button type="submit" class="responder-btn">Pesquisar</button>
                     </form>
 
                 </section>

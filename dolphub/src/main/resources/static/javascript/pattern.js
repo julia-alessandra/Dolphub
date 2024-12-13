@@ -53,26 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// info texto mouse evt
-// document.addEventListener("DOMContentLoaded", function () {
-//     const infoElements = document.querySelectorAll('.info-element');
-//     const tooltip = document.getElementById('info-tooltip');
-//     if(tooltip) {
 
-//         infoElements.forEach(element => {
-//             element.addEventListener('mouseenter', function (event) {
-//                 tooltip.innerText = this.getAttribute('data-info');
-//                 tooltip.style.display = 'block';
-//                 tooltip.style.left = `${event.pageX + 10}px`;
-//                 tooltip.style.top = `${event.pageY + 10}px`;
-//             });
-
-//             element.addEventListener('mouseleave', function () {
-//                 tooltip.style.display = 'none';
-//             });
-//         });
-//     }
-// });
 document.addEventListener("DOMContentLoaded", function () {
     const infoElements = document.querySelectorAll('.info-element');
     const tooltip = document.getElementById('info-tooltip');
@@ -82,26 +63,23 @@ document.addEventListener("DOMContentLoaded", function () {
             tooltip.innerText = this.getAttribute('data-info');
             tooltip.style.display = 'block';
 
-            // Calcula a posição do elemento
             const rect = element.getBoundingClientRect();
             const tooltipWidth = tooltip.offsetWidth;
             const tooltipHeight = tooltip.offsetHeight;
 
-            // Define a posição do tooltip
             const left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
-            const top = rect.top - tooltipHeight - 10; // Para que fique acima do elemento
+            const top = rect.top - tooltipHeight - 10; 
 
-            // Ajusta a posição se o tooltip sair da tela
             if (left < 0) {
-                tooltip.style.left = '10px'; // Ajuste se estiver muito à esquerda
+                tooltip.style.left = '10px'; 
             } else if (left + tooltipWidth > window.innerWidth) {
-                tooltip.style.left = `${window.innerWidth - tooltipWidth - 10}px`; // Ajuste se estiver muito à direita
+                tooltip.style.left = `${window.innerWidth - tooltipWidth - 10}px`; 
             } else {
                 tooltip.style.left = `${left}px`;
             }
 
             if (top < 0) {
-                tooltip.style.top = `${rect.bottom + 10}px`; // Posiciona abaixo do elemento se sair da tela
+                tooltip.style.top = `${rect.bottom + 10}px`; 
             } else {
                 tooltip.style.top = `${top}px`;
             }
@@ -113,14 +91,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-    // Alterna a visibilidade do menu ao clicar no ícone de perfil
 
 document.addEventListener('DOMContentLoaded', function() {
     const menu = document.getElementById("menu");
     const perfil = document.getElementById("perfil");
   
     perfil.addEventListener("click", function(event) {
-      event.stopPropagation(); // Impede que o clique se propague para o documento
+      event.stopPropagation();
       menu.classList.toggle("hidden");
     });
   
@@ -160,7 +137,6 @@ function attachLinkConfirmation(linkClass) {
     const links = document.querySelectorAll(`.${linkClass}`);
     const modal = document.getElementById('confirmation-modal');
     if(modal == null) {
-        console.log('está sem janela');
         return;
     }
     const confirmBtn = document.getElementById('confirm-btn');

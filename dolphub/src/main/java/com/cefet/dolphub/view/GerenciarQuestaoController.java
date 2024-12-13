@@ -224,6 +224,8 @@ public class GerenciarQuestaoController {
             @RequestParam(required = false) String chave,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) String opcao,
             Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
@@ -234,12 +236,13 @@ public class GerenciarQuestaoController {
                 : null;
 
         List<Questao> questoesFiltradas = questaoService.buscarQuestoesFiltradas(cursoId, dataInicioDate, dataFimDate,
-                chave);
+                chave, tags, opcao);
 
         model.addAttribute("curso", cursoService.buscar(cursoId));
         model.addAttribute("usuarioLogado", usuarioLogado);
         model.addAttribute("role", "professor");
         model.addAttribute("questoes", questoesFiltradas);
+        model.addAttribute("tags", tagService.findAllTags());
 
         return "banco_questao";
     }
