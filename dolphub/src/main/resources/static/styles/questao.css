@@ -277,7 +277,7 @@ form#filtro button:hover {
     left: 3px;
 }
 
-button[type="submit"] {
+.container-principal button[type="submit"] {
     background-color: #007bff;
     color: #ffffff;
     padding: 10px 20px;
@@ -289,11 +289,11 @@ button[type="submit"] {
     align-self: flex-start;
 }
 
-button[type="submit"]:hover {
+.container-principal button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-button[type="submit"]:active {
+.container-principal  button[type="submit"]:active {
     background-color: #004085;
 }
 
@@ -376,7 +376,7 @@ button[type="submit"]:active {
     font-size: 14px;
 }
 
-button {
+.container-principal button {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -394,7 +394,6 @@ button:hover {
 
 button[type="submit"] {
     align-self: center;
-    margin-top: 20px;
 }
 
 .nobtn {
@@ -402,7 +401,6 @@ button[type="submit"] {
     flex-direction: row;
     gap: 30px;
 }
-
 
 .btn-prof-responder:hover {}
 
@@ -422,3 +420,8 @@ button[type="submit"] {
 #sectionQuestoes .questao-container{
     margin-top: 20px;
 }
+#cont-btn-alt {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;

@@ -12,6 +12,8 @@ import com.cefet.dolphub.Entidades.Main.Professor;
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Long> {
     Optional<Curso> findByProfessor(Professor professor);
+
     List<Curso> findAllByProfessor(Professor professor);
 
+    List<Curso> findByDescricaoContainingIgnoreCase(String descricao);
 }

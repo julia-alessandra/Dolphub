@@ -5,9 +5,11 @@
 <body>
   <div id="menu-superior" th:fragment="menu_superior">
     <nav>
-      <form class="search">
-        <input type="text">
-        <i class="fa-solid fa-magnifying-glass"></i>
+      <form th:action="@{/pesquisar}" method="get"  class="search">
+        <input type="text" name="termo">
+        <button type="submit" id="btn-search-cab">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
       </form>
 
       <button id="perfil" type="button">

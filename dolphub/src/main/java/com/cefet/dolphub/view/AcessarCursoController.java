@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Usuario;
@@ -77,10 +78,13 @@ public class AcessarCursoController {
 
     @GetMapping("/acessoCurso/{id}")
     public String listarRecursosPorCurso(@AuthenticationPrincipal Usuario usuarioLogado, @PathVariable Long id,
-            Model model) {
+            Model model, RedirectAttributes redirectAttributes) {
         Curso curso = cursoService.buscar(id);
-        if (!matriculaService.matriculaExiste(usuarioLogado, curso))
-            return "error";
+        if (!matriculaService.matriculaExiste(usuarioLogado, curso)) {
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+            redirectAttributes.addFlashAttribute("notificacao", "Acesso negado! Se inscreva no curso para acessá-lo");
+            return "redirect:/adquiridos";
+        }
         List<Recurso> recursos = acessoService.recuperarRecursosPorCurso(id);
 
         model.addAttribute("curso", curso);
