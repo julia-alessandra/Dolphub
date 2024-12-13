@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cefet.dolphub.Entidades.Main.Tag;
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
@@ -14,6 +15,7 @@ import com.cefet.dolphub.Repositorio.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class QuestaoService {
     private QuestaoRepository questaoRepository;
     @Autowired
     private AlternativaRepository alternativaRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     public Questao buscar(Long id) {
         Optional<Questao> questao = questaoRepository.findById(id);
@@ -40,32 +44,50 @@ public class QuestaoService {
         return topico.orElseThrow(() -> new RuntimeException("Tópico não encontrado!"));
     }
 
-    public Questao atualizarQuestao(Long id, Questao questaoAtualizada, List<String> descricoes,
-            List<Boolean> verificacoes) {
-        Questao questaoExistente = buscar(id);
+    // public Questao atualizarQuestao(Long id, Questao questaoAtualizada,
+    // List<String> descricoes,
+    // List<Boolean> verificacoes, List<String> novosNomesTags) {
+    // Questao questaoExistente = buscar(id);
 
-        questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
-        questaoExistente.setDificuldade(questaoAtualizada.getDificuldade().getValor());
+    // if (questaoExistente == null)
+    // return null;
 
-        questaoExistente.getAlternativas().clear();
+    // questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
+    // questaoExistente.setDificuldade(questaoAtualizada.getDificuldade().getValor());
 
-        System.out.println("Alt:");
-        listarItens(descricoes);
-        listarItens(verificacoes);
-        System.out.println(descricoes.size());
-        System.out.println(verificacoes.size());
+    // questaoExistente.getAlternativas().clear();
 
-        for (int i = 0; i < descricoes.size(); i++) {
-            Alternativa alternativa = new Alternativa();
-            alternativa.setDescricao(descricoes.get(i));
-            alternativa.setVerificacao(verificacoes.get(i + 1));
-            alternativa.setQuestao(questaoExistente);
-            questaoExistente.getAlternativas().add(alternativa);
-        }
+    // System.out.println("Alt:");
+    // listarItens(descricoes);
+    // listarItens(verificacoes);
+    // System.out.println(descricoes.size());
+    // System.out.println(verificacoes.size());
 
-        questaoRepository.save(questaoExistente);
-        return questaoExistente;
-    }
+    // for (int i = 0; i < descricoes.size(); i++) {
+    // Alternativa alternativa = new Alternativa();
+    // alternativa.setDescricao(descricoes.get(i));
+    // alternativa.setVerificacao(verificacoes.get(i + 1));
+    // alternativa.setQuestao(questaoExistente);
+    // questaoExistente.getAlternativas().add(alternativa);
+    // }
+
+    // List<Tag> novasTags = new ArrayList<>();
+    // for (String nomeTag : novosNomesTags) {
+    // Tag tag = tagRepository.findByNomeIgnoreCase(nomeTag)
+    // .orElseGet(() -> {
+    // Tag novaTag = new Tag();
+    // novaTag.setNome(nomeTag);
+    // tagRepository.save(novaTag);
+    // return novaTag;
+    // });
+    // novasTags.add(tag);
+    // }
+
+    // questaoExistente.setTags(novasTags);
+
+    // questaoRepository.save(questaoExistente);
+    // return questaoExistente;
+    // }
 
     public Alternativa buscarAlternativa(Long id) {
         Optional<Alternativa> alternativa = alternativaRepository.findById(id);
