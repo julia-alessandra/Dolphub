@@ -39,12 +39,12 @@
                                     <div class="title-topico">
                                         <span th:text="${recurso.titulo}"></span>
                                         <i class="fa-solid fa-caret-down"></i>
-                    
+
                                     </div>
                                     <button class="btn-favoritar" th:data-idRecurso="${recurso.id}"
-                                            th:data-curso-id="${curso.id}" th:data-tipo="topico"
-                                            onclick="salvarFavorito(this)">
-                                            <i class="fa-regular fa-star"></i>
+                                        th:data-curso-id="${curso.id}" th:data-tipo="topico"
+                                        onclick="salvarFavorito(this)">
+                                        <i class="fa-regular fa-star"></i>
                                     </button>
                                 </div>
                                 <div class="recurso-item-container"
@@ -77,8 +77,9 @@
                                 </div>
                                 <div class="recurso-item-container"
                                     th:if="${recurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
-                                    <a>
-                                        <i class="fa-solid fa-square-pen info-element"
+                                    <a
+                                        th:href="@{/acessoCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${recurso.id})}">
+                                        <i class="fa-solid fa-book info-element"
                                             th:data-info="${recurso.descricao}"></i>
                                         <span th:text="${recurso.titulo}"></span>
                                     </a>
@@ -97,12 +98,12 @@
                                             <div class="title-topico">
                                                 <span th:text="${subRecurso.titulo}"></span>
                                                 <i class="fa-solid fa-caret-down"></i>
-                                
+
                                             </div>
                                             <button class="btn-favoritar" th:data-tipo="topico"
-                                                    th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
-                                                    onclick="salvarFavorito(this)">
-                                                    <i class="fa-regular fa-star"></i>
+                                                th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
+                                                onclick="salvarFavorito(this)">
+                                                <i class="fa-regular fa-star"></i>
                                             </button>
                                         </div>
                                         <div class="recurso-item-container"
@@ -136,8 +137,9 @@
                                         </div>
                                         <div class="recurso-item-container"
                                             th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
-                                            <a>
-                                                <i class="fa-solid fa-square-pen info-element"
+                                            <a
+                                                th:href="@{/acessoCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subRecurso.id})}">
+                                                <i class="fa-solid fa-book info-element"
                                                     th:data-info="${subRecurso.descricao}"></i>
                                                 <span th:text="${subRecurso.titulo}"></span>
                                             </a>
@@ -152,41 +154,59 @@
                                     <ul th:if="${subRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
                                         <li th:each="subSubRecurso : ${subRecurso.recursos}">
                                             <div>
-                                                <div class="recurso-item-container topico-container" th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
-                                                    <div class="title-topico"><span th:text="${subSubRecurso.titulo}"></span><i class="fa-solid fa-caret-down"></i></div>
+                                                <div class="recurso-item-container topico-container"
+                                                    th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Topico)}">
+                                                    <div class="title-topico"><span
+                                                            th:text="${subSubRecurso.titulo}"></span><i
+                                                            class="fa-solid fa-caret-down"></i></div>
                                                     <button class="btn-favoritar" th:data-tipo="arquivo"
-                                                    th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
-                                                    onclick="salvarFavorito(this)">
-                                                    <i class="fa-regular fa-star"></i>
-                                                </button>
-    
+                                                        th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
+                                                        onclick="salvarFavorito(this)">
+                                                        <i class="fa-regular fa-star"></i>
+                                                    </button>
+
                                                 </div>
-                                                <div class="recurso-item-container" th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
-                                                    <a th:href="@{/editarCurso/{idCurso}/baixarArquivo/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}"><i class="fa-solid fa-file info-element" th:data-info="${subSubRecurso.descricao}"></i><span th:text="${subSubRecurso.titulo}"></span></a>
+                                                <div class="recurso-item-container"
+                                                    th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Arquivo)}">
+                                                    <a
+                                                        th:href="@{/editarCurso/{idCurso}/baixarArquivo/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}"><i
+                                                            class="fa-solid fa-file info-element"
+                                                            th:data-info="${subSubRecurso.descricao}"></i><span
+                                                            th:text="${subSubRecurso.titulo}"></span></a>
                                                     <button class="btn-favoritar" th:data-tipo="arquivo"
-                                                    th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
-                                                    onclick="salvarFavorito(this)">
-                                                    <i class="fa-regular fa-star"></i>
-                                                </button>
-    
+                                                        th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
+                                                        onclick="salvarFavorito(this)">
+                                                        <i class="fa-regular fa-star"></i>
+                                                    </button>
+
                                                 </div>
-                                                <div class="recurso-item-container" th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}">
-                                                    <a th:href="@{/acessoCurso/{idCurso}/acessoVideo/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}"><i class="fa-solid fa-file-video info-element" th:data-info="${subSubRecurso.descricao}"></i><span th:text="${subRecurso.titulo}"></span></a>
+                                                <div class="recurso-item-container"
+                                                    th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Video)}">
+                                                    <a
+                                                        th:href="@{/acessoCurso/{idCurso}/acessoVideo/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}"><i
+                                                            class="fa-solid fa-file-video info-element"
+                                                            th:data-info="${subSubRecurso.descricao}"></i><span
+                                                            th:text="${subRecurso.titulo}"></span></a>
                                                     <button class="btn-favoritar" th:data-tipo="arquivo"
-                                                    th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
-                                                    onclick="salvarFavorito(this)">
-                                                    <i class="fa-regular fa-star"></i>
-                                                </button>
-    
+                                                        th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
+                                                        onclick="salvarFavorito(this)">
+                                                        <i class="fa-regular fa-star"></i>
+                                                    </button>
+
                                                 </div>
-                                                <div class="recurso-item-container" th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
-                                                    <a><i class="fa-solid fa-square-pen info-element" th:data-info="${subSubRecurso.descricao}"></i><span th:text="${subSubRecurso.titulo}"></span></a>
+                                                <div class="recurso-item-container"
+                                                    th:if="${subSubRecurso instanceof T(com.cefet.dolphub.Entidades.Recursos.Atividade)}">
+                                                    <a
+                                                        th:href="@{/acessoCurso/{idCurso}/acessoAtividade/{id}(idCurso=${curso.id}, id=${subSubRecurso.id})}">
+                                                        <i class="fa-solid fa-book info-element"
+                                                            th:data-info="${subSubRecurso.descricao}"></i><span
+                                                            th:text="${subSubRecurso.titulo}"></span></a>
                                                     <button class="btn-favoritar" th:data-tipo="arquivo"
-                                                    th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
-                                                    onclick="salvarFavorito(this)">
-                                                    <i class="fa-regular fa-star"></i>
-                                                </button>
-    
+                                                        th:data-id="${recurso.id}" th:data-curso-id="${curso.id}"
+                                                        onclick="salvarFavorito(this)">
+                                                        <i class="fa-regular fa-star"></i>
+                                                    </button>
+
                                                 </div>
                                             </div>
                                         </li>
