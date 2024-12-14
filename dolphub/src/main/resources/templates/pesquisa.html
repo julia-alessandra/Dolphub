@@ -21,7 +21,7 @@
                 <h2 class="title">Resultados da Pesquisa:</h2>
             
                 <div class="section" id="courses-section">
-                    <div class="empty-message" th:if="${#lists.isEmpty(cursos)}">
+                    <div class="empty-message" th:if="${cursos == null or cursos.size() == 0}">
                         <p>Nenhum curso encontrado.</p>
                     </div>
                     <div class="item" th:each="curso : ${cursos}">
@@ -35,7 +35,7 @@
                 </div>
             
                 <div class="section" id="users-section">
-                    <div class="empty-message" th:if="${#lists.isEmpty(usuarios)}">
+                    <div class="empty-message" th:if="${usuarios == null or usuarios.size() == 0}">
                         <p>Nenhum usuário encontrado.</p>
                     </div>
                     <div class="item" th:each="usuario : ${usuarios}">

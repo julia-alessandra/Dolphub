@@ -1,0 +1,23 @@
+.atividade-container {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.atividade-container .acertos {
+    font-weight: bold;
+}
+
+.atividade-container.verde {
+    border-color: green;
+}
+
+.atividade-container.amarelo {
+    border-color: yellow;
+}
+
+.atividade-container.vermelho {
+    border-color: red;
+}

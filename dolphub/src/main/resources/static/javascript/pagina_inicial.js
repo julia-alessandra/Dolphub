@@ -5,7 +5,9 @@ const cursosList = document.getElementById('listaSeusCursos');
 const cursoItems = cursosList.getElementsByTagName('li');
 
 let numCriados = document.getElementById("numCriados");
-numCriados.innerHTML = cursoItems.length
+if(numCriados != null) {
+    numCriados.innerHTML = cursoItems.length
+}
 
 function filterCourses() {
     const query = searchInput.value.toLowerCase(); 

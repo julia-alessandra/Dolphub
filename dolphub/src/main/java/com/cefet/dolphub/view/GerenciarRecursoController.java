@@ -7,12 +7,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,7 @@ import com.cefet.dolphub.Entidades.Recursos.ArquivosBaixados;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
@@ -36,8 +39,10 @@ import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ProfessorService;
+import com.cefet.dolphub.Service.QuestaoAtividadeService;
 import com.cefet.dolphub.Service.QuestaoService;
 import com.cefet.dolphub.Service.RecursoService;
+import com.cefet.dolphub.Service.TagService;
 import com.cefet.dolphub.Service.TopicoService;
 import com.cefet.dolphub.Service.VideoService;
 
@@ -49,7 +54,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Controller
 @RequestMapping("/editarCurso")
@@ -74,7 +82,9 @@ public class GerenciarRecursoController {
     @Autowired
     private QuestaoService questaoService;
     @Autowired
-    private ArquivoBaixadoService arquivoBaixadoService;
+    private QuestaoAtividadeService questaoAtividadeService;
+    @Autowired
+    private TagService tagService;
 
     @GetMapping
     public String editarCurso() {
@@ -492,7 +502,6 @@ public class GerenciarRecursoController {
             @RequestParam("nome") String titulo,
             @RequestParam("descricao") String descricao,
             @RequestParam("dificuldade") int dificuldade,
-            @RequestParam("anotacao") String anotacao,
             @RequestParam("topicoPai") Long topicoPaiId,
             @RequestParam("curso") Long cursoId,
             RedirectAttributes redirectAttributes) throws IOException {
@@ -500,7 +509,6 @@ public class GerenciarRecursoController {
         atividade.setDescricao(descricao);
         atividade.setDificuldade(dificuldade);
         atividade.setTitulo(titulo);
-        atividade.setAnotacao(anotacao);
 
         Topico topicoPai = recursoService.buscarTopicoPai(topicoPaiId);
         Curso curso = cursoService.buscar(cursoId);
@@ -519,28 +527,6 @@ public class GerenciarRecursoController {
         redirectAttributes.addFlashAttribute("notificacao", "Atividade salva com successo.");
 
         return "redirect:/editarCurso/" + cursoId;
-    }
-
-    @GetMapping("{idCurso}/acessoAtividade/{idAtividade}")
-    public String acessoAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
-            @AuthenticationPrincipal Usuario usuarioLogado) {
-
-        Atividade novo = atividadeService.buscar(idAtividade);
-        Curso curso = cursoService.buscar(idCurso);
-
-        if (novo == null) {
-            model.addAttribute("tipoNotificacao", "error");
-            model.addAttribute("notificacao", "Vídeo não encontrado");
-            return "redirect:/acessoCurso/" + idCurso;
-        }
-
-        model.addAttribute("atividade", novo);
-        model.addAttribute("cursoId", idCurso);
-        model.addAttribute("curso", curso);
-        model.addAttribute("roleAcess", "edit");
-        model.addAttribute("usuarioLogado", usuarioLogado);
-
-        return "acesso_atividade";
     }
 
     @GetMapping("{idCurso}/editarAtividade/{idAtividade}")
@@ -562,14 +548,75 @@ public class GerenciarRecursoController {
 
         List<Questao> questoes = questaoService.listarTodas();
 
+        List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+        List<Questao> questoesAtv = new ArrayList<>();
+        for (QuestaoAtividade q : listaQuestaoAtv) {
+            System.out.println("Id da questao da atividade" + q.getId());
+            questoesAtv.add(q.getQuestao());
+        }
+        model.addAttribute("questoesAtv", questoesAtv);
+
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
+        model.addAttribute("tags", tagService.findAllTags());
 
         return "editar_atividade";
     }
 
-    @GetMapping("/editarCurso/{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
+    @GetMapping("{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
     public String adicionarQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,
+            @PathVariable Long idQuestao, Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
+        Atividade atv = atividadeService.buscar(idAtividade);
+        Curso curso = cursoService.buscar(idCurso);
+
+        if (questaoAtividadeService.buscarPorQuestaoAtividadeEmAtividade(idAtividade, idQuestao) != null) {
+            redirectAttributes.addFlashAttribute("message", "Essa questão já foi adicionada");
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+            redirectAttributes.addFlashAttribute("notificacao", "Essa questão já foi adicionada");
+            return "redirect:/editarCurso/" + idCurso + "/editarAtividade/" + idAtividade;
+        }
+        if (atv == null) {
+            model.addAttribute("tipoNotificacao", "error");
+            model.addAttribute("notificacao", "Atividade não encontrada");
+            return "redirect:/error";
+        }
+
+        Questao novaQuestao = questaoService.buscar(idQuestao);
+        QuestaoAtividade novaQuestaoAtividade = new QuestaoAtividade();
+        novaQuestaoAtividade.setQuestao(novaQuestao);
+        novaQuestaoAtividade.setAtividade(atv);
+
+        List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+        listaQuestaoAtv.add(novaQuestaoAtividade);
+        atv.setQuestaoAtividades(listaQuestaoAtv);
+
+        atividadeService.salvarAtividade(atv);
+        redirectAttributes.addFlashAttribute("message", "Questão adicionada com sucesso!");
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
+        redirectAttributes.addFlashAttribute("notificacao", "Questão adicionada com successo.");
+
+        List<Questao> questoesAtv = new ArrayList<>();
+        for (QuestaoAtividade q : listaQuestaoAtv) {
+            questoesAtv.add(q.getQuestao());
+        }
+        model.addAttribute("questoesAtv", questoesAtv);
+
+        model.addAttribute("atividade", atv);
+        model.addAttribute("idCurso", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+
+        List<Questao> questoes = questaoService.listarTodas();
+        model.addAttribute("questoes", questoes);
+        model.addAttribute("role", "professor");
+        model.addAttribute("tags", tagService.findAllTags());
+
+        return "editar_atividade";
+    }
+
+    @GetMapping("{idCurso}/editarAtividade/{idAtividade}/removerQuestao/{idQuestao}")
+    public String removerQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,
             @PathVariable Long idQuestao, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
         Atividade atv = atividadeService.buscar(idAtividade);
@@ -581,6 +628,21 @@ public class GerenciarRecursoController {
             return "redirect:/error";
         }
 
+        List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+        QuestaoAtividade questaoDelete = questaoAtividadeService.buscarPorQuestaoAtividadeEmAtividade(idAtividade,
+                idQuestao);
+        questaoAtividadeService.deletar(questaoDelete.getId());
+
+        redirectAttributes.addFlashAttribute("message", "Questão removida com sucesso!");
+        redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+        redirectAttributes.addFlashAttribute("notificacao", "Questão removida com successo.");
+
+        List<Questao> questoesAtv = new ArrayList<>();
+        for (QuestaoAtividade q : listaQuestaoAtv) {
+            questoesAtv.add(q.getQuestao());
+        }
+        model.addAttribute("questoesAtv", questoesAtv);
+
         model.addAttribute("atividade", atv);
         model.addAttribute("idCurso", idCurso);
         model.addAttribute("curso", curso);
@@ -589,11 +651,46 @@ public class GerenciarRecursoController {
         List<Questao> questoes = questaoService.listarTodas();
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
+        model.addAttribute("tags", tagService.findAllTags());
+        return "editar_atividade";
+    }
 
-        atividadeService.salvarAtividade(atv);
-        redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
-        redirectAttributes.addFlashAttribute("notificacao", "Atividade atualizada");
+    @GetMapping("{idCurso}/editarAtividade/{idAtividade}/filtrarQuestao")
+    public String filtrarQuestoes(
+            @PathVariable Long idCurso,
+            @PathVariable Long idAtividade,
+            @RequestParam(required = false) String chave,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(required = false) List<String> tags,
+            Model model,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
+        Date dataInicioDate = (dataInicio != null)
+                ? Date.from(dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                : null;
+        Date dataFimDate = (dataFim != null) ? Date.from(dataFim.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                : null;
+
+        List<Questao> questoesFiltradas = questaoService.buscarQuestoesFiltradas(idCurso, dataInicioDate, dataFimDate,
+                chave, tags, "todas");
+
+        Atividade atv = atividadeService.buscar(idAtividade);
+        Curso curso = cursoService.buscar(idCurso);
+        model.addAttribute("atividade", atv);
+        model.addAttribute("idCurso", idCurso);
+        model.addAttribute("curso", curso);
+        model.addAttribute("usuarioLogado", usuarioLogado);
+        model.addAttribute("filtro", "true");
+        List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
+        List<Questao> questoesAtv = new ArrayList<>();
+        for (QuestaoAtividade q : listaQuestaoAtv) {
+            System.out.println("Id da questao da atividade" + q.getId());
+            questoesAtv.add(q.getQuestao());
+        }
+        model.addAttribute("questoesAtv", questoesAtv);
+        model.addAttribute("questoes", questoesFiltradas);
+        model.addAttribute("tags", tagService.findAllTags());
         return "editar_atividade";
     }
 
@@ -603,7 +700,6 @@ public class GerenciarRecursoController {
             @RequestParam String titulo,
             @RequestParam String descricao,
             @RequestParam int dificuldade,
-            @RequestParam String anotacao,
             RedirectAttributes redirectAttributes) {
 
         Atividade atv = atividadeService.buscar(idAtividade);
@@ -617,7 +713,6 @@ public class GerenciarRecursoController {
         atv.setTitulo(titulo);
         atv.setDescricao(descricao);
         atv.setDificuldade(dificuldade);
-        atv.setAnotacao(anotacao);
 
         atividadeService.salvarAtividade(atv);
         redirectAttributes.addFlashAttribute("tipoNotificacao", "success");
