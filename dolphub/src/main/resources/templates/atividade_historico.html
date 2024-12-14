@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/questao.css}" rel="stylesheet">
+    <link th:href="@{/styles/historicoAtividade.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="tela-completa">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+            <div th:replace="componentes/notificacao :: notificacao"></div>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+
+            <div class="container-principal">
+                <header id="header-menu-curso">
+                    <div id="titulo-curso">
+                        <div id="idTitulo" style="display:flex; align-items: center;">
+                            <h3 th:text="${atividade.titulo}"></h3>
+                        </div>
+                        <div style="display:flex; flex-direction:column; align-items: flex-start;">
+                            <p th:text="${atividade.descricao}"></p>
+                            <p th:text="${dificuldade}"></p>
+                        </div>
+                    </div>
+                    <div id="menu-curso">
+                        <a
+                            th:href="@{/acessoCurso/{cursoId}/acessoAtividade/{atividadeId}(cursoId=${curso.id}, atividadeId=${atividade.id})}">Questões</a>
+                        <a
+                            th:href="@{/acessoCurso/{cursoId}/acessoAtividade/{atividadeId}/historico(cursoId=${curso.id}, atividadeId=${atividade.id})}">Últimas
+                            tentativas</a>
+                    </div>
+                </header>
+                <section id="historico-atividades-container">
+                    <h2>Histórico de Tentativas</h2>
+                    <button style="margin-bottom: 10px;" id="filtrarPorAcerto" onclick="filtrarPorAcertos()">Filtrar por maior porcentagem de
+                        acerto</button>
+                    <div id="atividadesRespondidas">
+                        <div th:each="atividadeRespondida : ${atividadesRespondidas}">
+                            <div class="atividade-container">
+                                <h3 th:text="'Atividade: ' + ${atividadeRespondida.atividade.titulo}"></h3>
+                                <h3 class="acertos"
+                                    th:text="'Porcentagem de Acertos: ' + ${atividadeRespondida.acertos} + '%'"></h3>
+                                <h3 th:text="'Data de Realização: ' + ${atividadeRespondida.dataTentativa}"></h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+<script th:src="@{/javascript/pattern.js}"></script>
+<script th:src="@{/javascript/atividade.js}"></script>
+<script>
+    aplicarCorBorda();
+    function filtrarPorAcertos() {
+        let atividades = Array.from(document.querySelectorAll('.atividade-container'));
+
+        atividades.sort(function (a, b) {
+            let acertosA = parseInt(a.querySelector('.acertos').textContent.split('%')[0].split(': ')[1]);
+            let acertosB = parseInt(b.querySelector('.acertos').textContent.split('%')[0].split(': ')[1]);
+            return acertosB - acertosA;
+        });
+
+        let container = document.getElementById('atividadesRespondidas');
+        atividades.forEach(function (atividade) {
+            container.appendChild(atividade);
+        });
+    }
+    function aplicarCorBorda() {
+        let atividades = document.querySelectorAll('.atividade-container');
+
+        atividades.forEach(function (atividade) {
+            let acertosTexto = atividade.querySelector('.acertos').textContent;
+            let acertosPercentual = parseInt(acertosTexto.split('%')[0].split(': ')[1]);
+            if (acertosPercentual >= 80) {
+                atividade.classList.add('verde');
+            } else if (acertosPercentual >= 60) {
+                atividade.classList.add('amarelo');
+            } else {
+                atividade.classList.add('vermelho');
+            }
+        });
+    };
+</script>
+
+</html>

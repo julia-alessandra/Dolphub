@@ -82,6 +82,7 @@ form#filtro {
     flex-direction: column;
     gap: 5px;
 }
+
 .option-filtro select {
     background-color: #F4F4F4;
     color: var(--cor-pri-tom3);
@@ -166,29 +167,36 @@ form#filtro button:hover {
     margin-bottom: 15px;
     display: inline-block;
     background-color: #28A745;
-    color: white; 
-    padding: 10px 16px; 
-    border-radius: 10px; 
-    text-decoration: none; 
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
     font-size: 14px;
     font-weight: bold;
-    transition: all 0.3s ease; 
+    transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #add-questao:hover {
     background-color: #28A745;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 #add-questao i {
-    margin-left: 10px; 
+    margin-left: 10px;
     font-size: 14px;
 }
 
-#lista-questoes-container {
-
+.lista-questoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 #lista-questoes-container {
@@ -198,7 +206,7 @@ form#filtro button:hover {
     margin: 20px;
     background-color: #f4f4f4;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
 }
 
@@ -213,7 +221,7 @@ form#filtro button:hover {
 }
 
 .questao-container:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .acoes {
@@ -229,7 +237,7 @@ form#filtro button:hover {
 }
 
 .acoes a:hover {
-    color: #007bff; 
+    color: #007bff;
 }
 
 .acoes i {
@@ -238,7 +246,7 @@ form#filtro button:hover {
 
 .questao-enunciado {
     font-size: 18px;
-    color: #333333; 
+    color: #333333;
     font-weight: bold;
 }
 
@@ -409,18 +417,31 @@ button[type="submit"] {
     gap: 30px;
 }
 
+.btn-prof-responder:hover {}
 
-.btn-prof-responder:hover {
+#formConfig{
+    z-index: 100000;
+    position: absolute;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#sectionQuestoes .questao-container{
+    margin-top: 20px;
 }
 #cont-btn-alt {
     display: flex;
     flex-direction: row;
     gap: 10px;
+
     justify-content: space-between;
 }
-
-
-
 /* seleção da opção */
 .selecao-opcao {
     width: 100%;

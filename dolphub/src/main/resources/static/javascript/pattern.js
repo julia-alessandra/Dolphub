@@ -51,47 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
         closeBtn.addEventListener('click', closeNotification);
     }
 });
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const infoElements = document.querySelectorAll('.info-element');
-    const tooltip = document.getElementById('info-tooltip');
-
-    infoElements.forEach(element => {
-        element.addEventListener('mouseenter', function (event) {
-            tooltip.innerText = this.getAttribute('data-info');
-            tooltip.style.display = 'block';
-
-            const rect = element.getBoundingClientRect();
-            const tooltipWidth = tooltip.offsetWidth;
-            const tooltipHeight = tooltip.offsetHeight;
-
-            const left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
-            const top = rect.top - tooltipHeight - 10; 
-
-            if (left < 0) {
-                tooltip.style.left = '10px'; 
-            } else if (left + tooltipWidth > window.innerWidth) {
-                tooltip.style.left = `${window.innerWidth - tooltipWidth - 10}px`; 
-            } else {
-                tooltip.style.left = `${left}px`;
-            }
-
-            if (top < 0) {
-                tooltip.style.top = `${rect.bottom + 10}px`; 
-            } else {
-                tooltip.style.top = `${top}px`;
-            }
-        });
-
-        element.addEventListener('mouseleave', function () {
-            tooltip.style.display = 'none';
-        });
-    });
-});
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const menu = document.getElementById("menu");
     const perfil = document.getElementById("perfil");

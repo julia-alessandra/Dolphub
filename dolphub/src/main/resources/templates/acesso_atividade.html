@@ -1,28 +1,65 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Dolphub</title>
     <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/questao.css}" rel="stylesheet">
 
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
+
 <body>
     <div class="tela-completa">
-    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
-    <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
-    
-    <main>
-        <div th:replace="componentes/notificacao :: notificacao"></div>
-        <div th:replace="componentes/menu_superior :: menu_superior"></div>
-        <div class="container-principal">
+        <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+            <div th:replace="componentes/notificacao :: notificacao"></div>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
             
-        </div>
+            <div class="container-principal">
+                <header id="header-menu-curso">
+                    <div id="titulo-curso">
+                        <div id="idTitulo"style="display:flex; align-items: center;">
+                            <h3 th:text="${atividade.titulo}"></h3>
+                        </div>
+                        <div style="display:flex; flex-direction:column; align-items: flex-start;">
+                        <p th:text="${atividade.descricao}"></p>
+                        <p th:text="${dificuldade}"></p>
+                        </div>
+                    </div>
+                    <div id="menu-curso">
+                        <a th:href="@{/acessoCurso/{cursoId}/acessoAtividade/{atividadeId}(cursoId=${curso.id}, atividadeId=${atividade.id})}">Questões</a>
+                        <a th:href="@{/acessoCurso/{cursoId}/acessoAtividade/{atividadeId}/historico(cursoId=${curso.id}, atividadeId=${atividade.id})}">Últimas tentativas</a>
+                    </div>
+                </header>
 
+                <section th:if="${questoes != null}"id="lista-questoes-container" th:data-responder-url="@{/acessarCurso/{cursoId}/acessoAtividade/{atividadeId}/responderAtividade(cursoId=${curso.id}, atividadeId=${atividade.id})}">
+                    <form id="form-questoes">
+                        <div style="margin-top: 20px;" th:each="questao : ${questoes}" class="questao-container" th:data-id="${questao.id}">
+                            <div class="questao-enunciado" th:text="${questao.enunciado}"></div>
+                            <div class="alternativas">
+                                <div th:each="alternativa : ${questao.alternativas}" class="alternativa">
+                                    <input type="radio" th:name="'resposta-' + ${questao.id}" th:value="${alternativa.id}" />
+                                    <span th:text="${alternativa.descricao}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button style="margin-top: 20px;"type="button" id="enviar-respostas-btn">Enviar Respostas</button>
+                    </form>
+                </section>
+                <h3 th:if="${questoes == null}">Essa atividade não possuí questões</h3>
+            </div>
 
-
-    </main>
+        </main>
 
     </div>
-    </body>
-    <script th:src="@{/javascript/pattern.js}"></script>
+</body>
+<script th:src="@{/javascript/pattern.js}"></script>
+<script th:src="@{/javascript/atividade.js}"></script>
+
+
+
 </html>
