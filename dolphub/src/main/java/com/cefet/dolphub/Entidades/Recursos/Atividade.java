@@ -19,14 +19,13 @@ import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 @Entity
 @Table(name = "atividade")
 public class Atividade extends Recurso {
-    
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_sq")
     @SequenceGenerator(schema = "public", name = "atividade_sq", sequenceName = "atividade_sq", initialValue = 1, allocationSize = 1)
     @Column(name = "id_atividade")
-    private Long id;
-
-
+    private Long id;  
     @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestaoAtividade> questaoAtividades = new ArrayList<>();
 

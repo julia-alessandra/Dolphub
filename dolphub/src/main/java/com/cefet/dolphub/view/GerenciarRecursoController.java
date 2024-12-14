@@ -24,6 +24,7 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
+import com.cefet.dolphub.Entidades.Recursos.ArquivosBaixados;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
@@ -33,6 +34,7 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
 import com.cefet.dolphub.Repositorio.*;
 import com.cefet.dolphub.Service.AcessoService;
+import com.cefet.dolphub.Service.ArquivoBaixadoService;
 import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
@@ -192,9 +194,13 @@ public class GerenciarRecursoController {
     @GetMapping("/{cursoId}/baixarArquivo/{id}")
     public ResponseEntity<ByteArrayResource> baixarArquivo(@PathVariable Long cursoId,
             @PathVariable Long id,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, @AuthenticationPrincipal Usuario usuarioLogado) {
         Arquivo arquivo = arquivoService.encontrarArquivoPorId(id);
-
+        ArquivosBaixados arquivoBaixado = new ArquivosBaixados();
+        arquivoBaixado.setArquivo(arquivo);
+        arquivoBaixado.setUsuario(usuarioLogado);
+        arquivoBaixado.setData(new java.sql.Date(System.currentTimeMillis()));
+        arquivoBaixadoService.salvar(arquivoBaixado);
         if (arquivo == null) {
             redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
             redirectAttributes.addFlashAttribute("notificacao", "Arquivo não encontrado.");

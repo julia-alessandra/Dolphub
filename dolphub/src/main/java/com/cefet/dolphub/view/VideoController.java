@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.http.MediaType;
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
@@ -82,6 +85,7 @@ public class VideoController {
             AulaAssistida aulaAssistida = new AulaAssistida();
             aulaAssistida.setUsuario(usuarioLogado);
             aulaAssistida.setVideo(video);
+            aulaAssistida.setDataAssistida(Date.valueOf(LocalDate.now())); 
             aulaAssistidaRepository.save(aulaAssistida);
 
             return ResponseEntity.ok("Vídeo marcado como assistido com sucesso!");
