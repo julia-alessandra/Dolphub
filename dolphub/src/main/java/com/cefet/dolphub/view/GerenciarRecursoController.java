@@ -22,6 +22,7 @@ import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
+import com.cefet.dolphub.Entidades.Recursos.ArquivosBaixados;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
@@ -30,6 +31,7 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
 import com.cefet.dolphub.Repositorio.*;
 import com.cefet.dolphub.Service.AcessoService;
+import com.cefet.dolphub.Service.ArquivoBaixadoService;
 import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
@@ -71,6 +73,8 @@ public class GerenciarRecursoController {
     private AtividadeService atividadeService;
     @Autowired
     private QuestaoService questaoService;
+    @Autowired
+    private ArquivoBaixadoService arquivoBaixadoService;
 
     @GetMapping
     public String editarCurso() {
@@ -180,9 +184,13 @@ public class GerenciarRecursoController {
     @GetMapping("/{cursoId}/baixarArquivo/{id}")
     public ResponseEntity<ByteArrayResource> baixarArquivo(@PathVariable Long cursoId,
             @PathVariable Long id,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, @AuthenticationPrincipal Usuario usuarioLogado) {
         Arquivo arquivo = arquivoService.encontrarArquivoPorId(id);
-
+        ArquivosBaixados arquivoBaixado = new ArquivosBaixados();
+        arquivoBaixado.setArquivo(arquivo);
+        arquivoBaixado.setUsuario(usuarioLogado);
+        arquivoBaixado.setData(new java.sql.Date(System.currentTimeMillis()));
+        arquivoBaixadoService.salvar(arquivoBaixado);
         if (arquivo == null) {
             redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
             redirectAttributes.addFlashAttribute("notificacao", "Arquivo não encontrado.");
@@ -489,10 +497,10 @@ public class GerenciarRecursoController {
             @RequestParam("curso") Long cursoId,
             RedirectAttributes redirectAttributes) throws IOException {
 
-                atividade.setDescricao(descricao);
-                atividade.setDificuldade(dificuldade);
-                atividade.setTitulo(titulo);
-                atividade.setAnotacao(anotacao);
+        atividade.setDescricao(descricao);
+        atividade.setDificuldade(dificuldade);
+        atividade.setTitulo(titulo);
+        atividade.setAnotacao(anotacao);
 
         Topico topicoPai = recursoService.buscarTopicoPai(topicoPaiId);
         Curso curso = cursoService.buscar(cursoId);
@@ -512,6 +520,7 @@ public class GerenciarRecursoController {
 
         return "redirect:/editarCurso/" + cursoId;
     }
+
     @GetMapping("{idCurso}/acessoAtividade/{idAtividade}")
     public String acessoAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
@@ -553,16 +562,15 @@ public class GerenciarRecursoController {
 
         List<Questao> questoes = questaoService.listarTodas();
 
-        
-
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
 
-
         return "editar_atividade";
     }
+
     @GetMapping("/editarCurso/{idCurso}/editarAtividade/{idAtividade}/adicionarQuestao/{idQuestao}")
-    public String adicionarQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,@PathVariable Long idQuestao, Model model,
+    public String adicionarQuestao(@PathVariable Long idCurso, @PathVariable Long idAtividade,
+            @PathVariable Long idQuestao, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado, RedirectAttributes redirectAttributes) {
         Atividade atv = atividadeService.buscar(idAtividade);
         Curso curso = cursoService.buscar(idCurso);
@@ -581,10 +589,6 @@ public class GerenciarRecursoController {
         List<Questao> questoes = questaoService.listarTodas();
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
-
-
-        
-
 
         atividadeService.salvarAtividade(atv);
         redirectAttributes.addFlashAttribute("tipoNotificacao", "success");

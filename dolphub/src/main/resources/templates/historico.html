@@ -1,14 +1,97 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Histórico</title>
+    <title>Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
+    <style>
+        a {
+            color: inherit;
+            /* Usa a cor do texto herdada do elemento pai */
+            text-decoration: none;
+            /* Remove o sublinhado */
+        }
+
+        a:hover {
+            color: #555;
+            /* Cor personalizada ao passar o mouse (opcional) */
+        }
+    </style>
+
 </head>
+
 <body>
-    <h1>Histórico de Vídeos Assistidos</h1>
-    <ul>
-        <li th:each="video : ${listaAulaAssistida}">
-            <span th:text="${video.titulo}"></span> - 
-        </li>
-    </ul>
+    <div id="info-tooltip" class="tooltip" style="display: none;"></div>
+    <div class="tela-completa">
+        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+
+        <main>
+
+            <div th:replace="componentes/notificacao :: notificacao"></div>
+            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div class="container-principal">
+                <div th:replace="componentes/cabecalho_curso :: cabecalho_curso"></div>
+
+                <div class="recurso-item-container">
+                    <h1>Histórico</h1>
+                    <div class="recurso-item-container">
+                        <h2>Vídeos Assistidos</h2>
+                        <ul id="lista-principal">
+                            <!-- Itera sobre os índices da lista -->
+                            <ul th:each="video, iterStat : ${listaAulaAssistida}">
+                                <li>
+                                    <a
+                                        th:href="@{/acessoCurso/{idCurso}/acessoVideo/{id}(idCurso=${listaCursosDasAulasAssistidas[iterStat.index].id}, id=${video.id})}">
+                                        <i class="fa-solid fa-file-video info-element"
+                                            th:data-info="${video.descricao}"></i>
+                                        <span th:text="${video.titulo}"></span>
+                                    </a>
+                                    <span class="video-data"
+                                        th:text="'(Assistido em: ' + ${#dates.format(listaDatasAulaAssistida[iterStat.index], 'dd/MM/yy')} + ')'"></span>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+
+                    <div class="recurso-item-container">
+                        <h2>Arquivos</h2>
+                        <ul id="lista-principal">
+                            <ul th:each="arquivo, iterStat : ${listaArquivosBaixados}">
+                                <li>
+                                    <a
+                                        th:href="@{/editarCurso/{idCurso}/baixarArquivo/{id}(idCurso=${listaCursosArquivosBaixados[iterStat.index].id}, id=${arquivo.id})}">
+                                        <i class="fa-solid fa-file-video info-element" th:data-info="pdf"></i>
+                                        <span th:text="${arquivo.nome}"></span>
+                                    </a>
+                                    <span class="video-data"
+                                        th:text="'(Baixado em: ' + ${#dates.format(listaDatasArquivosBaixados[iterStat.index], 'dd/MM/yy')} + ')'"></span>
+                                </li>
+                            </ul>
+                        </ul>
+                        </ul>
+
+                    </div>
+                    <div class="recurso-item-container">
+                        <h2>Questões Responidas</h2>
+                        <ul id="lista-principal">
+                            <ul th:each="questao, iterStat : ${questoesRepondidas}">
+                                <li>
+                                    <a>
+                                        <span th:text="${questao.id}"></span>
+                                        <span th:text="${questao.questao.enunciado}"></span>
+                                        <span th:text="${questao.alternativa.descricao}"></span>
+
+                                    </a>
+                                </li>
+                            </ul>
+                        </ul>
+                        </ul>
+
+                    </div>
+
+
+                </div>
 </body>
+
 </html>
