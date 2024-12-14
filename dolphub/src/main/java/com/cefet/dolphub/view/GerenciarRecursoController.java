@@ -40,6 +40,7 @@ import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.QuestaoAtividadeService;
 import com.cefet.dolphub.Service.QuestaoService;
 import com.cefet.dolphub.Service.RecursoService;
+import com.cefet.dolphub.Service.TagService;
 import com.cefet.dolphub.Service.TopicoService;
 import com.cefet.dolphub.Service.VideoService;
 
@@ -80,6 +81,8 @@ public class GerenciarRecursoController {
     private QuestaoService questaoService;
     @Autowired
     private QuestaoAtividadeService questaoAtividadeService;
+    @Autowired
+    private TagService tagService;
 
     @GetMapping
     public String editarCurso() {
@@ -549,6 +552,7 @@ public class GerenciarRecursoController {
 
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
+        model.addAttribute("tags", tagService.findAllTags());
 
         return "editar_atividade";
     }
@@ -562,8 +566,8 @@ public class GerenciarRecursoController {
 
         if (questaoAtividadeService.buscarPorQuestaoAtividadeEmAtividade(idAtividade, idQuestao) != null) {
             redirectAttributes.addFlashAttribute("message", "Essa questão já foi adicionada");
-        redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
-        redirectAttributes.addFlashAttribute("notificacao", "Essa questão já foi adicionada");
+            redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
+            redirectAttributes.addFlashAttribute("notificacao", "Essa questão já foi adicionada");
             return "redirect:/editarCurso/" + idCurso + "/editarAtividade/" + idAtividade;
         }
         if (atv == null) {
@@ -600,6 +604,7 @@ public class GerenciarRecursoController {
         List<Questao> questoes = questaoService.listarTodas();
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
+        model.addAttribute("tags", tagService.findAllTags());
 
         return "editar_atividade";
     }
@@ -640,6 +645,7 @@ public class GerenciarRecursoController {
         List<Questao> questoes = questaoService.listarTodas();
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
+        model.addAttribute("tags", tagService.findAllTags());
         return "editar_atividade";
     }
 
@@ -650,6 +656,7 @@ public class GerenciarRecursoController {
             @RequestParam(required = false) String chave,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(required = false) List<String> tags,
             Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
@@ -660,7 +667,7 @@ public class GerenciarRecursoController {
                 : null;
 
         List<Questao> questoesFiltradas = questaoService.buscarQuestoesFiltradas(idCurso, dataInicioDate, dataFimDate,
-                chave);
+                chave, tags, "todas");
 
         Atividade atv = atividadeService.buscar(idAtividade);
         Curso curso = cursoService.buscar(idCurso);
@@ -677,6 +684,7 @@ public class GerenciarRecursoController {
         }
         model.addAttribute("questoesAtv", questoesAtv);
         model.addAttribute("questoes", questoesFiltradas);
+        model.addAttribute("tags", tagService.findAllTags());
         return "editar_atividade";
     }
 
@@ -686,7 +694,6 @@ public class GerenciarRecursoController {
             @RequestParam String titulo,
             @RequestParam String descricao,
             @RequestParam int dificuldade,
-            @RequestParam String anotacao,
             RedirectAttributes redirectAttributes) {
 
         Atividade atv = atividadeService.buscar(idAtividade);
@@ -700,7 +707,6 @@ public class GerenciarRecursoController {
         atv.setTitulo(titulo);
         atv.setDescricao(descricao);
         atv.setDificuldade(dificuldade);
-        atv.setAnotacao(anotacao);
 
         atividadeService.salvarAtividade(atv);
         redirectAttributes.addFlashAttribute("tipoNotificacao", "success");

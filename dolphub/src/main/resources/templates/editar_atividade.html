@@ -13,9 +13,12 @@
         <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
         <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
 
+
         <main>
             <div th:replace="componentes/notificacao :: notificacao"></div>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div th:replace="componentes/confirmacao :: confirmacao"></div>
+
             <div class="container-principal">
                 <div class="titulo-env">
                     <a th:href="@{/editarCurso/{id}(id=${idCurso})}"><i class="fa-solid fa-arrow-left info-element"
@@ -28,31 +31,33 @@
                         <button style="margin-left: 20px;" id="adicionarQuestao">Adicionar questões</button>
                     </div>
                 </div>
-                <div id="formConfig" style="display:none;" class="container-form-video">
-                    <form th:action="@{/editarCurso/atualizarAtividade}" method="post">
-                        <div class="form-esq">
-                            <label class="vnome">Nome:
-                                <input type="text" name="titulo" required th:value="${atividade.titulo}">
-                            </label>
+                <div style="display:none;" class="modal" id="config-modal">
+                    <div id="formConfig" style="display:none;" class="container-form-video">
+                        <form th:action="@{/editarCurso/atualizarAtividade}" method="post">
+                            <div class="form-esq">
+                                <label class="vnome">Nome:
+                                    <input type="text" name="titulo" required th:value="${atividade.titulo}">
+                                </label>
 
-                            <label class="vdescricao">Descrição:
-                                <input type="text" name="descricao" required th:value="${atividade.descricao}">
-                            </label>
+                                <label class="vdescricao">Descrição:
+                                    <input type="text" name="descricao" required th:value="${atividade.descricao}">
+                                </label>
 
-                            <label class="vdificuldade" id="label-dificuldade">
-                                <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
-                                <input type="range" name="dificuldade" id="dificuldade-slider" class="slider" min="0"
-                                    max="3" th:value="${atividade.dificuldade}" step="1"
-                                    oninput="atualizarDificuldade()">
-                            </label>
-                        </div>
+                                <label class="vdificuldade" id="label-dificuldade">
+                                    <div class="dificuldade-texto" id="dificuldadeTexto">Fácil</div>
+                                    <input type="range" name="dificuldade" id="dificuldade-slider" class="slider"
+                                        min="0" max="3" th:value="${atividade.dificuldade}" step="1"
+                                        oninput="atualizarDificuldade()">
+                                </label>
+                            </div>
 
-                        <input type="hidden" name="cursoId" th:value="${curso.id}">
-                        <input type="hidden" name="idAtividade" th:value="${atividade.id}">
+                            <input type="hidden" name="cursoId" th:value="${curso.id}">
+                            <input type="hidden" name="idAtividade" th:value="${atividade.id}">
 
-                        <button class="btn-salvar" type="submit">Salvar</button>
-                        <a id="cancelar"><i class="fa-regular fa-circle-xmark info-element"></i></a>
-                    </form>
+                            <button id="confirm-btn" class="btn confirm btn-salvar" type="submit">Confirmar</button>
+                            <button type="button" id="cancelar" class="btn cancel">Cancelar</button>
+                        </form>
+                    </div>
                 </div>
 
 
@@ -65,13 +70,13 @@
 
                             <input id="chave" name="chave" type="text" placeholder="Palavras-chave">
 
-                            <label class="option-filtro"> Selecionar tags:
-                                <select name="tags" multiple size="5">
-                                    <option value="Alcaneo">Alcaneo</option>
-                                    <option value="Alceno">Alceno</option>
-                                    <option value="Butano">Butano</option>
+                            <div>
+                                <label for="tags">Assunto:</label>
+                                <select id="tags" name="tags" multiple style="width: 100%;">
+                                    <option th:each="tag : ${tags}" th:value="${tag.nome}" th:text="${tag.nome}">
+                                    </option>
                                 </select>
-                            </label>
+                            </div>
 
                             <div class="option-filtro">Filtrar por período:
                                 <label class="label-periodo">De:
@@ -107,7 +112,7 @@
                 <section style="display:block;" id="sectionQuestoes" class="lista-questoes-atividade-container">
                     <form th:each="questaoAtv : ${questoesAtv}" class="questao-container">
                         <div class="acoes">
-                            <a
+                            <a class="apagar-link"
                                 th:href="@{'/editarCurso/' + ${curso.id} + '/editarAtividade/' + ${atividade.id} + '/removerQuestao/' + ${questaoAtv.id}}"><i
                                     class="fa-regular fa-trash-can"></i>Remover questão</a>
                         </div>
@@ -131,21 +136,26 @@
     function invisible() {
         if (formConfig.style.display == "none") {
             formConfig.style.display = "flex";
+            modal.style.display = "block";
         }
         else if (formConfig.style.display == "flex") {
             formConfig.style.display = "none";
+            modal.style.display = "none";
         }
     }
     let formConfig = document.getElementById("formConfig");
     let botaoConfigAtv = document.getElementById("botaoConfigAtv");
-    let botaocancela = document.getElementById("cancelar");
+    document.addEventListener("DOMContentLoaded", function () {
+        let botaocancela = document.getElementById("cancelar");
+        botaocancela.addEventListener('click', invisible);
+    });
     botaoConfigAtv.addEventListener('click', invisible);
-    botaocancela.addEventListener('click', invisible);
 
     let botaoAdicionar = document.getElementById("adicionarQuestao");
     let containerFiltro = document.getElementById("container-questao");
     let sectionQuestoes = document.getElementById("sectionQuestoes");
     let filtrando = document.getElementById("filtrando");
+    let modal = document.getElementById("config-modal");
 
 
     function adicionarQuestao() {
@@ -168,6 +178,8 @@
     }
 
 </script>
-
+<script>
+    attachLinkConfirmation('apagar-link');
+</script>
 
 </html>
