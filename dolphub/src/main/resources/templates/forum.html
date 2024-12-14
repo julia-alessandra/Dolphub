@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Dolphub</title>
-    <link href="styles/pattern.css" rel="stylesheet">
+    <title>Fórum - Dolphub</title>
+    <link th:href="@{/styles/pattern.css}" rel="stylesheet">
+    <link th:href="@{/styles/forum.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -14,13 +15,44 @@
         <main>
             <div th:replace="componentes/menu_superior :: menu_superior"></div>
             <div class="container-principal">
-                
+
+                <section class="forum">
+                    <div class="nova-pergunta">
+                        <h2>Faça uma nova pergunta</h2>
+                        <!-- Corrige a URL no action -->
+                        <form th:action="@{'/acessoCurso/' + ${forum.curso.id} + '/forum/novaPergunta'}" th:object="${novaPergunta}" method="post">
+                            <div class="input-group">
+                                <label for="tituloPergunta">Título</label>
+                                <input type="text" id="tituloPergunta" name="titulo" th:value="${novaPergunta.titulo}" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="descricaoPergunta">Descrição</label>
+                                <textarea id="descricaoPergunta" name="mensagem" rows="5" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="button">Enviar Pergunta</button>
+                        </form>
+                    </div>
+
+                    <div class="perguntas-feitas">
+                        <h2>Perguntas Anteriores</h2>
+
+                        <div class="lista-perguntas" th:each="pergunta : ${perguntas}">
+                            <div class="pergunta">
+                                <h3 th:text="${pergunta.titulo}">Título da Pergunta</h3>
+                                <p th:text="${pergunta.mensagem}">Descrição da pergunta</p>
+                                <small th:text="${pergunta.data}">Data da criação</small>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
             </div>
-
         </main>
-
     </div>
 </body>
-<script src="javascript/pattern.js"></script>
 
+<script src="javascript/pattern.js"></script>
 </html>

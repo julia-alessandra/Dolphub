@@ -2,18 +2,13 @@ package com.cefet.dolphub.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Favorito;
-import com.cefet.dolphub.Entidades.Recursos.Midia;
-import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Repositorio.CursoRepository;
 import com.cefet.dolphub.Repositorio.FavoritoRepository;
@@ -21,8 +16,6 @@ import com.cefet.dolphub.Repositorio.RecursoRepository;
 
 @Service
 public class FavoritoService {
-
-    
 
     @Autowired
     private RecursoRepository recursoRepository;
@@ -45,7 +38,6 @@ public class FavoritoService {
 
     @Transactional
     public List<Favorito> listarFavoritosPorUsuario(Usuario usuario) {
-        // return favoritoRepository.findByUsuario(usuario);
         try {
             List<Favorito> recursos = favoritoRepository.findByUsuario(usuario);
             return recursos.stream()

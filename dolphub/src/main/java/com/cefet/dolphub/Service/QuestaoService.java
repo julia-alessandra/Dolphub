@@ -12,8 +12,6 @@ import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Repositorio.*;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 

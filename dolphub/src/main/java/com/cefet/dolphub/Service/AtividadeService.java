@@ -2,13 +2,10 @@ package com.cefet.dolphub.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Repositorio.AtividadeRepository;
-import com.cefet.dolphub.Repositorio.VideoRepository;
 
 @Service
 public class AtividadeService {

@@ -1,0 +1,81 @@
+.forum {
+    width: 100%;
+}
+
+.forum h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.nova-pergunta {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.nova-pergunta .input-group {
+    margin-bottom: 15px;
+}
+
+.nova-pergunta .input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.nova-pergunta .input-group input,
+.nova-pergunta .input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+}
+
+.nova-pergunta .button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.nova-pergunta .button:hover {
+    background-color: #45a049;
+}
+
+.perguntas-feitas {
+    margin-top: 30px;
+}
+
+.lista-perguntas .pergunta {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.lista-perguntas .pergunta h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.lista-perguntas .pergunta p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.lista-perguntas .pergunta small {
+    font-size: 0.9em;
+    color: #888;
+}

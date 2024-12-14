@@ -17,6 +17,16 @@ import lombok.*;
 @Table(name = "questao_atividade", schema = "public")
 public class QuestaoAtividade {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_sq")
+    @SequenceGenerator(schema = "public", name = "questao_sq", sequenceName = "questao_sq", initialValue = 1, allocationSize = 1)
+    @Column(name = "id_questao")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "atividade_id", nullable = false)
+    private Atividade atividade;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questao_id", nullable = false)
     private Questao questao;

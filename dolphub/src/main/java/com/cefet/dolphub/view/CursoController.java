@@ -11,19 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.util.ArrayList;
-import java.sql.Date;
-
+import com.cefet.dolphub.Entidades.Comunicacao.Forum;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
-import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Service.CursoService;
+import com.cefet.dolphub.Service.ForumService;
 import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.UsuarioService;
 import com.cefet.dolphub.Service.MatriculaService;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,6 +39,9 @@ public class CursoController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ForumService forumService;
 
     @GetMapping("/criarCurso")
     public String criarCurso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
@@ -66,14 +66,25 @@ public class CursoController {
             curso.setProfessor(professorOpt.get());
             java.util.Date data = new java.util.Date();
             curso.setDataCriacao(new java.sql.Date(data.getTime()));
+
+
             cursoService.salvarCurso(curso);
+
+            Forum forum = new Forum();
+            forum.setTitulo("forum do curso " + curso.getNome());
+            forum.setCurso(curso);
+            forumService.salvarForum(forum);
+
+            System.out.print("o id do forum desse curso é "+forum.getId());
+    
+
             return "redirect:/inicio";
         } else {
             return "redirect:/erro";
         }
     }
 
-   @GetMapping("/todos-os-cursos")
+    @GetMapping("/todos-os-cursos")
     public String listarTodosOsCursos(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         List<Curso> cursos = cursoService.listAllCursos();
         model.addAttribute("cursos", cursos);
@@ -91,7 +102,6 @@ public class CursoController {
 
         return "todos_os_cursos";
     }
-
 
     @RequestMapping("/editarCurso/{idCurso}/config")
     public String editarCursoConfig(@PathVariable("idCurso") Long idCurso, Model model,

@@ -26,4 +26,8 @@ public class Pergunta {
     @Column(name = "data_pergunta")
     private Date data;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "forum_id", nullable = false)
+    private Forum forum;
+
 }
