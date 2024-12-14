@@ -57,7 +57,6 @@ public class Curso {
     public void setRecursos(List<Recurso> recursos) {
         this.recursos = recursos;
     }
-
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Questao> questoes = new ArrayList<>();
 }

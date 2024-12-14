@@ -5,6 +5,14 @@
     <title>Dolphub</title>
     <link href="styles/pattern.css" rel="stylesheet">
     <link href="styles/criarCurso.css" rel="stylesheet">
+    <script>
+        // Função para exibir ou ocultar a div de senha
+        function toggleSenhaDiv() {
+            const checkbox = document.getElementById("cursoPrivadoCheckbox");
+            const senhaDiv = document.getElementById("senhaDiv");
+            senhaDiv.style.display = checkbox.checked ? "block" : "none";
+        }
+    </script>
 
 </head>
 
@@ -26,6 +34,19 @@
                         <textarea id="descricao" th:field="*{descricao}" placeholder="Descrição do Curso"
                             required></textarea>
                     </div>
+                    <div>
+                        <input type="checkbox" id="cursoPrivadoCheckbox" name="cursoPrivadoCheckbox" 
+                               onchange="toggleSenhaDiv()" />
+                        <label for="cursoPrivadoCheckbox">Curso Privado</label>
+                    </div>
+            
+                    <!-- Div que aparece apenas quando o checkbox está marcado -->
+                    <div id="senhaDiv" style="display: none;">
+                        <label for="senha">Senha</label>
+                        <textarea id="senha" name="senha" placeholder="Senha do Curso"></textarea>
+                    </div>
+            
+            
                     <input type="hidden" id="professor" th:field="*{professor.id}" />
                     <button type="submit">Salvar</button>
                 </form>
