@@ -84,6 +84,8 @@ public class GerenciarRecursoController {
     @Autowired
     private QuestaoAtividadeService questaoAtividadeService;
     @Autowired
+    private ArquivoBaixadoService arquivoBaixadoService;
+    @Autowired
     private TagService tagService;
 
     @GetMapping
