@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
+import com.cefet.dolphub.Entidades.Recursos.Atividade;
+import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 import com.cefet.dolphub.Repositorio.*;
 
@@ -43,5 +45,7 @@ public class QuestaoRespondidaService {
     public boolean isQuestaoRespondida(Long questaoId) {
         return questaoRespondidaRepository.existsByQuestaoId(questaoId);
     }
-
+    public List<QuestaoRespondida> buscarPorAtividade(Long atividadeId) {
+        return questaoRespondidaRepository.findByAtividadeRespondidaId(atividadeId);
+    }
 }

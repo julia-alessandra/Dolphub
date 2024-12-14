@@ -21,11 +21,18 @@ public class QuestaoAtividade {
     @Column(name = "id_questao")
     private Long id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_atividade_sq")
+    @SequenceGenerator(schema = "public", name = "questao_atividade_sq", sequenceName = "questao_atividade_sq", initialValue = 1, allocationSize = 1)
+    @Column(name = "id_questao_atividade")
+    private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_atividade")
+    private Atividade atividade;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questao_id", nullable = false)
     private Questao questao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "atividade_id", nullable = false)
-    private Atividade atividade;  // Add this property to represent the link to Atividade
 }

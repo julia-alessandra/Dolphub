@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 
 @Getter
@@ -18,6 +19,7 @@ import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 @Entity
 @Table(name = "atividade")
 public class Atividade extends Recurso {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_sq")
