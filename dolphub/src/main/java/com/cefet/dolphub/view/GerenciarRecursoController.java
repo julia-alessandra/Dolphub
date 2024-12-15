@@ -485,7 +485,8 @@ public class GerenciarRecursoController {
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
 
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
@@ -542,7 +543,8 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
 
         List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
         List<Questao> questoesAtv = new ArrayList<>();
@@ -603,7 +605,8 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
         model.addAttribute("tags", tagService.findAllTags());
@@ -644,7 +647,8 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
         model.addAttribute("tags", tagService.findAllTags());
