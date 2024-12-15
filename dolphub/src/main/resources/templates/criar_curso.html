@@ -5,7 +5,26 @@
     <title>Dolphub</title>
     <link href="styles/pattern.css" rel="stylesheet">
     <link href="styles/criarCurso.css" rel="stylesheet">
-
+    <script>
+        // Função para exibir ou ocultar a div de senha
+        function toggleSenhaDiv() {
+            const checkbox = document.getElementById("cursoPrivadoCheckbox");
+            const senhaDiv = document.getElementById("senhaDiv");
+            senhaDiv.style.display = checkbox.checked ? "block" : "none";
+        }
+    </script>
+    <style>
+        /* Estilo para o campo de senha */
+        #senha {
+            width: 100%;
+            height: 30px;
+            background-color: #F9F9F9;
+            border-radius: 5px; /* Borda arredondada */
+            border: 1px solid #ccc; /* Borda padrão */
+            padding: 5px; /* Espaçamento interno */
+            box-sizing: border-box; /* Para incluir padding e border no tamanho total */
+        }
+    </style>
 </head>
 
 <body>
@@ -23,14 +42,23 @@
                     </div>
                     <div>
                         <label for="descricao">Descrição</label>
-                        <textarea id="descricao" th:field="*{descricao}" placeholder="Descrição do Curso"
-                            required></textarea>
+                        <textarea id="descricao" th:field="*{descricao}" placeholder="Descrição do Curso" required></textarea>
                     </div>
+                    <div>
+                        <input type="checkbox" id="cursoPrivadoCheckbox" name="cursoPrivadoCheckbox" onchange="toggleSenhaDiv()" />
+                        <label for="cursoPrivadoCheckbox">Curso Privado</label>
+                    </div>
+            
+                    <!-- Div que aparece apenas quando o checkbox está marcado -->
+                    <div id="senhaDiv" style="display: none; margin-top: 10px;">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" placeholder="Senha do Curso" />
+                    </div>
+            
                     <input type="hidden" id="professor" th:field="*{professor.id}" />
                     <button type="submit">Salvar</button>
                 </form>
             </div>
-
         </main>
     </div>
 </body>

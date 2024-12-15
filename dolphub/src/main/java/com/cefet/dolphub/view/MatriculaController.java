@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Service.CursoPrivadoService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.MatriculaService;
 import java.util.List;
@@ -24,6 +26,8 @@ public class MatriculaController {
     private MatriculaService matriculaService;
     @Autowired
     private CursoService cursoService;
+    @Autowired
+    private CursoPrivadoService cursoPrivadoService;
 
     @GetMapping("/inscreverCurso")
     public String mostrarFormularioInscricao(@AuthenticationPrincipal Usuario usuarioLogado, Model model) {
@@ -31,13 +35,27 @@ public class MatriculaController {
         model.addAttribute("curso", new Curso());
         return "redirect:/todos-os-cursos";
     }
-
     @GetMapping("/inscreverCursoId/{id}")
-    public String inscreverId(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado) {
-        this.salvarMatricula(cursoService.buscar(id), usuarioLogado);
-        return "redirect:/adquiridos";
+    public String inscreverId(@PathVariable Long id,
+            @RequestParam(value = "senha", required = false) String senhaFornecida,
+            @AuthenticationPrincipal Usuario usuarioLogado,
+            Model model) {
+    
+        // Verifica se o curso é privado
+        if (cursoPrivadoService.isCursoPrivado(id)) {
+            // Se a senha não foi fornecida ou está incorreta
+            if (senhaFornecida == null || !cursoPrivadoService.verificarSenha(id, senhaFornecida)) {
+                // Adiciona um parâmetro de erro na URL
+                return "redirect:/disponiveis?error=true"; // Passa um parâmetro de erro na URL
+            }
+        }
+    
+        Curso curso = cursoService.buscar(id);
+        this.salvarMatricula(curso, usuarioLogado);
+    
+        return "redirect:/adquiridos"; // Redireciona para a página de cursos adquiridos
     }
-
+    
     @GetMapping("/listarCursosAluno")
     public String listarCursosAluno(@AuthenticationPrincipal Usuario usuarioLogado, Model model) {
         List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);

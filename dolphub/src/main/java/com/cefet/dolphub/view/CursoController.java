@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cefet.dolphub.Entidades.Comunicacao.Forum;
 import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.CursoPrivado;
 import com.cefet.dolphub.Entidades.Main.Matricula;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Entidades.Recursos.Recurso;
+import com.cefet.dolphub.Service.CursoPrivadoService;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ForumService;
 import com.cefet.dolphub.Service.ProfessorService;
@@ -43,6 +46,9 @@ public class CursoController {
     @Autowired
     private ForumService forumService;
 
+    @Autowired
+    private CursoPrivadoService cursoPrivadoService;
+
     @GetMapping("/criarCurso")
     public String criarCurso(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
@@ -59,9 +65,11 @@ public class CursoController {
     }
 
     @PostMapping("/salvarCurso")
-    public String salvarCurso(@ModelAttribute Curso curso, @AuthenticationPrincipal Usuario usuarioLogado) {
+    public String salvarCurso(@ModelAttribute Curso curso,
+            @RequestParam(name = "cursoPrivadoCheckbox", required = false) String cursoPrivadoCheckbox,
+            @RequestParam(name = "senha", required = false) String senha,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
         Optional<Professor> professorOpt = professorService.buscarProfessorPorIdUsuario(usuarioLogado);
-
         if (professorOpt.isPresent()) {
             curso.setProfessor(professorOpt.get());
             java.util.Date data = new java.util.Date();
@@ -76,12 +84,17 @@ public class CursoController {
             forumService.salvarForum(forum);
 
             System.out.print("o id do forum desse curso é "+forum.getId());
-    
-
+                if ("on".equals(cursoPrivadoCheckbox) && senha != null && !senha.isEmpty()) {
+                CursoPrivado cursoPrivado = new CursoPrivado();
+                cursoPrivado.setSenha(senha);
+                cursoPrivado.setCurso(curso);
+                cursoPrivadoService.salvarCursoPrivado(cursoPrivado);
+            }    
             return "redirect:/inicio";
         } else {
             return "redirect:/erro";
         }
+
     }
 
     @GetMapping("/todos-os-cursos")
@@ -138,6 +151,7 @@ public class CursoController {
             redirectAttributes.addFlashAttribute("erroSenha", "Senha incorreta. Não foi possível deletar o curso.");
             return "redirect:/editarCurso/{idCurso}/config";
         }
+        cursoPrivadoService.deletarCurso(idCurso);
         cursoService.deletarCurso(idCurso);
         return "redirect:/inicio";
     }

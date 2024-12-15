@@ -5,6 +5,42 @@
   <title>Dolphub</title>
   <link th:href="@{/styles/pattern.css}" rel="stylesheet">
   <link href="styles/cursos.css" rel="stylesheet" />
+  <style>
+    /* Estilo para o botão de inscrição */
+    .btn-inscrever {
+      background-color: #007bff; /* Cor de fundo */
+      color: white; /* Cor do texto */
+      padding: 10px 20px; /* Tamanho do botão */
+      text-align: center; /* Alinhamento do texto */
+      display: inline-block; /* Display inline */
+      font-size: 16px; /* Tamanho da fonte */
+      border: none; /* Sem borda */
+      border-radius: 4px; /* Bordas arredondadas */
+      cursor: pointer; /* Cursor pointer */
+      text-decoration: none; /* Remover underline */
+      margin-top: 10px; /* Margem superior */
+    }
+
+    .btn-inscrever:hover {
+      background-color: #0056b3; /* Cor do fundo ao passar o mouse */
+    }
+
+    /* Estilo para o campo de senha */
+    .campo-senha {
+      width: 100%; /* Largura completa */
+      padding: 12px 20px; /* Tamanho do campo */
+      margin: 8px 0; /* Margem */
+      border-radius: 25px; /* Bordas arredondadas */
+      border: 1px solid #ccc; /* Borda */
+      font-size: 16px; /* Tamanho da fonte */
+      box-sizing: border-box; /* Box-sizing para que o padding não afete a largura */
+    }
+
+    .campo-senha:focus {
+      border-color: #007bff; /* Cor da borda ao focar */
+      outline: none; /* Remove o contorno */
+    }
+  </style>
 </head>
 
 <body>
@@ -21,8 +57,15 @@
           <!-- Campo de pesquisa -->
           <input type="text" id="searchInput" onkeyup="searchCourses()" placeholder="Pesquisar cursos..." class="search-bar">
 
-          <ul class="lista-cursos" th:if="${cursos != null}">
-            <li th:each="curso : ${cursos}" class="curso-item">
+          <!-- Exibe alerta se a senha estiver incorreta -->
+          <div th:if="${param.error != null}">
+            <script>
+                alert("Senha incorreta ou não fornecida.");
+            </script>
+        </div>
+                  
+          <ul class="lista-cursos" th:if="${!(cursos == null or cursos.size() == 0)}">
+            <li th:each="curso : ${cursos}" class="curso-item" th:unless="${cursosPrivados.contains(curso)}">
               <div class="card-curso">
                 <div class="foto-professor"></div>
                 <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
@@ -30,13 +73,32 @@
                   Nome do Professor
                 </p>
                 <p>
-                  <a th:href="'/dolphub/inscreverCursoId/' + ${curso.id}">Inscrever</a>
+                  <a th:href="'/dolphub/inscreverCursoId/' + ${curso.id}" class="btn-inscrever">Inscrever</a>
+                </p>
+              </div>
+            </li>
+
+            <!-- Lista de cursos privados -->
+            <li th:each="curso : ${cursosPrivados}" class="curso-item">
+              <div class="card-curso">
+                <div class="foto-professor"></div>
+                <h2 class="titulo-curso" th:text="${curso.nome}">Nome do Curso</h2>
+                <p class="prof-curso" th:text="'Prof. ' + ${curso.professor.usuario.nome}">
+                  Nome do Professor
+                </p>
+                <p>
+                  <!-- Alterado para GET -->
+                  <form th:action="'/dolphub/inscreverCursoId/' + ${curso.id}" method="get">
+                    <label for="senha" class="senha-label">Senha:</label>
+                    <input type="password" id="senha" name="senha" required="required" class="campo-senha">
+                    <button type="submit" class="btn-inscrever">Inscrever</button>
+                  </form>
                 </p>
               </div>
             </li>
           </ul>
 
-          <div th:if="${#lists.isEmpty(cursos)}">
+          <div th:if="${cursos == null or cursos.size() == 0}">
             <p>Nenhum curso disponível no momento.</p>
           </div>
 

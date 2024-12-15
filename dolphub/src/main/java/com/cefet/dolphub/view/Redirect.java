@@ -10,10 +10,22 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.cefet.dolphub.Entidades.Main.*;
-import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
-import com.cefet.dolphub.Service.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Matricula;
+import com.cefet.dolphub.Entidades.Main.Professor;
+import com.cefet.dolphub.Entidades.Main.Usuario;
+import com.cefet.dolphub.Entidades.Recursos.AtividadeRespondida;
+import com.cefet.dolphub.Entidades.Recursos.AulaAssistida;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
+import com.cefet.dolphub.Service.ProfessorService;
+import com.cefet.dolphub.Service.QuestaoService;
+import com.cefet.dolphub.Service.AtividadeRespondidaService;
+import com.cefet.dolphub.Service.AulaAssistidaService;
+import com.cefet.dolphub.Service.CursoPrivadoService;
+import com.cefet.dolphub.Service.CursoService;
+import com.cefet.dolphub.Service.MatriculaService;
 
 @Controller
 public class Redirect {
@@ -29,7 +41,12 @@ public class Redirect {
     private AulaAssistidaService aulaAssistidaService;
 
     @Autowired
+    private AtividadeRespondidaService atividadeRespondidaService;
+
+    @Autowired
     private CursoService cursoService;
+    @Autowired
+    private CursoPrivadoService cursoPrivadoService;
 
     // Cadastrarusuario
     @GetMapping("/cadastro")
@@ -116,6 +133,9 @@ public class Redirect {
         System.out.println(porcentagem + " %");
         model.addAttribute("porcentagemAcertos", porcentagemFormatada);
 
+        List<AtividadeRespondida> atividadeRespondidas = atividadeRespondidaService.encontrarAtividadePorUsuarioId(usuarioLogado.getId());
+        model.addAttribute("atividadesRespondidas", atividadeRespondidas.size());
+
         model.addAttribute("usuarioLogado", usuarioLogado);
         return "progresso";
     }
@@ -140,7 +160,7 @@ public class Redirect {
     }
 
     @GetMapping("/disponiveis")
-    public String cursosDisponiveis(Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+    public String cursosDisponiveis(Model model, @AuthenticationPrincipal Usuario usuarioLogado, @RequestParam(value = "error", required = false) String error) {
         List<Curso> cursos = cursoService.listAllCursos();
         model.addAttribute("cursos", cursos);
         List<Matricula> matriculas = matriculaService.buscarMatriculasPorUsuario(usuarioLogado);
@@ -154,6 +174,10 @@ public class Redirect {
         model.addAttribute("cursos", cursos);
         model.addAttribute("matriculaLista", matriculaLista);
         model.addAttribute("usuarioLogado", usuarioLogado);
+        List<Curso> cursosPrivados = cursos.stream()
+                .filter(curso -> cursoPrivadoService.isCursoPrivado(curso.getId())) // Verificar se o curso é privado
+                .collect(Collectors.toList());
+        model.addAttribute("cursosPrivados", cursosPrivados);
 
         return "exibir_cursos";
     }

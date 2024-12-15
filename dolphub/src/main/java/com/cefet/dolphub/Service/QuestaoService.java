@@ -5,13 +5,19 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cefet.dolphub.Entidades.Main.Tag;
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
+import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
+import com.cefet.dolphub.Entidades.Recursos.QuestaoAtividade;
 import com.cefet.dolphub.Entidades.Recursos.QuestaoRespondida;
 
 import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Repositorio.*;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +33,16 @@ public class QuestaoService {
     private QuestaoRepository questaoRepository;
     @Autowired
     private AlternativaRepository alternativaRepository;
+    @Autowired
+    private TagRepository tagRepository;
+    @Autowired
+    private QuestaoRespondidaService questaoRespondidaService;
+
+    @Autowired
+    private QuestaoAtividadeRepository questaoAtividadeRepository;
+
+    @Autowired
+    private AtividadeRepository atividadeRepository;
 
     public Questao buscar(Long id) {
         Optional<Questao> questao = questaoRepository.findById(id);
@@ -38,32 +54,50 @@ public class QuestaoService {
         return topico.orElseThrow(() -> new RuntimeException("Tópico não encontrado!"));
     }
 
-    public Questao atualizarQuestao(Long id, Questao questaoAtualizada, List<String> descricoes,
-            List<Boolean> verificacoes) {
-        Questao questaoExistente = buscar(id);
+    // public Questao atualizarQuestao(Long id, Questao questaoAtualizada,
+    // List<String> descricoes,
+    // List<Boolean> verificacoes, List<String> novosNomesTags) {
+    // Questao questaoExistente = buscar(id);
 
-        questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
-        questaoExistente.setDificuldade(questaoAtualizada.getDificuldade().getValor());
+    // if (questaoExistente == null)
+    // return null;
 
-        questaoExistente.getAlternativas().clear();
+    // questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
+    // questaoExistente.setDificuldade(questaoAtualizada.getDificuldade().getValor());
 
-        System.out.println("Alt:");
-        listarItens(descricoes);
-        listarItens(verificacoes);
-        System.out.println(descricoes.size());
-        System.out.println(verificacoes.size());
+    // questaoExistente.getAlternativas().clear();
 
-        for (int i = 0; i < descricoes.size(); i++) {
-            Alternativa alternativa = new Alternativa();
-            alternativa.setDescricao(descricoes.get(i));
-            alternativa.setVerificacao(verificacoes.get(i + 1));
-            alternativa.setQuestao(questaoExistente);
-            questaoExistente.getAlternativas().add(alternativa);
-        }
+    // System.out.println("Alt:");
+    // listarItens(descricoes);
+    // listarItens(verificacoes);
+    // System.out.println(descricoes.size());
+    // System.out.println(verificacoes.size());
 
-        questaoRepository.save(questaoExistente);
-        return questaoExistente;
-    }
+    // for (int i = 0; i < descricoes.size(); i++) {
+    // Alternativa alternativa = new Alternativa();
+    // alternativa.setDescricao(descricoes.get(i));
+    // alternativa.setVerificacao(verificacoes.get(i + 1));
+    // alternativa.setQuestao(questaoExistente);
+    // questaoExistente.getAlternativas().add(alternativa);
+    // }
+
+    // List<Tag> novasTags = new ArrayList<>();
+    // for (String nomeTag : novosNomesTags) {
+    // Tag tag = tagRepository.findByNomeIgnoreCase(nomeTag)
+    // .orElseGet(() -> {
+    // Tag novaTag = new Tag();
+    // novaTag.setNome(nomeTag);
+    // tagRepository.save(novaTag);
+    // return novaTag;
+    // });
+    // novasTags.add(tag);
+    // }
+
+    // questaoExistente.setTags(novasTags);
+
+    // questaoRepository.save(questaoExistente);
+    // return questaoExistente;
+    // }
 
     public Alternativa buscarAlternativa(Long id) {
         Optional<Alternativa> alternativa = alternativaRepository.findById(id);
@@ -144,19 +178,38 @@ public class QuestaoService {
         questaoRepository.save(questao);
     }
 
-    public List<Questao> buscarQuestoesFiltradas(Long cursoId, Date inicio, Date fim, String palavraChave) {
+    public List<Questao> buscarQuestoesFiltradas(Long cursoId, Date inicio, Date fim, String palavraChave,
+            List<String> tags, String opcao) {
         List<Questao> questoesAtivas = questaoRepository.findByCursoIdAndStatus(cursoId, "ativo");
-
-        System.out.println("Datas:");
-        System.out.println(inicio);
-        System.out.println(fim);
 
         return questoesAtivas.stream()
                 .filter(questao -> (inicio == null || !questao.getDataCriacao().before(inicio)))
                 .filter(questao -> (fim == null || !questao.getDataCriacao().after(fim)))
                 .filter(questao -> (palavraChave == null
                         || questao.getEnunciado().toLowerCase().contains(palavraChave.toLowerCase())))
+                .filter(questao -> (tags == null || tags.isEmpty() || questao.getTags().stream()
+                        .anyMatch(tag -> tags.contains(tag.getNome()))))
+                .filter(questao -> {
+                    if ("feitas".equals(opcao)) {
+                        return questaoRespondidaService.isQuestaoRespondida(questao.getId());
+                    } else if ("naofeitas".equals(opcao)) {
+                        return !questaoRespondidaService.isQuestaoRespondida(questao.getId());
+                    }
+                    return true;
+                })
                 .collect(Collectors.toList());
+    }
+
+    public QuestaoAtividade createQuestaoAtividade(Long idQuestao, Long idAtividade ){
+        QuestaoAtividade qa = new QuestaoAtividade();
+        Atividade atv = atividadeRepository.findById(idAtividade).get();
+        Questao q = questaoRepository.findById(idQuestao).get();
+
+        qa.setAtividade(atv);
+        qa.setQuestao(q);
+        questaoAtividadeRepository.save(qa);
+
+        return qa;
     }
 
 }

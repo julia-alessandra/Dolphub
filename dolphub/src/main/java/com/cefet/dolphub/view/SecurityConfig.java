@@ -15,7 +15,7 @@ public class SecurityConfig {
                 http
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/", "/cadastro", "/salvarUsuario", "/login",
-                                                                "/confirmacao", "/styles/**")
+                                                                "/confirmacao", "/styles/**", "/imgs/**")
                                                 .permitAll() // Caminhos permitidos sem login
                                                 .anyRequest().authenticated())
                                 .formLogin(form -> form
@@ -46,4 +46,5 @@ public class SecurityConfig {
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
         }
+        
 }
