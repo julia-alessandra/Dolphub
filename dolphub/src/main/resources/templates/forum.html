@@ -19,8 +19,8 @@
                 <section class="forum">
                     <div class="nova-pergunta">
                         <h2>Faça uma nova pergunta</h2>
-                        <!-- Corrige a URL no action -->
-                        <form th:action="@{'/acessoCurso/' + ${forum.curso.id} + '/forum/novaPergunta'}" th:object="${novaPergunta}" method="post">
+                        <form th:action="@{/acessoCurso/{idCurso}/forum/pergunta(idCurso=${forum.id})}" 
+                              th:object="${novaPergunta}" method="post">
                             <div class="input-group">
                                 <label for="tituloPergunta">Título</label>
                                 <input type="text" id="tituloPergunta" name="titulo" th:value="${novaPergunta.titulo}" required>
@@ -42,8 +42,31 @@
                             <div class="pergunta">
                                 <h3 th:text="${pergunta.titulo}">Título da Pergunta</h3>
                                 <p th:text="${pergunta.mensagem}">Descrição da pergunta</p>
+                                <small th:text="${pergunta.autor}">Autor</small>
                                 <small th:text="${pergunta.data}">Data da criação</small>
-                                
+
+                                <div class="nova-resposta">
+                                    <form th:action="@{/acessoCurso/{idCurso}/forum/pergunta/{perguntaId}(idCurso=${forum.id}, perguntaId=${pergunta.id})}"
+                                          th:object="${novaResposta}" method="post">
+                                        <div class="input-group">
+                                            <label for="mensagemResposta">Sua resposta</label>
+                                            <textarea id="mensagemResposta" name="mensagem" rows="3" required></textarea>
+                                        </div>
+                                        <button type="submit" class="button">Responder</button>
+                                    </form>
+                                </div>
+
+                                <!-- Exibindo respostas -->
+                                <div class="respostas">
+                                    <h4>Respostas</h4>
+                                    <div class="lista-respostas" th:each="resposta : ${pergunta.respostas}">
+                                        <div class="resposta">
+                                            <p th:text="${resposta.mensagem}">Texto da resposta</p>
+                                            <p th:text="${resposta.autor}">autor</p>
+                                            <small th:text="${resposta.data}">Data da resposta</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -56,3 +79,4 @@
 
 <script src="javascript/pattern.js"></script>
 </html>
+

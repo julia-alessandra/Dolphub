@@ -13,11 +13,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cefet.dolphub.Entidades.Comunicacao.Forum;
 import com.cefet.dolphub.Entidades.Comunicacao.Pergunta;
 import com.cefet.dolphub.Entidades.Main.Curso;
+import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Service.CursoService;
 import com.cefet.dolphub.Service.ForumService;
 import com.cefet.dolphub.Service.PerguntaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 @Controller
 public class PerguntaController {
@@ -28,27 +30,26 @@ public class PerguntaController {
     @Autowired
     private PerguntaService perguntaService;
 
-    // Exibir perguntas relacionadas ao fórum
     @GetMapping("/acessoCurso/{idCurso}/forum")
     public String exibirForum(@PathVariable("idCurso") Long idCurso, Model model) {
-        Forum forum = forumService.buscarPorId(idCurso);  // O idCurso também é o idForum
-        List<Pergunta> perguntas = perguntaService.buscarPerguntasPorForumId(idCurso);  // Busca as perguntas pelo ID do fórum
+        Forum forum = forumService.buscarPorId(idCurso);
+        List<Pergunta> perguntas = perguntaService.buscarPerguntasPorForumId(idCurso);
         model.addAttribute("forum", forum);
         model.addAttribute("perguntas", perguntas);
-        model.addAttribute("novaPergunta", new Pergunta());  // Para criação de uma nova pergunta
+        model.addAttribute("novaPergunta", new Pergunta());
         return "forum";
     }
     
-    // Criar uma nova pergunta
-    @PostMapping("/acessoCurso/{idCurso}/forum/novaPergunta")
+    @PostMapping("/acessoCurso/{idCurso}/forum/pergunta")
     public String criarPergunta(@PathVariable("idCurso") Long idCurso,
                                 @ModelAttribute Pergunta novaPergunta,
+                                 @AuthenticationPrincipal Usuario usuarioLogado,
                                 RedirectAttributes redirectAttributes) {
         Forum forum = forumService.buscarPorId(idCurso); 
         novaPergunta.setForum(forum);
         Date now = new Date(System.currentTimeMillis());
         novaPergunta.setData(now);
-        System.out.println(novaPergunta.getMensagem());
+        novaPergunta.setAutor(usuarioLogado.getNome());
         perguntaService.salvarPergunta(novaPergunta);
         redirectAttributes.addFlashAttribute("success", "Pergunta criada com sucesso.");
         return "redirect:/acessoCurso/" + idCurso + "/forum";

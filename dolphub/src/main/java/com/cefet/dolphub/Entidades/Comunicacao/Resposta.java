@@ -1,6 +1,10 @@
 package com.cefet.dolphub.Entidades.Comunicacao;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.cefet.dolphub.Entidades.Main.Usuario;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +27,10 @@ public class Resposta {
     @Column(name = "data_resposta")
     private Date data;
 
+    @Column(name = "autor_resposta")
+    private String autor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pergunta_id", nullable = false)
+    private Pergunta pergunta;
 }

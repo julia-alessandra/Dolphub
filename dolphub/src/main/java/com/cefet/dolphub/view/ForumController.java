@@ -34,9 +34,9 @@ public class ForumController {
     @PostMapping("/editarCurso/{idCurso}/criarForum")
     public String salvarForum(@PathVariable("idCurso") Long idCurso, @ModelAttribute("forum") Forum forum) {
         Curso curso = cursoService.buscarPorId(idCurso);
-        forum.setCurso(curso);  // Relaciona o fórum com o curso
-        forumService.salvarForum(forum);  // Salva o fórum no banco de dados
-        return "redirect:/editarCurso/" + idCurso + "/editarForum";  // Corrige redirecionamento
+        forum.setCurso(curso);
+        forumService.salvarForum(forum);
+        return "redirect:/editarCurso/" + idCurso + "/editarForum";
     }
 
     // Atualizar um fórum existente

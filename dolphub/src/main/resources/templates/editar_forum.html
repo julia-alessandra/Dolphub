@@ -10,13 +10,13 @@
 <body>
     <div class="tela-completa">
         <script src="https://kit.fontawesome.com/633a590c1f.js" crossorigin="anonymous"></script>
-        <div th:replace="componentes/menu_lateral :: menu_lateral"></div>
+        <div th:replace="~{componentes/menu_lateral :: menu_lateral}"></div>
 
         <main>
-            <div th:replace="componentes/menu_superior :: menu_superior"></div>
+            <div th:replace="~{componentes/menu_superior :: menu_superior}"></div>
             <div class="container-principal">
-                <div th:replace="componentes/cabecalho_curso_prof :: cabecalho_curso_prof"></div>
-
+                <div th:replace="~{componentes/cabecalho_curso_prof :: cabecalho_curso_prof}"></div>
+                
                 <form th:action="@{/editarCurso/{idCurso}/atualizar(idCurso=${forum.curso.id})}" th:object="${forum}" method="post">
                     <div class="forum-info">
                         <div class="input-group">
@@ -31,7 +31,7 @@
                     </div>
                     <button type="submit" class="button">Salvar</button>
                 </form>
-                <a th:href=@{/acessoCurso/{idCurso}/forum}>Visualizar fórum</a>
+                <a th:href=@{/acessoCurso/{idCurso}/forum(idCurso=${forum.id})} class="link-visualizar">Visualizar fórum</a>
             </div>
         </main>
     </div>

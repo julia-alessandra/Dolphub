@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cefet.dolphub.Entidades.Comunicacao.Forum;
 import com.cefet.dolphub.Entidades.Comunicacao.Pergunta;
+import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Repositorio.ForumRepository;
 import com.cefet.dolphub.Repositorio.PerguntaRepository;
 
@@ -25,4 +26,9 @@ public class PerguntaService {
     public void salvarPergunta(Pergunta pergunta){
         perguntaRepository.save(pergunta);
     }
+
+        public Pergunta buscarPorId(Long id) {
+        return perguntaRepository.findById(id).orElse(null);
+    }
+
 }

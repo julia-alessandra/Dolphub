@@ -12,6 +12,6 @@
         <a th:href="@{/acessoCurso/{id}(id=${curso.id})}">Módulos</a>
         <a th:href=@{/acessocurso/{id}/avisos(id=${curso.id})}>Avisos</a>
         <a th:href="@{/acessoCurso/{id}/bancoQuestao(id=${curso.id})}">Questões</a>
-        <form>Fórum</form>
+        <a th:href="@{/acessoCurso/{idCurso}/forum(idCurso=${curso.id})}">Fórum</a>
     </div>
 </header>
