@@ -1,4 +1,5 @@
 package com.cefet.dolphub.Entidades.Recursos;
+
 import java.sql.Date;
 
 import com.cefet.dolphub.Entidades.Main.Usuario;
@@ -28,4 +29,6 @@ public class AulaAssistida {
     @JoinColumn(name = "id_video")
     private Video video;
 
+    @Column(name = "data_assistida", nullable = false)
+    private Date dataAssistida;
 }

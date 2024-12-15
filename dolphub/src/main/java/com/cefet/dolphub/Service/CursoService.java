@@ -24,7 +24,6 @@ public class CursoService {
     }
 
     public Curso salvarCurso(Curso curso) {
-        System.out.println("teste");
         return cursoRepository.save(curso);
     }
 
@@ -53,7 +52,6 @@ public class CursoService {
     }
 
     public boolean getEditAcess(Curso curso, Usuario user) {
-        System.out.println("fahsdfjadsfhljdsafhlasjfdlf");
         System.out.println(user.getId());
         System.out.println(curso.getProfessor().getId());
         return user.equals(curso.getProfessor().getUsuario());

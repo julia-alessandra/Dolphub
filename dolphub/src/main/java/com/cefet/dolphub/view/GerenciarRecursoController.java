@@ -4,26 +4,29 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.cefet.dolphub.Entidades.Main.*;
+import com.cefet.dolphub.Entidades.Recursos.*;
+import com.cefet.dolphub.Service.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.Professor;
 import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Arquivo;
+import com.cefet.dolphub.Entidades.Recursos.ArquivosBaixados;
 import com.cefet.dolphub.Entidades.Recursos.Atividade;
 import com.cefet.dolphub.Entidades.Recursos.Dificuldade;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
@@ -33,6 +36,7 @@ import com.cefet.dolphub.Entidades.Recursos.Topico;
 import com.cefet.dolphub.Entidades.Recursos.Video;
 import com.cefet.dolphub.Repositorio.*;
 import com.cefet.dolphub.Service.AcessoService;
+import com.cefet.dolphub.Service.ArquivoBaixadoService;
 import com.cefet.dolphub.Service.ArquivoService;
 import com.cefet.dolphub.Service.AtividadeService;
 import com.cefet.dolphub.Service.CursoService;
@@ -43,19 +47,14 @@ import com.cefet.dolphub.Service.RecursoService;
 import com.cefet.dolphub.Service.TagService;
 import com.cefet.dolphub.Service.TopicoService;
 import com.cefet.dolphub.Service.VideoService;
-
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+
 
 @Controller
 @RequestMapping("/editarCurso")
@@ -81,6 +80,8 @@ public class GerenciarRecursoController {
     private QuestaoService questaoService;
     @Autowired
     private QuestaoAtividadeService questaoAtividadeService;
+    @Autowired
+    private ArquivoBaixadoService arquivoBaixadoService;
     @Autowired
     private TagService tagService;
 
@@ -136,7 +137,6 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("arquivo", novo);
@@ -170,7 +170,6 @@ public class GerenciarRecursoController {
         arquivo.setDescricao(descricao);
         arquivo.setDificuldade(dificuldade);
         arquivo.setTitulo(titulo);
-        // arquivo.setData(LocalDateTime.now());
 
         Topico topicoPai = recursoService.buscarTopicoPai(topicoPaiId);
         Curso curso = cursoService.buscar(cursoId);
@@ -192,9 +191,13 @@ public class GerenciarRecursoController {
     @GetMapping("/{cursoId}/baixarArquivo/{id}")
     public ResponseEntity<ByteArrayResource> baixarArquivo(@PathVariable Long cursoId,
             @PathVariable Long id,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, @AuthenticationPrincipal Usuario usuarioLogado) {
         Arquivo arquivo = arquivoService.encontrarArquivoPorId(id);
-
+        ArquivosBaixados arquivoBaixado = new ArquivosBaixados();
+        arquivoBaixado.setArquivo(arquivo);
+        arquivoBaixado.setUsuario(usuarioLogado);
+        arquivoBaixado.setData(new java.sql.Date(System.currentTimeMillis()));
+        arquivoBaixadoService.salvar(arquivoBaixado);
         if (arquivo == null) {
             redirectAttributes.addFlashAttribute("tipoNotificacao", "error");
             redirectAttributes.addFlashAttribute("notificacao", "Arquivo não encontrado.");
@@ -295,7 +298,6 @@ public class GerenciarRecursoController {
         Topico pai = recursoService.buscarTopicoPai(idPai);
         Curso curso = cursoService.buscar(idCurso);
         novo.setTopicoPai(pai);
-        // System.out.println(pai.getTitulo());
         novo.setCurso(curso);
 
         model.addAttribute("video", novo);
@@ -483,7 +485,8 @@ public class GerenciarRecursoController {
         model.addAttribute("operation", "enviar");
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
 
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
@@ -522,7 +525,7 @@ public class GerenciarRecursoController {
 
         return "redirect:/editarCurso/" + cursoId;
     }
-
+    
     @GetMapping("{idCurso}/editarAtividade/{idAtividade}")
     public String editarAtividade(@PathVariable Long idCurso, @PathVariable Long idAtividade, Model model,
             @AuthenticationPrincipal Usuario usuarioLogado) {
@@ -540,7 +543,8 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
 
         List<QuestaoAtividade> listaQuestaoAtv = atv.getQuestaoAtividades();
         List<Questao> questoesAtv = new ArrayList<>();
@@ -601,7 +605,8 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
         model.addAttribute("tags", tagService.findAllTags());
@@ -642,7 +647,8 @@ public class GerenciarRecursoController {
         model.addAttribute("curso", curso);
         model.addAttribute("usuarioLogado", usuarioLogado);
 
-        List<Questao> questoes = questaoService.listarTodas();
+        List<Questao> questoes = questaoService.listarTodasPorCurso(idCurso);
+
         model.addAttribute("questoes", questoes);
         model.addAttribute("role", "professor");
         model.addAttribute("tags", tagService.findAllTags());

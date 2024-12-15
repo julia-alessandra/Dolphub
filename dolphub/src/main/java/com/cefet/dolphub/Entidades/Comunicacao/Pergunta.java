@@ -1,6 +1,11 @@
 package com.cefet.dolphub.Entidades.Comunicacao;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cefet.dolphub.Entidades.Recursos.Recurso;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +30,14 @@ public class Pergunta {
 
     @Column(name = "data_pergunta")
     private Date data;
+
+    @Column(name = "autor_pergunta")
+    private String autor;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "forum_id", nullable = false)
+    private Forum forum;
+
+    @OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Resposta> respostas = new ArrayList<>();
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cefet.dolphub.Entidades.Comunicacao.Aviso;
+import com.cefet.dolphub.Entidades.Comunicacao.Forum;
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
 import com.cefet.dolphub.Entidades.Recursos.Questao;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
@@ -57,7 +58,10 @@ public class Curso {
     public void setRecursos(List<Recurso> recursos) {
         this.recursos = recursos;
     }
-
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Questao> questoes = new ArrayList<>();
+
+    @OneToOne(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Forum forum;
+
 }

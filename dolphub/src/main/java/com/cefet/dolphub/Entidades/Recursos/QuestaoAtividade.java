@@ -7,7 +7,6 @@ import com.cefet.dolphub.Entidades.Main.Usuario;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 @Getter
 @Setter
 @Data
@@ -16,11 +15,10 @@ import lombok.*;
 @Entity
 @Table(name = "questao_atividade", schema = "public")
 public class QuestaoAtividade {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_atividade_sq")
-    @SequenceGenerator(schema = "public", name = "questao_atividade_sq", sequenceName = "questao_atividade_sq", initialValue = 1, allocationSize = 1)
-    @Column(name = "id_questao_atividade")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questao_sq")
+    @SequenceGenerator(schema = "public", name = "questao_sq", sequenceName = "questao_sq", initialValue = 1, allocationSize = 1)
+    @Column(name = "id_questao")
     private Long id;
     
     @ManyToOne
@@ -30,4 +28,5 @@ public class QuestaoAtividade {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questao_id", nullable = false)
     private Questao questao;
+
 }
