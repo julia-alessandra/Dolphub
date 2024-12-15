@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.util.ArrayList;
-import java.sql.Date;
-
+import com.cefet.dolphub.Entidades.Comunicacao.Forum;
 import com.cefet.dolphub.Entidades.Main.Curso;
 import com.cefet.dolphub.Entidades.Main.CursoPrivado;
 import com.cefet.dolphub.Entidades.Main.Matricula;
@@ -22,10 +20,10 @@ import com.cefet.dolphub.Entidades.Main.Usuario;
 import com.cefet.dolphub.Entidades.Recursos.Recurso;
 import com.cefet.dolphub.Service.CursoPrivadoService;
 import com.cefet.dolphub.Service.CursoService;
+import com.cefet.dolphub.Service.ForumService;
 import com.cefet.dolphub.Service.ProfessorService;
 import com.cefet.dolphub.Service.UsuarioService;
 import com.cefet.dolphub.Service.MatriculaService;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,6 +42,9 @@ public class CursoController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ForumService forumService;
 
     @Autowired
     private CursoPrivadoService cursoPrivadoService;
@@ -73,8 +74,17 @@ public class CursoController {
             curso.setProfessor(professorOpt.get());
             java.util.Date data = new java.util.Date();
             curso.setDataCriacao(new java.sql.Date(data.getTime()));
+
+
             cursoService.salvarCurso(curso);
-            if ("on".equals(cursoPrivadoCheckbox) && senha != null && !senha.isEmpty()) {
+
+            Forum forum = new Forum();
+            forum.setTitulo("forum do curso " + curso.getNome());
+            forum.setCurso(curso);
+            forumService.salvarForum(forum);
+
+            System.out.print("o id do forum desse curso é "+forum.getId());
+                if ("on".equals(cursoPrivadoCheckbox) && senha != null && !senha.isEmpty()) {
                 CursoPrivado cursoPrivado = new CursoPrivado();
                 cursoPrivado.setSenha(senha);
                 cursoPrivado.setCurso(curso);

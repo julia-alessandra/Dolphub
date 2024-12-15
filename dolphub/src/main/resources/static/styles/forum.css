@@ -1,0 +1,187 @@
+/* Estilo principal do fórum */
+.forum {
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+.forum h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #222;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+/* Seção de nova pergunta */
+.nova-pergunta {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nova-pergunta .input-group {
+    margin-bottom: 20px;
+}
+
+.nova-pergunta .input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+    font-size: 1.1em;
+}
+
+.nova-pergunta .input-group input,
+.nova-pergunta .input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.nova-pergunta .input-group input:focus,
+.nova-pergunta .input-group textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.nova-pergunta .button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nova-pergunta .button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Perguntas feitas */
+.perguntas-feitas {
+    margin-top: 30px;
+}
+
+.lista-perguntas .pergunta {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.lista-perguntas .pergunta h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.lista-perguntas .pergunta p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.lista-perguntas .pergunta small {
+    font-size: 0.9em;
+    color: #888;
+}
+
+/* Formulário de resposta */
+.nova-resposta {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nova-resposta .input-group {
+    margin-bottom: 15px;
+}
+
+.nova-resposta .input-group label {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #444;
+}
+
+.nova-resposta .input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease;
+    background-color: #fff;
+}
+
+.nova-resposta .input-group textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.nova-resposta .button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nova-resposta .button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Respostas */
+.respostas {
+    margin-top: 20px;
+}
+
+.respostas h4 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.lista-respostas .resposta {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.lista-respostas .resposta p {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.lista-respostas .resposta small {
+    font-size: 0.9em;
+    color: #888;
+}

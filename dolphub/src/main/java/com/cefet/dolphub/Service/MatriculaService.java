@@ -4,14 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.cefet.dolphub.Repositorio.*;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.cefet.dolphub.Entidades.Main.*;
-import com.cefet.dolphub.Repositorio.*;
-import java.util.Optional;
 
 @Service
 public class MatriculaService {

@@ -2,9 +2,7 @@ package com.cefet.dolphub.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cefet.dolphub.Entidades.Recursos.Alternativa;
-import com.cefet.dolphub.Entidades.Recursos.Arquivo;
 import com.cefet.dolphub.Repositorio.AlternativaRepository;
 
 import java.util.Optional;

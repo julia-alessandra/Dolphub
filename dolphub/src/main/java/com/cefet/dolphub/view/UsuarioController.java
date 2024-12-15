@@ -51,7 +51,6 @@ public class UsuarioController {
         usuario.setDataCriacao(now);
         usuario.setStatusAdm(statusAdm.ATIVO);
 
-        // Criação do usuario professor
         Professor prof = new Professor();
         prof.setUsuario(usuario);
         usuario.setProfessor(prof);

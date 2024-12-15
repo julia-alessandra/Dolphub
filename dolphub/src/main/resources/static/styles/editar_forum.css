@@ -1,0 +1,64 @@
+.tela-completa {
+    display: flex;
+    flex-direction: row;
+}
+
+.container-principal {
+    padding: 20px;
+}
+
+.forum-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #218838;
+}
+
+/* Novo estilo para o link de Visualizar Fórum */
+.link-visualizar {
+    display: inline-block;
+    margin: 20px 20px 20px 0px;
+    width: 10%;
+    padding: 10px 15px;
+    color: white;
+    background-color: #007bff;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.link-visualizar:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}

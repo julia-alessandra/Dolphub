@@ -5,12 +5,7 @@ import org.springframework.stereotype.Service;
 import com.cefet.dolphub.Entidades.Recursos.*;
 import com.cefet.dolphub.Repositorio.RecursoRepository;
 import com.cefet.dolphub.Repositorio.TopicoRepository;
-
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
