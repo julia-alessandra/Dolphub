@@ -63,7 +63,7 @@
                             </label>
                         </div>
                     
-                        <button type="submit">Pesquisar</button>
+                        <button type="submit" class="btn-enviar-filtro">Pesquisar</button>
                     </form>
 
                     <form th:if="${role=='aluno'}" id="filtro" method="GET" th:action="@{/acessoCurso/{idCurso}/filtrarQuestao(idCurso=${curso.id})}">
@@ -95,7 +95,7 @@
                             </label>
                         </div>
                     
-                        <button type="submit" class="responder-btn">Pesquisar</button>
+                        <button type="submit" class="responder-btn btn-enviar-filtro">Pesquisar</button>
                     </form>
 
                 </section>
