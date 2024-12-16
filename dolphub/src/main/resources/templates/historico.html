@@ -61,7 +61,7 @@
                                 <li>
                                     <a
                                         th:href="@{/editarCurso/{idCurso}/baixarArquivo/{id}(idCurso=${listaCursosArquivosBaixados[iterStat.index].id}, id=${arquivo.id})}">
-                                        <i class="fa-solid fa-file-video info-element" th:data-info="pdf"></i>
+                                        <i class="fa-solid fa-file o info-element" th:data-info="pdf"></i>
                                         <span th:text="${arquivo.nome}"></span>
                                     </a>
                                     <span class="video-data"
@@ -73,7 +73,7 @@
 
                     </div>
                     <div class="recurso-item-container">
-                        <h2>Questões Responidas</h2>
+                        <h2>Questões Respondidas</h2>
                         <ul id="lista-principal">
                             <ul th:each="questao, iterStat : ${questoesRepondidas}">
                                 <li>

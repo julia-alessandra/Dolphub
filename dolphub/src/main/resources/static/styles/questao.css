@@ -308,7 +308,9 @@ form#filtro button:hover {
 
 /* pagina de envio / edicao de questao */
 
-
+#assunto-q {
+    max-width: 200px;
+}
 .form-questao {
     display: flex;
     flex-direction: column;
@@ -317,7 +319,6 @@ form#filtro button:hover {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
     box-sizing: border-box;
 }
 

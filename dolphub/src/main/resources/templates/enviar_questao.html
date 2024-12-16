@@ -58,10 +58,10 @@
                         </div>
 
 
-                        <div>
+                        <div id="assunto-q">
                             <div>
                                 <label for="tags">Assunto:</label>
-                                <select id="tags" name="tags" multiple style="width: 100%;">
+                                <select required id="tags" name="tags" multiple style="width: 100%;">
                                     <option th:each="tag : ${tags}" th:value="${tag.nome}" th:text="${tag.nome}"></option>
                                 </select>
                             </div>

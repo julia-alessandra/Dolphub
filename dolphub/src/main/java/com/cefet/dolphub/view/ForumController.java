@@ -27,6 +27,7 @@ public class ForumController {
     public String exibirForum(@PathVariable("idCurso") Long idCurso, Model model) {
         Forum forum = forumService.buscarForumPorCursoId(idCurso).orElse(new Forum());
         model.addAttribute("forum", forum);
+        model.addAttribute("curso", cursoService.buscar(idCurso));
         return "editar_forum";
     }
 
